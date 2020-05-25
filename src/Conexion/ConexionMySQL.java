@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 
 public class ConexionMySQL {
-    
+  // si funciono we :v  
 private static Connection conn;
 private static String driver="com.mysql.jdbc.driver";
 private static String user="root";
