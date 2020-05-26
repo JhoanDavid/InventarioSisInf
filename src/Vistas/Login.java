@@ -6,6 +6,8 @@
 package Vistas;
 
 import Controladores.PruebaController;
+import Controladores.UsuarioJpaController;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -114,12 +116,14 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-       PruebaController pc =new PruebaController();        // TODO add your handling code here:
+       UsuarioJpaController pc =new UsuarioJpaController();        // TODO add your handling code here:
        String strPassword=new String(txtPassword.getPassword());
-       if(pc.Login(txtUser.getText(), strPassword)){
+       if(pc.Login(txtUser.getText(), strPassword)!=null){
            Inicio i=new Inicio();
            i.setVisible(true); //pone la nueva ventana visible
            this.dispose(); //cierra la ventana actual
+       }else{
+           JOptionPane.showMessageDialog(null,"Usuario o Contraseña Incorrectos");
        }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
