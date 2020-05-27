@@ -5,7 +5,7 @@
  */
 package Vistas;
 
-import Controladores.PruebaController;
+//import Controladores.PruebaController;
 import Controladores.UsuarioJpaController;
 import javax.swing.JOptionPane;
 
