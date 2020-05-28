@@ -5,6 +5,10 @@
  */
 package Vistas;
 
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author esteban
@@ -15,7 +19,11 @@ public class compra extends javax.swing.JFrame {
      * Creates new form compra
      */
     public compra() {
-        initComponents();
+         initComponents();
+        setTitle("Inventario SisInf");
+        setResizable(false);
+        setLocationRelativeTo(null);
+        //LlenarTabla();
     }
 
     /**
