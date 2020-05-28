@@ -75,7 +75,7 @@ public class Login extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
+                        .addGap(162, 162, 162)
                         .addComponent(btnIniciarSesion))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(172, 172, 172)
