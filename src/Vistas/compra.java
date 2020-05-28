@@ -3,29 +3,81 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+
 package Vistas;
 
-
-import java.util.ArrayList;
-import java.util.Iterator;
+import Controladores.MovimientoJpaController;
+import Controladores.ProductoJpaController;
+import Entidades.Movimiento;
+import Entidades.Producto;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author esteban
  */
 public class compra extends javax.swing.JFrame {
-
+    
+    
+    MovimientoJpaController controlmovimiento = new MovimientoJpaController();
+    ProductoJpaController controlproducto = new ProductoJpaController();
+    Movimiento movimiento = new Movimiento();
+    Producto producto = new Producto();
     /**
      * Creates new form compra
      */
     public compra() {
-         initComponents();
-        setTitle("Inventario SisInf");
-        setResizable(false);
-        setLocationRelativeTo(null);
-        //LlenarTabla();
+        initComponents();
+        CrearModelo();
+        cargarDatos();
+        //cargarDatosCarrito();
     }
-
+        DefaultTableModel modelo2;
+ private void CrearModelo(){
+ try {
+ modelo2 = (new DefaultTableModel(
+ null, new String [] {
+ "id",  "descripcion"}){;
+            Class[] types = new Class[]{
+                java.lang.Integer.class,
+                java.lang.String.class
+            };
+ boolean[] canEdit = new boolean [] {
+ false,false,false,false
+ };
+ @Override
+ public Class getColumnClass(int columnIndex) {
+ return types [columnIndex];
+ }
+ @Override
+ public boolean isCellEditable(int rowIndex, int colIndex){
+ return canEdit [colIndex];
+ }
+ });
+ Tablaproductos.setModel(modelo2);
+ } catch (Exception e) {
+ JOptionPane.showMessageDialog(null,e.toString()+"error2");
+ }
+ }
+        
+    
+    public void cargarDatos(){
+        try {
+            Object o[] = null;
+            List<Producto> lisp = controlproducto.findProductoEntities();
+            for(int i=0; i< lisp.size(); i++){
+            modelo2.addRow(o);
+            modelo2.setValueAt(lisp.get(i).getId(), i, 0);
+            modelo2.setValueAt(lisp.get(i).getDescripcion(), i, 1);
+        }
+    }
+    catch (Exception e){
+    JOptionPane.showMessageDialog(null, "el error es: " + e.getMessage());
+}    
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,7 +105,7 @@ public class compra extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        Tablaproductos = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel12 = new javax.swing.JLabel();
@@ -107,7 +159,7 @@ public class compra extends javax.swing.JFrame {
         jLabel11.setText("total de compra");
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 250, -1, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tablaproductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -115,9 +167,9 @@ public class compra extends javax.swing.JFrame {
                 "id", "producto"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
+        jScrollPane2.setViewportView(Tablaproductos);
+        if (Tablaproductos.getColumnModel().getColumnCount() > 0) {
+            Tablaproductos.getColumnModel().getColumn(0).setMaxWidth(60);
         }
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 79, 290, 160));
@@ -135,7 +187,7 @@ public class compra extends javax.swing.JFrame {
             jTable2.getColumnModel().getColumn(0).setMaxWidth(60);
         }
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 71, 491, 170));
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 70, 491, 170));
 
         jLabel12.setText("00000");
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 250, -1, -1));
@@ -168,7 +220,7 @@ public class compra extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, -1, -1));
 
         jButton2.setText("quitar producto");
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 260, 140, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 260, 150, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -177,30 +229,7 @@ public class compra extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(compra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(compra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(compra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(compra.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new compra().setVisible(true);
@@ -209,6 +238,7 @@ public class compra extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Tablaproductos;
     private javax.swing.JButton cancelar;
     private javax.swing.JTextField cantidad;
     private javax.swing.JTextField codigoproducto;
@@ -231,7 +261,6 @@ public class compra extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField valor;
