@@ -73,7 +73,7 @@ public class Vista_Producto extends javax.swing.JFrame {
             List<Producto> lisp = controlproducto.findProductoEntities();
             for (int i = 0; i < lisp.size(); i++) {
                 modelo2.addRow(o);
-                modelo2.setValueAt(lisp.get(i).getId(), i, 0);
+                modelo2.setValueAt(lisp.get(i).getId() , i, 0);
                 modelo2.setValueAt(lisp.get(i).getDescripcion(), i, 1);
                 modelo2.setValueAt(lisp.get(i).getUnidadMedida(), i, 2);
                 modelo2.setValueAt(lisp.get(i).getValorCompra(), i, 3);
@@ -201,6 +201,7 @@ public class Vista_Producto extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error " + e.getMessage());
         }
+       
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -213,7 +214,7 @@ public class Vista_Producto extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, " " + e.getMessage());
         }
 
-
+        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
