@@ -5,8 +5,8 @@
  */
 package Vistas;
 
-import Clases.Prueba;
-import Controladores.PruebaController;
+//import Clases.Prueba;
+//import Controladores.PruebaController;
 import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.table.DefaultTableModel;
@@ -25,7 +25,7 @@ public class EjemploTablaDatos extends javax.swing.JFrame {
         setTitle("Inventario SisInf");
         setResizable(false);
         setLocationRelativeTo(null);
-        LlenarTabla();
+     //   LlenarTabla();
     }
 
     /**
@@ -140,17 +140,17 @@ public class EjemploTablaDatos extends javax.swing.JFrame {
         });
     }
     
-    public void LlenarTabla(){
-        DefaultTableModel modelo=(DefaultTableModel)TablaPruebas.getModel();
-        PruebaController pc = new PruebaController();
-        ArrayList<Prueba> listaPruebas=pc.VerListaDePruebas();
-        int fila=0;
-       for(Prueba obj:listaPruebas){
-            modelo.addRow(new Object[]{obj.getId(),obj.getNombre(),obj.getEmail(),obj.getEstado()});
-            System.out.println(obj.getNombre());
-            fila+=1;
-        }
-    }
+  //  public void LlenarTabla(){
+    //    DefaultTableModel modelo=(DefaultTableModel)TablaPruebas.getModel();
+       // PruebaController pc = new PruebaController();
+      //  ArrayList<Prueba> listaPruebas=pc.VerListaDePruebas();
+       // int fila=0;
+       //for(Prueba obj:listaPruebas){
+        //    modelo.addRow(new Object[]{obj.getId(),obj.getNombre(),obj.getEmail(),obj.getEstado()});
+         //   System.out.println(obj.getNombre());
+          //  fila+=1;
+       // }
+   // }
     
     
     

@@ -63,6 +63,8 @@ public class Vista_Producto extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.toString() + "error2");
         }
+        tabla.getColumnModel().getColumn(0).setPreferredWidth(140);
+        tabla.getColumnModel().getColumn(0).setMaxWidth(140);
     }
 
     public void cargarDatos() {
@@ -118,10 +120,7 @@ public class Vista_Producto extends javax.swing.JFrame {
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {},
-                {},
-                {},
-                {}
+
             },
             new String [] {
 
@@ -129,7 +128,7 @@ public class Vista_Producto extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tabla);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 227, 475, 159));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 227, 475, 180));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Crear Producto");
@@ -173,6 +172,11 @@ public class Vista_Producto extends javax.swing.JFrame {
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 190, 80, -1));
 
         jButton3.setText("Inhabilitar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 190, -1, -1));
 
         pack();
@@ -192,15 +196,25 @@ public class Vista_Producto extends javax.swing.JFrame {
                 producto.setEstado(false);
             }
             controlproducto.create(producto);
-            JOptionPane.showMessageDialog(null,"Producto creado exitosamente");
-            cargarDatos();
-            
+            JOptionPane.showMessageDialog(null, "Producto creado exitosamente");
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"Error "+e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error " + e.getMessage());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            producto = (Producto) tabla.getValueAt(tabla.getSelectedRow(), 0);
+            producto.setEstado(false);
+            controlproducto.edit(producto);
+            JOptionPane.showMessageDialog(null, "Producto Deshabilitado correctamente");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, " " + e.getMessage());
         }
 
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
