@@ -21,6 +21,7 @@ public class Venta extends javax.swing.JFrame {
     ProductoJpaController controlproducto = new ProductoJpaController();
     Producto producto = new Producto();
     DefaultTableModel modelo2;
+    List<Producto> listaProducto;
 
     
     public Venta() {
@@ -34,16 +35,39 @@ public class Venta extends javax.swing.JFrame {
 
   public void LlenarTabla(){
         DefaultTableModel modelo=(DefaultTableModel)tablaProductoInventario.getModel();
-        List<Producto> listaPruebas=controlproducto.findProductoEntities();
-        int fila=0;
-        for(Producto obj:listaPruebas){
+        listaProducto=controlproducto.findProductoEntities();
+        for(Producto obj:listaProducto){
             if(obj.getEstado()){
                 modelo.addRow(new Object[]{obj.getId(),obj.getDescripcion()});
-                fila+=1;
             }
         }
     }
 
+  public void agregarProductoCarrito(){
+      
+  }
+  
+  
+  public void filtrarTabla(){
+      limpiarTabla();
+      DefaultTableModel modelo=(DefaultTableModel)tablaProductoInventario.getModel();
+      for(Producto obj:listaProducto){
+            if(obj.getEstado() && obj.getDescripcion().contains(txtBusqueda.getText())){
+                modelo.addRow(new Object[]{obj.getId(),obj.getDescripcion()});
+            }
+        }
+  }
+  
+  public void limpiarTabla(){
+        DefaultTableModel modelo=(DefaultTableModel)tablaProductoInventario.getModel();
+        int a =modelo.getRowCount()-1;
+        for(int i=a; i>=0; i--){
+        modelo.removeRow(i );
+        }
+  }
+  
+  
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -58,7 +82,7 @@ public class Venta extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaProductoInventario = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        codigoproducto = new javax.swing.JTextField();
+        txtBusqueda = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
@@ -71,7 +95,7 @@ public class Venta extends javax.swing.JFrame {
         cantidad = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tablaCarritoVenta = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
         id_proveedor = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
@@ -99,15 +123,39 @@ public class Venta extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "producto"
+                "id", "producto", "cant existente", "valor unidad"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(tablaProductoInventario);
         if (tablaProductoInventario.getColumnModel().getColumnCount() > 0) {
             tablaProductoInventario.getColumnModel().getColumn(0).setMaxWidth(60);
+            tablaProductoInventario.getColumnModel().getColumn(2).setMinWidth(100);
+            tablaProductoInventario.getColumnModel().getColumn(2).setMaxWidth(100);
+            tablaProductoInventario.getColumnModel().getColumn(3).setMinWidth(100);
+            tablaProductoInventario.getColumnModel().getColumn(3).setMaxWidth(100);
         }
 
         jLabel2.setText("codigo de producto");
+
+        txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyTyped(evt);
+            }
+        });
 
         jLabel1.setText("00-00-2020");
 
@@ -125,7 +173,7 @@ public class Venta extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(codigoproducto))))
+                                .addComponent(txtBusqueda))))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -141,7 +189,7 @@ public class Venta extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(codigoproducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
@@ -211,7 +259,7 @@ public class Venta extends javax.swing.JFrame {
                 .addContainerGap(77, Short.MAX_VALUE))
         );
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tablaCarritoVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -219,9 +267,9 @@ public class Venta extends javax.swing.JFrame {
                 "id", "producto", "cantidad", "valor"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setMaxWidth(60);
+        jScrollPane3.setViewportView(tablaCarritoVenta);
+        if (tablaCarritoVenta.getColumnModel().getColumnCount() > 0) {
+            tablaCarritoVenta.getColumnModel().getColumn(0).setMaxWidth(60);
         }
 
         jLabel7.setText("Id Proveedor:");
@@ -238,7 +286,7 @@ public class Venta extends javax.swing.JFrame {
 
         jLabel12.setText("0");
 
-        jLabel8.setText("compra");
+        jLabel8.setText("Venta");
 
         crear.setText("Crear Venta");
         crear.addActionListener(new java.awt.event.ActionListener() {
@@ -341,6 +389,18 @@ public class Venta extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cancelarActionPerformed
 
+    private void txtBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyPressed
+       
+    }//GEN-LAST:event_txtBusquedaKeyPressed
+
+    private void txtBusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyTyped
+       // TODO add your handling code here:
+    }//GEN-LAST:event_txtBusquedaKeyTyped
+
+    private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
+         filtrarTabla();// TODO add your handling code here:
+    }//GEN-LAST:event_txtBusquedaKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -379,7 +439,6 @@ public class Venta extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelar;
     private javax.swing.JTextField cantidad;
-    private javax.swing.JTextField codigoproducto;
     private javax.swing.JButton crear;
     private javax.swing.JTextField descuento;
     private javax.swing.JTextField id_proveedor;
@@ -400,9 +459,10 @@ public class Venta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tablaCarritoVenta;
     private javax.swing.JTable tablaProductoInventario;
+    private javax.swing.JTextField txtBusqueda;
     private javax.swing.JTextField valor;
     // End of variables declaration//GEN-END:variables
 }
