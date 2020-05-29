@@ -227,7 +227,7 @@ public class Vista_Producto extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btn_editar, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(btn_editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btn_agregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -315,9 +315,9 @@ public class Vista_Producto extends javax.swing.JFrame {
         limpiarTabla();
         DefaultTableModel modelo = (DefaultTableModel) tablaAgregarproducto.getModel();
         for (Producto obj : listaProducto) {
-            if (obj.getEstado() && obj.getDescripcion().contains(txtBusqueda.getText())) {
+            //f (obj.getEstado() && obj.getDescripcion().contains(txtBusqueda.getText())) {
                 modelo.addRow(new Object[]{obj.getId(), obj.getDescripcion()});
-            }
+            //}
         }
     }
 
