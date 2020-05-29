@@ -26,6 +26,7 @@ public class compra extends javax.swing.JFrame {
     ProductoJpaController controlproducto = new ProductoJpaController();
     Movimiento movimiento = new Movimiento();
     Producto producto = new Producto();
+    List<Producto> listaPruebas;
     /**
      * Creates new form compra
      */
@@ -33,6 +34,7 @@ public class compra extends javax.swing.JFrame {
         initComponents();
         CrearModelo();
         cargarDatos();
+        
         //cargarDatosCarrito();
     }
         DefaultTableModel modelo2;
@@ -65,19 +67,17 @@ public class compra extends javax.swing.JFrame {
         
     
     public void cargarDatos(){
-        try {
-            Object o[] = null;
-            List<Producto> lisp = controlproducto.findProductoEntities();
-            for(int i=0; i< lisp.size(); i++){
-            modelo2.addRow(o);
-            modelo2.setValueAt(lisp.get(i).getId(), i, 0);
-            modelo2.setValueAt(lisp.get(i).getDescripcion(), i, 1);
-        }
+       
+          DefaultTableModel modelo=(DefaultTableModel)Tablaproductos.getModel();
+        listaPruebas=controlproducto.findProductoEntities();
+        int fila=0;
+        for(Producto obj:listaPruebas){
+            
+                modelo.addRow(new Object[]{obj.getId(),obj.getDescripcion()});
+                fila+=1;
+            }
+        
     }
-    catch (Exception e){
-    JOptionPane.showMessageDialog(null, "el error es: " + e.getMessage());
-}    
-}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -118,28 +118,28 @@ public class compra extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1000, 400));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("00-00-2020");
+        jLabel1.setText("15-00-2020");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         jLabel2.setText("codigo de producto");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 50, -1, -1));
-        getContentPane().add(codigoproducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(166, 47, 136, -1));
+        getContentPane().add(codigoproducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(166, 47, 210, -1));
 
         jLabel3.setText("cantidad");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(338, 50, -1, -1));
-        getContentPane().add(cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(338, 73, 60, -1));
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 50, -1, -1));
+        getContentPane().add(cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 80, 60, -1));
 
         jLabel4.setText("valor");
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 103, -1, -1));
-        getContentPane().add(valor, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 170, 127, -1));
-        getContentPane().add(descuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, 130, -1));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 110, -1, -1));
+        getContentPane().add(valor, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 180, 127, -1));
+        getContentPane().add(descuento, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 130, 130, -1));
 
         jLabel7.setText("id_proveedor");
-        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 40, -1, -1));
-        getContentPane().add(id_proveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 40, 137, -1));
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 40, -1, -1));
+        getContentPane().add(id_proveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 40, 137, -1));
 
         crear.setText("crear orden");
-        getContentPane().add(crear, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 340, -1, -1));
+        getContentPane().add(crear, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 340, -1, -1));
 
         cancelar.setText("cancelar");
         getContentPane().add(cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, -1, -1));
@@ -148,31 +148,42 @@ public class compra extends javax.swing.JFrame {
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, -1, -1));
 
         jLabel9.setText("descuento");
-        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 150, -1, -1));
+        getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 160, -1, -1));
 
         jLabel10.setText("descripcion");
-        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 320, -1, -1));
+        getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, -1, -1));
 
         jButton1.setText("añadir producto");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 210, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 220, -1, -1));
 
         jLabel11.setText("total de compra");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 250, -1, -1));
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 250, -1, -1));
 
         Tablaproductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "id", "producto"
+                "id", "producto", "cant existente", "valor unidad"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(Tablaproductos);
         if (Tablaproductos.getColumnModel().getColumnCount() > 0) {
             Tablaproductos.getColumnModel().getColumn(0).setMaxWidth(60);
+            Tablaproductos.getColumnModel().getColumn(1).setMinWidth(100);
+            Tablaproductos.getColumnModel().getColumn(2).setMinWidth(60);
+            Tablaproductos.getColumnModel().getColumn(3).setMinWidth(100);
         }
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 79, 290, 160));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 370, 160));
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -187,11 +198,11 @@ public class compra extends javax.swing.JFrame {
             jTable2.getColumnModel().getColumn(0).setMaxWidth(60);
         }
 
-        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 70, 491, 170));
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 70, 491, 170));
 
         jLabel12.setText("00000");
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 250, -1, -1));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 350, 190, -1));
+        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 360, 190, -1));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -204,7 +215,7 @@ public class compra extends javax.swing.JFrame {
             .addGap(0, 30, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, -1, 30));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, -1, 30));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -217,10 +228,10 @@ public class compra extends javax.swing.JFrame {
             .addGap(0, 30, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, -1, -1));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 380, -1, -1));
 
         jButton2.setText("quitar producto");
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 260, 150, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 150, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

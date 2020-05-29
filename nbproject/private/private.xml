@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/ProyectoSisInf/InventarioSisInf/src/Vistas/InicioAdmonSupremo.java</file>
-            <file>file:/E:/ProyectoSisInf/InventarioSisInf/src/Vistas/Vista_Producto.java</file>
-            <file>file:/E:/ProyectoSisInf/InventarioSisInf/src/Vistas/Inicio.java</file>
-            <file>file:/E:/ProyectoSisInf/InventarioSisInf/src/Controladores/ProductoJpaController.java</file>
-            <file>file:/E:/ProyectoSisInf/InventarioSisInf/src/Controladores/UsuarioJpaController.java</file>
-            <file>file:/E:/ProyectoSisInf/InventarioSisInf/src/Vistas/Venta.java</file>
+            <file>file:/home/esteban/Documentos/GitHub/InventarioSisInf/src/Vistas/EjemploTablaDatos.java</file>
+            <file>file:/home/esteban/Documentos/GitHub/InventarioSisInf/src/Vistas/compra.java</file>
         </group>
     </open-files>
 </project-private>
