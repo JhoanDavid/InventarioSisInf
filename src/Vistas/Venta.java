@@ -55,6 +55,13 @@ public class Venta extends javax.swing.JFrame {
        txtTotal.setText(String.valueOf(valor+valorTotal));
   }
   
+    public void quitarProductoCarrito(){
+       double valor=(double)tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),3);
+       double valorTotal=new Double(txtTotal.getText());
+       txtTotal.setText(String.valueOf(valorTotal-valor));
+       modeloCarrito.removeRow(tablaCarritoVenta.getSelectedRow());
+  }
+  
   
   public void filtrarTabla(){
       limpiarTabla();
@@ -217,6 +224,11 @@ public class Venta extends javax.swing.JFrame {
         );
 
         jButton2.setText("quitar producto");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("añadir producto");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -473,6 +485,10 @@ public class Venta extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     agregarProductoCarrito();       // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    quitarProductoCarrito();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
