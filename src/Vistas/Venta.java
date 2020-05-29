@@ -125,7 +125,6 @@ public class Venta extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(975, 380));
         setMinimumSize(new java.awt.Dimension(975, 380));
-        setPreferredSize(new java.awt.Dimension(975, 380));
         setResizable(false);
 
         cancelar.setText("cancelar");
