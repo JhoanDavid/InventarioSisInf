@@ -119,6 +119,9 @@ public class Venta extends javax.swing.JFrame {
       movimientoVenta.setIdCliente(null);
       controlMovimiento.create(movimientoVenta);
       
+      List<Movimiento> lstMovimientos =controlMovimiento.findMovimientoEntities();
+      Movimiento ultimoMovimiento=lstMovimientos.get(lstMovimientos.size()-1);
+      
       ProductoMovimientoJpaController ControllerPM= new ProductoMovimientoJpaController();
       ProductoJpaController controlproducto = new ProductoJpaController();
       Producto producto = new Producto();
@@ -127,13 +130,11 @@ public class Venta extends javax.swing.JFrame {
           ProductoMovimiento productoMovimiento =new ProductoMovimiento();
           Producto resultP=controlproducto.findProducto(new Integer(tablaCarritoVenta.getValueAt(i,0).toString()));
           productoMovimiento.setIdProducto(resultP);
-          productoMovimiento.setCantTrans(Double.NaN);
-          productoMovimiento.setValorTrans(Double.NaN);
-          productoMovimiento.setIdMov(movimientoVenta);
+          productoMovimiento.setCantTrans(new Double(tablaCarritoVenta.getValueAt(i,2).toString()));
+          productoMovimiento.setValorTrans(new Double(tablaCarritoVenta.getValueAt(i,3).toString()));
+          productoMovimiento.setIdMov(ultimoMovimiento);
           ControllerPM.create(productoMovimiento);
       }
-      
-    
     
   }
   
