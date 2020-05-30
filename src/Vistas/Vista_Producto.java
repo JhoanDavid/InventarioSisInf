@@ -179,9 +179,21 @@ public class Vista_Producto extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Boolean.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaAgregarproducto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaAgregarproductoMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tablaAgregarproducto);
@@ -310,7 +322,7 @@ public class Vista_Producto extends javax.swing.JFrame {
                 limpiarTabla();
                 LlenarTabla();
             } catch (Exception e) {
-                System.out.println("Error " + e.getMessage());
+                JOptionPane.showMessageDialog(null, " " + e.getMessage());
             }
         }
         txtdesc.setText("");
@@ -322,17 +334,26 @@ public class Vista_Producto extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_InhabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InhabilitarActionPerformed
+        producto = controlproducto.findProducto((Integer) tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 0));
         try {
-            producto = controlproducto.findProducto((Integer) tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 0));
-            producto.setCantidadStock(0.0);
-            producto.setEstado(false);
-            controlproducto.edit(producto);
-            JOptionPane.showMessageDialog(null, "Producto Deshabilitado correctamente");
-            limpiarTabla();
-            LlenarTabla();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, " " + e.getMessage());
-        }
+            if(btn_Inhabilitar.getText().equals("Inhabilitar")){
+                producto.setEstado(false);
+                controlproducto.edit(producto);
+                JOptionPane.showMessageDialog(null, "Producto Deshabilitado correctamente");
+                limpiarTabla();
+                LlenarTabla();
+                
+            }else{
+               producto.setEstado(true);
+                controlproducto.edit(producto);
+                JOptionPane.showMessageDialog(null, "Producto Habilitado correctamente");
+                limpiarTabla();
+                LlenarTabla(); 
+            }
+               
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, " " + e.getMessage());
+            }
 
 
     }//GEN-LAST:event_btn_InhabilitarActionPerformed
@@ -363,6 +384,16 @@ public class Vista_Producto extends javax.swing.JFrame {
         filtrarTabla();
     }//GEN-LAST:event_buscarKeyReleased
 
+    private void tablaAgregarproductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAgregarproductoMouseClicked
+        producto = controlproducto.findProducto((Integer) tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 0));
+        if(producto.getEstado().equals(true)){
+            btn_Inhabilitar.setText("Inhabilitar");
+        }else{
+             btn_Inhabilitar.setText("Habilitar");
+        }
+
+    }//GEN-LAST:event_tablaAgregarproductoMouseClicked
+
     public void limpiarTabla() {
         DefaultTableModel modelo = (DefaultTableModel) tablaAgregarproducto.getModel();
         int a = modelo.getRowCount() - 1;
@@ -373,9 +404,9 @@ public class Vista_Producto extends javax.swing.JFrame {
 
     public void filtrarTabla() {
         if (buscar.getText().equals("")) {
-             limpiarTabla();
-             LlenarTabla();
-            
+            limpiarTabla();
+            LlenarTabla();
+
         } else {
             limpiarTabla();
             DefaultTableModel modelo = (DefaultTableModel) tablaAgregarproducto.getModel();
