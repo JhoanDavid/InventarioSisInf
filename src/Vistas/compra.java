@@ -69,15 +69,22 @@ public class compra extends javax.swing.JFrame {
   }
   
   
-  public void filtrarTabla(){
-      
-      limpiarTabla();
-      for(Producto obj:listaProducto){
-            if(obj.getDescripcion().contains(txtBusqueda.getText())){
-                modelo.addRow(new Object[]{obj.getId(),obj.getDescripcion(),obj.getCantidadStock(),obj.getValorVenta()});
+  public void filtrarTabla() {
+        if (txtBusqueda.getText().equals("")) {
+             limpiarTabla();
+             LlenarTabla();
+            
+        } else {
+            limpiarTabla();
+            DefaultTableModel modelo = (DefaultTableModel) tablaProductoInventario.getModel();
+            for (Producto obj : listaProducto) {
+                if (obj.getDescripcion().contains(txtBusqueda.getText())) {
+                    modelo.addRow(new Object[]{obj.getId(), obj.getDescripcion(), obj.getUnidadMedida(), obj.getValorCompra(), obj.getValorVenta(), obj.getGanancia(), obj.getCantidadStock(), obj.getEstado()});
+                }
             }
         }
-  }
+
+    }
   
   public void limpiarTabla(){
         int a =modelo.getRowCount()-1;
@@ -178,7 +185,7 @@ public class compra extends javax.swing.JFrame {
             tablaProductoInventario.getColumnModel().getColumn(3).setMaxWidth(100);
         }
 
-        jLabel2.setText("codigo de producto");
+        jLabel2.setText("nombre del producto");
 
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -200,27 +207,29 @@ public class compra extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(86, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(115, 115, 115)
+                                .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
-                        .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 62, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(23, 23, 23)
+                .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))

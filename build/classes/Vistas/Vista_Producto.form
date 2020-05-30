@@ -82,7 +82,7 @@
               </Group>
               <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="btn_editar" pref="32" max="32767" attributes="0"/>
+                  <Component id="btn_editar" max="32767" attributes="0"/>
                   <Component id="btn_Inhabilitar" max="32767" attributes="0"/>
                   <Component id="btn_agregar" max="32767" attributes="0"/>
               </Group>
