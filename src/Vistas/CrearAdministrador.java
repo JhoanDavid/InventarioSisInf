@@ -83,7 +83,7 @@ public class CrearAdministrador extends javax.swing.JFrame {
         txtdirecion = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         txtcontraseña2 = new javax.swing.JPasswordField();
-        jLabel12 = new javax.swing.JLabel();
+        lblTitulo = new javax.swing.JLabel();
         btn_agregar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
 
@@ -209,9 +209,9 @@ public class CrearAdministrador extends javax.swing.JFrame {
                 .addGap(27, 27, 27))
         );
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("Crear Administrador");
+        lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("Crear Administrador");
 
         btn_agregar.setText("Crear");
         btn_agregar.addActionListener(new java.awt.event.ActionListener() {
@@ -242,7 +242,7 @@ public class CrearAdministrador extends javax.swing.JFrame {
                         .addGap(46, 46, 46))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
@@ -252,7 +252,7 @@ public class CrearAdministrador extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -288,7 +288,7 @@ public class CrearAdministrador extends javax.swing.JFrame {
                     String strPassword2 = new String(txtcontraseña2.getPassword());
 
                     if (strPassword.equals(strPassword2)) {
-                        controlUsuario.create(documento);
+                        controlUsuario.create(user);
                         JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente");
                         txtnombre.setText("");
                         txttelefono.setText("");
@@ -409,7 +409,6 @@ public class CrearAdministrador extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btn_agregar;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
@@ -419,6 +418,7 @@ public class CrearAdministrador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblTitulo;
     private javax.swing.JTextField txtcedula;
     private javax.swing.JTextField txtciudad;
     private javax.swing.JPasswordField txtcontraseña;
