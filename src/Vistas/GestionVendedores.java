@@ -7,16 +7,15 @@ package Vistas;
 
 import Controladores.UsuarioJpaController;
 import Entidades.Usuario;
-import java.math.BigInteger;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author warriors
+ * @author jramirez
  */
-public class Vista_Usuarios extends javax.swing.JFrame {
+public class GestionVendedores extends javax.swing.JFrame {
 
     UsuarioJpaController controlUsuario = new UsuarioJpaController();
     Usuario user = new Usuario();
@@ -24,13 +23,47 @@ public class Vista_Usuarios extends javax.swing.JFrame {
     List<Usuario> listaUsuario;
     Usuario documento;
 
-    public Vista_Usuarios() {
+    public GestionVendedores() {
         initComponents();
         setTitle("Inventario SisInf");
         setResizable(false);
         setLocationRelativeTo(null);
         LlenarTabla();
         TextPrompt texto = new TextPrompt("Buscar Usuario", buscar);
+    }
+
+    public void LlenarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) tablaAgregarUsuario.getModel();
+        listaUsuario = controlUsuario.findUsuarioEntities();
+        for (Usuario obj : listaUsuario) {
+            if(obj.getRol().equalsIgnoreCase("Vendedor")){
+            modelo.addRow(new Object[]{obj.getId(), obj.getNombre(), obj.getTelefono(), obj.getDireccion(), obj.getCiudad(), obj.getUser(), obj.getRol(), obj.getPassword(), obj.getEstado()});
+            }
+        }
+    }
+
+    public void limpiarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) tablaAgregarUsuario.getModel();
+        int a = modelo.getRowCount() - 1;
+        for (int i = a; i >= 0; i--) {
+            modelo.removeRow(i);
+        }
+    }
+
+    public void filtrarTabla() {
+        if (buscar.getText().equals("")) {
+            limpiarTabla();
+            LlenarTabla();
+
+        } else {
+            limpiarTabla();
+            DefaultTableModel modelo = (DefaultTableModel) tablaAgregarUsuario.getModel();
+            for (Usuario obj : listaUsuario) {
+                if (obj.getNombre().contains(buscar.getText())) {
+                    modelo.addRow(new Object[]{obj.getId(), obj.getNombre(), obj.getTelefono(), obj.getDireccion(), obj.getCiudad(), obj.getUser(), obj.getRol(), obj.getPassword(), obj.getEstado()});
+                }
+            }
+        }
 
     }
 
@@ -43,7 +76,6 @@ public class Vista_Usuarios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaAgregarUsuario = new javax.swing.JTable();
@@ -52,11 +84,9 @@ public class Vista_Usuarios extends javax.swing.JFrame {
         btn_editar = new javax.swing.JButton();
         btn_Inhabilitar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(760, 500));
-        setMinimumSize(new java.awt.Dimension(760, 500));
-        setPreferredSize(new java.awt.Dimension(760, 471));
 
         tablaAgregarUsuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -87,7 +117,6 @@ public class Vista_Usuarios extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tablaAgregarUsuario);
-        tablaAgregarUsuario.getTableHeader().setReorderingAllowed(false) ;
 
         buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,7 +152,7 @@ public class Vista_Usuarios extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Administradores");
+        jLabel7.setText("Vendedores");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -202,16 +231,41 @@ public class Vista_Usuarios extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void LlenarTabla() {
-        DefaultTableModel modelo = (DefaultTableModel) tablaAgregarUsuario.getModel();
-        listaUsuario = controlUsuario.findUsuarioEntities();
-        for (Usuario obj : listaUsuario) {
-            if(obj.getRol().equalsIgnoreCase("Administrador")){
-            modelo.addRow(new Object[]{obj.getId(), obj.getNombre(), obj.getTelefono(), obj.getDireccion(), obj.getCiudad(), obj.getUser(), obj.getRol(), obj.getPassword(), obj.getEstado()});
-            }
+    private void tablaAgregarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAgregarUsuarioMouseClicked
+        user = controlUsuario.findUsuario((Long) tablaAgregarUsuario.getValueAt(tablaAgregarUsuario.getSelectedRow(), 0));
+        if (user.getEstado().equals(true)) {
+            btn_Inhabilitar.setText("Inhabilitar");
+        } else {
+            btn_Inhabilitar.setText("Habilitar");
         }
-    }
+    }//GEN-LAST:event_tablaAgregarUsuarioMouseClicked
 
+    private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buscarActionPerformed
+
+    private void buscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarKeyReleased
+        filtrarTabla();
+    }//GEN-LAST:event_buscarKeyReleased
+
+    private void btn_Inhabilitar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Inhabilitar1ActionPerformed
+        InicioAdmonSupremo i = new InicioAdmonSupremo();
+        i.setVisible(true);
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_Inhabilitar1ActionPerformed
+
+    private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
+        if (tablaAgregarUsuario.getSelectedRow() == (-1)) {
+            JOptionPane.showMessageDialog(null, "Debe de selecionar un valor de la tabla");
+        } else {
+
+            user = controlUsuario.findUsuario((Long) tablaAgregarUsuario.getValueAt(tablaAgregarUsuario.getSelectedRow(), 0));
+            CrearVendedores ca = new CrearVendedores(user);
+            ca.setVisible(true);
+            this.dispose();
+        }
+
+    }//GEN-LAST:event_btn_editarActionPerformed
 
     private void btn_InhabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InhabilitarActionPerformed
         if (tablaAgregarUsuario.getSelectedRow() == (-1)) {
@@ -240,73 +294,7 @@ public class Vista_Usuarios extends javax.swing.JFrame {
 
         }
 
-
     }//GEN-LAST:event_btn_InhabilitarActionPerformed
-
-
-    private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
-        if (tablaAgregarUsuario.getSelectedRow() == (-1)) {
-            JOptionPane.showMessageDialog(null, "Debe de selecionar un valor de la tabla");
-        } else {
-            
-
-            user = controlUsuario.findUsuario((Long) tablaAgregarUsuario.getValueAt(tablaAgregarUsuario.getSelectedRow(), 0));
-            CrearAdministrador ca= new CrearAdministrador(user);
-            ca.setVisible(true);
-            this.dispose();
-        }
-
-
-    }//GEN-LAST:event_btn_editarActionPerformed
-
-    private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_buscarActionPerformed
-
-    private void buscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarKeyReleased
-        filtrarTabla();
-    }//GEN-LAST:event_buscarKeyReleased
-
-    private void tablaAgregarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAgregarUsuarioMouseClicked
-        user = controlUsuario.findUsuario((Long) tablaAgregarUsuario.getValueAt(tablaAgregarUsuario.getSelectedRow(), 0));
-        if (user.getEstado().equals(true)) {
-            btn_Inhabilitar.setText("Inhabilitar");
-        } else {
-            btn_Inhabilitar.setText("Habilitar");
-        }
-
-    }//GEN-LAST:event_tablaAgregarUsuarioMouseClicked
-
-    private void btn_Inhabilitar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Inhabilitar1ActionPerformed
-        InicioAdmonSupremo i=new InicioAdmonSupremo();
-        i.setVisible(true);
-        this.dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_Inhabilitar1ActionPerformed
-
-    public void limpiarTabla() {
-        DefaultTableModel modelo = (DefaultTableModel) tablaAgregarUsuario.getModel();
-        int a = modelo.getRowCount() - 1;
-        for (int i = a; i >= 0; i--) {
-            modelo.removeRow(i);
-        }
-    }
-
-    public void filtrarTabla() {
-        if (buscar.getText().equals("")) {
-            limpiarTabla();
-            LlenarTabla();
-
-        } else {
-            limpiarTabla();
-            DefaultTableModel modelo = (DefaultTableModel) tablaAgregarUsuario.getModel();
-            for (Usuario obj : listaUsuario) {
-                if (obj.getNombre().contains(buscar.getText())) {
-                    modelo.addRow(new Object[]{obj.getId(), obj.getNombre(), obj.getTelefono(), obj.getDireccion(), obj.getCiudad(), obj.getUser(), obj.getRol(), obj.getPassword(), obj.getEstado()});
-                }
-            }
-        }
-
-    }
 
     /**
      * @param args the command line arguments
@@ -325,23 +313,20 @@ public class Vista_Usuarios extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Vista_Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionVendedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Vista_Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionVendedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Vista_Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionVendedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Vista_Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionVendedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Vista_Usuarios().setVisible(true);
+                new GestionVendedores().setVisible(true);
             }
         });
     }
@@ -357,5 +342,4 @@ public class Vista_Usuarios extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaAgregarUsuario;
     // End of variables declaration//GEN-END:variables
-
 }
