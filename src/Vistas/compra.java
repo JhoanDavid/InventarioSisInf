@@ -176,8 +176,7 @@ public class compra extends javax.swing.JFrame {
       Movimiento ultimoMovimiento=lstMovimientos.get(lstMovimientos.size()-1);
       
       ProductoMovimientoJpaController ControllerPM= new ProductoMovimientoJpaController();
-      ProductoJpaController controlproducto = new ProductoJpaController();
-      Producto producto = new Producto();
+      
       
       for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
           try {
