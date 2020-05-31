@@ -373,6 +373,7 @@ public class Vista_Usuarios extends javax.swing.JFrame {
                         limpiarTabla();
                         LlenarTabla();
                         btn_agregar.setText("Crear");
+                        txtcedula.setText("");
                         txtnombre.setText("");
                         txttelefono.setText("");
                         txtdirecion.setText("");
