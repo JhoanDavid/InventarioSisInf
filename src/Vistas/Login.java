@@ -6,7 +6,9 @@
 package Vistas;
 
 //import Controladores.PruebaController;
+import Controladores.GlobalClass;
 import Controladores.UsuarioJpaController;
+import Entidades.Usuario;
 import javax.swing.JOptionPane;
 
 /**
@@ -116,15 +118,36 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
+
+    
        UsuarioJpaController pc =new UsuarioJpaController();        // TODO add your handling code here:
        String strPassword=new String(txtPassword.getPassword());
-       if(pc.Login(txtUser.getText(), strPassword)!=null){
-           Inicio i=new Inicio();
-           i.setVisible(true); //pone la nueva ventana visible
-           this.dispose(); //cierra la ventana actual
+       
+       if(txtUser.getText().equalsIgnoreCase("admin") && strPassword.equalsIgnoreCase("admin")){
+            InicioAdmonSupremo s=new InicioAdmonSupremo();
+            s.setVisible(true);
+            this.dispose();
        }else{
-           JOptionPane.showMessageDialog(null,"Usuario o Contraseña Incorrectos");
-       }
+            Usuario usuario;
+            usuario = pc.Login(txtUser.getText(), strPassword);
+            if(usuario!=null){
+                GlobalClass.usuario=usuario;
+                switch(usuario.getRol()){
+                    case "Administrador":
+                         InicioAdministrador i=new InicioAdministrador();
+                         i.setVisible(true);
+                         this.dispose();
+                        break;
+                    case "Vendedor":
+                         InicioVendedor v=new InicioVendedor();
+                         v.setVisible(true);
+                         this.dispose();
+                        break;
+                }
+            }else{
+                JOptionPane.showMessageDialog(null,"Usuario o Contraseña Incorrectos");
+            }
+      }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
