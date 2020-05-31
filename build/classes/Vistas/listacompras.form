@@ -301,7 +301,7 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JLabel" name="TotalCompras">
+    <Component class="javax.swing.JLabel" name="txtTotalCompras">
       <Properties>
         <Property name="text" type="java.lang.String" value="0"/>
       </Properties>
