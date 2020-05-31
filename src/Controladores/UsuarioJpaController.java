@@ -27,7 +27,7 @@ import javax.persistence.Persistence;
 public class UsuarioJpaController implements Serializable {
 
     public UsuarioJpaController() {
-       this.emf = Persistence.createEntityManagerFactory("InventarioSisInfPU");
+        this.emf = Persistence.createEntityManagerFactory("InventarioSisInfPU");
     }
     private EntityManagerFactory emf = null;
 
@@ -172,6 +172,20 @@ public class UsuarioJpaController implements Serializable {
         }
     }
 
+    public Usuario traerUsuario(Long cedula) {
+        Usuario u = null;
+        try {
+            EntityManager em = getEntityManager();
+            Query q = em.createNamedQuery("Usuario.cambio", Usuario.class);
+            q.setParameter("id", cedula);
+            u = (Usuario) q.getSingleResult();
+            return u;
+        } catch (Exception e) {
+            System.out.println(" Error al traer el usuario " + e.getMessage());
+        }
+        return u;
+    }
+
     public Usuario findUsuario(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -193,20 +207,20 @@ public class UsuarioJpaController implements Serializable {
             em.close();
         }
     }
-    
-    public Usuario Login(String user, String pass){
-        
-        Usuario u= null; 
-        try{
-        EntityManager em = getEntityManager();
-        Query q = em.createNamedQuery("Usuario.login", Usuario.class);
-        q.setParameter("user",user);
-        q.setParameter("password",pass);
-        u=(Usuario) q.getSingleResult();
-        }catch(Exception e){
-            System.out.println("error al encontrar el usuario: "+e);
+
+    public Usuario Login(String user, String pass) {
+
+        Usuario u = null;
+        try {
+            EntityManager em = getEntityManager();
+            Query q = em.createNamedQuery("Usuario.login", Usuario.class);
+            q.setParameter("user", user);
+            q.setParameter("password", pass);
+            u = (Usuario) q.getSingleResult();
+        } catch (Exception e) {
+            System.out.println("error al encontrar el usuario: " + e);
         }
         return u;
     }
-    
+
 }
