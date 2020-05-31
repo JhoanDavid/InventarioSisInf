@@ -29,6 +29,7 @@ public class Vista_Producto extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         LlenarTabla();
         TextPrompt texto = new TextPrompt("Buscar Producto", buscar);
+        cbx_unidad.setSelectedItem(null);
 
     }
 
@@ -197,6 +198,7 @@ public class Vista_Producto extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tablaAgregarproducto);
+        tablaAgregarproducto.getTableHeader().setReorderingAllowed(false) ;
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setText(" Producto");
@@ -279,81 +281,95 @@ public class Vista_Producto extends javax.swing.JFrame {
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
 
-        if (btn_agregar.getText().equalsIgnoreCase("Agregar")) {
-            try {
-                producto.setDescripcion(txtdesc.getText());
-                producto.setUnidadMedida(cbx_unidad.getSelectedItem().toString());
-                producto.setValorCompra(Double.parseDouble(txtvalor_compra.getText()));
-                producto.setValorVenta(Double.parseDouble(txtvalor_venta.getText()));
-                producto.setGanancia((producto.getValorVenta() - producto.getValorCompra()));
-                producto.setCantidadStock(Double.parseDouble(txtcantidad.getText()));
-                if (producto.getCantidadStock() > 0) {
-                    producto.setEstado(true);
-                } else {
-                    producto.setEstado(false);
+        if (txtdesc.getText().equals("") || txtvalor_compra.getText().equals("") || txtvalor_venta.getText().equals("") || txtcantidad.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!");
+        } else {
+            if (btn_agregar.getText().equalsIgnoreCase("Agregar")) {
+                try {
+                    producto.setDescripcion(txtdesc.getText());
+                    producto.setUnidadMedida(cbx_unidad.getSelectedItem().toString());
+                    producto.setValorCompra(Double.parseDouble(txtvalor_compra.getText()));
+                    producto.setValorVenta(Double.parseDouble(txtvalor_venta.getText()));
+                    producto.setGanancia((producto.getValorVenta() - producto.getValorCompra()));
+                    producto.setCantidadStock(Double.parseDouble(txtcantidad.getText()));
+                    if (producto.getCantidadStock() > 0) {
+                        producto.setEstado(true);
+                    } else {
+                        producto.setEstado(false);
+                    }
+                    controlproducto.create(producto);
+                    JOptionPane.showMessageDialog(null, "Producto creado exitosamente");
+                    limpiarTabla();
+                    LlenarTabla();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Error " + e.getMessage());
                 }
-                controlproducto.create(producto);
-                JOptionPane.showMessageDialog(null, "Producto creado exitosamente");
-                limpiarTabla();
-                LlenarTabla();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error " + e.getMessage());
+                txtdesc.setText("");
+                txtvalor_compra.setText("");
+                txtvalor_venta.setText("");
+                txtcantidad.setText("");
+                cbx_unidad.setSelectedItem(null);
+
+            } else {
+                try {
+                    producto.setDescripcion(txtdesc.getText());
+                    producto.setUnidadMedida(cbx_unidad.getSelectedItem().toString());
+                    producto.setValorCompra(Double.parseDouble(txtvalor_compra.getText()));
+                    producto.setValorVenta(Double.parseDouble(txtvalor_venta.getText()));
+                    producto.setGanancia((producto.getValorVenta() - producto.getValorCompra()));
+                    producto.setCantidadStock(Double.parseDouble(txtcantidad.getText()));
+                    if (producto.getCantidadStock() > 0) {
+                        producto.setEstado(true);
+                    } else {
+                        producto.setEstado(false);
+                    }
+                    controlproducto.edit(producto);
+                    JOptionPane.showMessageDialog(null, "Producto editado exitosamente!");
+                    limpiarTabla();
+                    LlenarTabla();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, " " + e.getMessage());
+                }
             }
             txtdesc.setText("");
             txtvalor_compra.setText("");
             txtvalor_venta.setText("");
             txtcantidad.setText("");
+            cbx_unidad.setSelectedItem(null);
+            btn_agregar.setText("Agregar");
 
-        } else {
-            try {
-                producto.setDescripcion(txtdesc.getText());
-                producto.setUnidadMedida(cbx_unidad.getSelectedItem().toString());
-                producto.setValorCompra(Double.parseDouble(txtvalor_compra.getText()));
-                producto.setValorVenta(Double.parseDouble(txtvalor_venta.getText()));
-                producto.setGanancia((producto.getValorVenta() - producto.getValorCompra()));
-                producto.setCantidadStock(Double.parseDouble(txtcantidad.getText()));
-                if (producto.getCantidadStock() > 0) {
-                    producto.setEstado(true);
-                } else {
-                    producto.setEstado(false);
-                }
-                controlproducto.edit(producto);
-                JOptionPane.showMessageDialog(null, "Producto editado exitosamente!");
-                limpiarTabla();
-                LlenarTabla();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, " " + e.getMessage());
-            }
         }
-        txtdesc.setText("");
-        txtvalor_compra.setText("");
-        txtvalor_venta.setText("");
-        txtcantidad.setText("");
-        btn_agregar.setText("Agregar");
+
 
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btn_InhabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InhabilitarActionPerformed
-        producto = controlproducto.findProducto((Integer) tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 0));
-        try {
-            if(btn_Inhabilitar.getText().equals("Inhabilitar")){
-                producto.setEstado(false);
-                controlproducto.edit(producto);
-                JOptionPane.showMessageDialog(null, "Producto Deshabilitado correctamente");
-                limpiarTabla();
-                LlenarTabla();
-                
-            }else{
-               producto.setEstado(true);
-                controlproducto.edit(producto);
-                JOptionPane.showMessageDialog(null, "Producto Habilitado correctamente");
-                limpiarTabla();
-                LlenarTabla(); 
-            }
-               
+
+        if (tablaAgregarproducto.getSelectedRow() == (-1)) {
+            JOptionPane.showMessageDialog(null, "Debe de selecionar un valor de la tabla");
+        } else {
+            producto = controlproducto.findProducto((Integer) tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 0));
+            try {
+                if (btn_Inhabilitar.getText().equals("Inhabilitar")) {
+                    producto.setEstado(false);
+                    controlproducto.edit(producto);
+                    JOptionPane.showMessageDialog(null, "Producto Deshabilitado correctamente");
+                    limpiarTabla();
+                    LlenarTabla();
+
+                } else {
+                    producto.setEstado(true);
+                    controlproducto.edit(producto);
+                    JOptionPane.showMessageDialog(null, "Producto Habilitado correctamente");
+                    limpiarTabla();
+                    LlenarTabla();
+                }
+
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, " " + e.getMessage());
             }
+
+        }
 
 
     }//GEN-LAST:event_btn_InhabilitarActionPerformed
@@ -364,14 +380,19 @@ public class Vista_Producto extends javax.swing.JFrame {
 
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
-        btn_agregar.setText("Actualizar");
-        txtdesc.setText(tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 1).toString());
-        cbx_unidad.setSelectedItem(tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 2).toString());
-        txtvalor_compra.setText(tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 3).toString());
-        txtvalor_venta.setText(tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 4).toString());
-        txtcantidad.setText(tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 6).toString());
 
-        producto = controlproducto.findProducto((Integer) tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 0));
+        if (tablaAgregarproducto.getSelectedRow() == (-1)) {
+            JOptionPane.showMessageDialog(null, "Debe de selecionar un valor de la tabla");
+        } else {
+            btn_agregar.setText("Actualizar");
+            txtdesc.setText(tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 1).toString());
+            cbx_unidad.setSelectedItem(tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 2).toString());
+            txtvalor_compra.setText(tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 3).toString());
+            txtvalor_venta.setText(tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 4).toString());
+            txtcantidad.setText(tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 6).toString());
+
+            producto = controlproducto.findProducto((Integer) tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 0));
+        }
 
 
     }//GEN-LAST:event_btn_editarActionPerformed
@@ -386,10 +407,10 @@ public class Vista_Producto extends javax.swing.JFrame {
 
     private void tablaAgregarproductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAgregarproductoMouseClicked
         producto = controlproducto.findProducto((Integer) tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 0));
-        if(producto.getEstado().equals(true)){
+        if (producto.getEstado().equals(true)) {
             btn_Inhabilitar.setText("Inhabilitar");
-        }else{
-             btn_Inhabilitar.setText("Habilitar");
+        } else {
+            btn_Inhabilitar.setText("Habilitar");
         }
 
     }//GEN-LAST:event_tablaAgregarproductoMouseClicked
