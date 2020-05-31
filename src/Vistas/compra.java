@@ -195,12 +195,14 @@ public class compra extends javax.swing.JFrame {
           try {
               ProductoMovimiento productoMovimiento =new ProductoMovimiento();
               Producto resultP=controlproducto.findProducto(new Integer(tablaCarritoVenta.getValueAt(i,0).toString()));
-              Producto resulTP=controlproducto.findProducto(new Integer(txtValor.getText()));
               productoMovimiento.setIdProducto(resultP);
               productoMovimiento.setCantTrans(new Double(tablaCarritoVenta.getValueAt(i,2).toString()));
               productoMovimiento.setValorTrans(new Double(tablaCarritoVenta.getValueAt(i,3).toString()));
               productoMovimiento.setIdMov(ultimoMovimiento);
+              double valor = Double.parseDouble( txtValor.getText());
+              double cantidad = Double.parseDouble( txtCantidad.getText());
               resultP.setCantidadStock(resultP.getCantidadStock()+productoMovimiento.getCantTrans());
+              resultP.setValorCompra(valor/cantidad);
               controlproducto.edit(resultP);
           } catch (Exception ex) {
               Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
