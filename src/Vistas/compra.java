@@ -63,7 +63,8 @@ public class compra extends javax.swing.JFrame {
   public boolean agregarProductoCarrito(){
       int id=(int) tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),0);
       double cantidad=new Double(txtCantidad.getText());
-      double valor=new Double(txtValor.getText()); 
+      double valor=new Double(txtValor.getText());
+      double valorTotal=new Double(txtTotal.getText());
       for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
          int idProducto=new Integer(tablaCarritoVenta.getValueAt(i,0).toString());
          if(id==idProducto){
@@ -73,12 +74,12 @@ public class compra extends javax.swing.JFrame {
              double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
              tablaProductoInventario.setValueAt(stock+cantidad, tablaProductoInventario.getSelectedRow(), 2);
              tablaCarritoVenta.setValueAt(valorCarrito+valor, i, 3);
+             txtTotal.setText(String.valueOf(valor+valorTotal));
              return false;
          }
       }
        String descripcion=tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),1).toString();   // TODO add your handling code here:
        modeloCarrito.addRow(new Object[]{id, descripcion, cantidad,(valor)});
-       double valorTotal=new Double(txtTotal.getText());
        txtTotal.setText(String.valueOf(valor+valorTotal));
        double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
        tablaProductoInventario.setValueAt(stock+cantidad, tablaProductoInventario.getSelectedRow(), 2);
