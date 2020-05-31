@@ -25,7 +25,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author esteban
  */
-public class listacompras extends javax.swing.JFrame {
+public class listaventas extends javax.swing.JFrame {
     MovimientoJpaController controlmovimiento = new MovimientoJpaController();
     ProductoMovimientoJpaController controlproductomovimiento = new ProductoMovimientoJpaController();
     ProductoJpaController controlproducto = new ProductoJpaController();
@@ -39,7 +39,7 @@ public class listacompras extends javax.swing.JFrame {
     DefaultTableModel modelo;
 
     
-    public listacompras() {
+    public listaventas() {
         initComponents();
         modelo=(DefaultTableModel)tablaProductoInventario.getModel();
         modeloCarrito=(DefaultTableModel)tablaCarritoVenta.getModel();
@@ -54,9 +54,9 @@ public class listacompras extends javax.swing.JFrame {
   public void LlenarTabla(){
         listaMovimiento = controlmovimiento.findMovimientoEntities();
       for (Movimiento obj : listaMovimiento) {
-          if (obj.getTipoMov().contains("Compra")) {
+          if (obj.getTipoMov().contains("Venta")) {
               modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
-                  obj.getUsuarioTrans()});
+                  obj.getUsuarioTrans(), obj.getIdCliente()});
           }
       }
       calcularTotalCompras();
@@ -375,7 +375,7 @@ public class listacompras extends javax.swing.JFrame {
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new listacompras().setVisible(true);
+                new listaventas().setVisible(true);
             }
         });
     }
