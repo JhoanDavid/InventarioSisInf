@@ -90,7 +90,7 @@ public class compra extends javax.swing.JFrame {
     public void quitarProductoCarrito(){
        double valor=(double)tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),3);
        double valorTotal=new Double(txtTotal.getText());
-       txtTotal.setText(String.valueOf(0));
+       txtTotal.setText(String.valueOf(valorTotal-valor));
        double cantidad=new Double(tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),2).toString());
        double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
        int id=new Integer(tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),0).toString());
@@ -187,10 +187,23 @@ public class compra extends javax.swing.JFrame {
               productoMovimiento.setValorTrans(new Double(tablaCarritoVenta.getValueAt(i,3).toString()));
               productoMovimiento.setIdMov(ultimoMovimiento);
               ControllerPM.create(productoMovimiento);
+          } catch (Exception ex) {
+              Logger.getLogger(compra.class.getName()).log(Level.SEVERE, null, ex);
+          }
+      }
+      for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
+          try {
+              ProductoMovimiento productoMovimiento =new ProductoMovimiento();
+              Producto resultP=controlproducto.findProducto(new Integer(tablaCarritoVenta.getValueAt(i,0).toString()));
+              Producto resulTP=controlproducto.findProducto(new Integer(txtValor.getText()));
+              productoMovimiento.setIdProducto(resultP);
+              productoMovimiento.setCantTrans(new Double(tablaCarritoVenta.getValueAt(i,2).toString()));
+              productoMovimiento.setValorTrans(new Double(tablaCarritoVenta.getValueAt(i,3).toString()));
+              productoMovimiento.setIdMov(ultimoMovimiento);
               resultP.setCantidadStock(resultP.getCantidadStock()+productoMovimiento.getCantTrans());
               controlproducto.edit(resultP);
           } catch (Exception ex) {
-              Logger.getLogger(compra.class.getName()).log(Level.SEVERE, null, ex);
+              Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
           }
       }
     
@@ -380,7 +393,6 @@ public class compra extends javax.swing.JFrame {
             }
         });
 
-        txtValor.setEditable(false);
         txtValor.setText("0");
         txtValor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

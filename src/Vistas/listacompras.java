@@ -95,7 +95,7 @@ public class listacompras extends javax.swing.JFrame {
             limpiarTabla();
             DefaultTableModel modelo = (DefaultTableModel) tablaProductoInventario.getModel();
             for(Movimiento obj:listaMovimiento){
-          if (obj.getTipoMov().contains("Compra")) {
+          if (obj.getTipoMov().contains("Compra") && obj.getId().toString().contains(txtBusqueda.getText())) {
         modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
         obj.getUsuarioTrans()});
           }
@@ -118,11 +118,7 @@ public class listacompras extends javax.swing.JFrame {
         }
   }
   
-  public void calcularValor(){
-        double valor=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 3).toString());
-        //double cantidad=new Double(txtCantidad.getText());
-        //txtValor.setText(String.valueOf(valor*cantidad));
-  }
+
     public String getFechaActual() {
     Date fechaActual = new Date();
     SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
@@ -137,7 +133,7 @@ public class listacompras extends javax.swing.JFrame {
         for (Movimiento obj1:listaMovimiento) {                  
         listaProductoMovimiento=controlproductomovimiento.findProductoMovimientoEntities();
         for(ProductoMovimiento obj:listaProductoMovimiento){  
-        if(obj.getIdMov().getId() == obj1.getId()){ 
+        if(obj.getIdMov().getId() == obj1.getId() && obj1.getTipoMov().contains("Compra")){ 
         for (int j = 0; j < 1; j++) {    
         valorTotal= obj.getValorTrans()+ValorTotalCompras;
         ValorTotalCompras=valorTotal;
@@ -361,8 +357,9 @@ public class listacompras extends javax.swing.JFrame {
 
     private void tablaProductoInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductoInventarioMouseClicked
         //txtCantidad.setText("1");
-        calcularValor();
+        
         limpiarTablaProductos();
+        txtTotal.setText(String.valueOf(0));
         agregarProductoCarrito();
         
         
