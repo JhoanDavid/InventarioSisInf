@@ -66,6 +66,7 @@ public class Venta extends javax.swing.JFrame {
       int id=(int) tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),0);
       double cantidad=new Double(txtCantidad.getText());
       double valor=new Double(txtValor.getText()); 
+      double valorTotal=new Double(txtTotal.getText());
       for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
          int idProducto=new Integer(tablaCarritoVenta.getValueAt(i,0).toString());
          if(id==idProducto){
@@ -75,12 +76,12 @@ public class Venta extends javax.swing.JFrame {
              double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
              tablaProductoInventario.setValueAt(stock-cantidad, tablaProductoInventario.getSelectedRow(), 2);
              tablaCarritoVenta.setValueAt(valorCarrito+valor, i, 3);
+             txtTotal.setText(String.valueOf(valor+valorTotal));
              return false;
          }
       }
        String descripcion=tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),1).toString();   // TODO add your handling code here:
        modeloCarrito.addRow(new Object[]{id, descripcion, cantidad,(valor)});
-       double valorTotal=new Double(txtTotal.getText());
        txtTotal.setText(String.valueOf(valor+valorTotal));
        double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
        tablaProductoInventario.setValueAt(stock-cantidad, tablaProductoInventario.getSelectedRow(), 2);
@@ -138,6 +139,19 @@ public class Venta extends javax.swing.JFrame {
         validarCantidad(evt);
         return true;
   }
+  
+  
+   public boolean validarNumero2(KeyEvent evt){
+        char validar = evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(rootPane, "Por favor Ingresar solo números");
+            return false;
+         }
+        return true;
+  }
+  
   
   
    public boolean validarCantidad(KeyEvent evt){
@@ -690,16 +704,23 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCantidadKeyTyped
 
     private void txtDescuentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescuentoKeyTyped
-    validarNumero(evt);     // TODO add your handling code here:
+    validarNumero2(evt);     // TODO add your handling code here:
     }//GEN-LAST:event_txtDescuentoKeyTyped
 
     private void txtDescuentoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescuentoKeyReleased
        double Total=0;
+       if(txtDescuento.getText().equalsIgnoreCase("")){
+        for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
+          Total+=new Double(tablaCarritoVenta.getValueAt(i, 3).toString());   
+        }
+        txtTotal.setText(String.valueOf(Total));
+       }else{
         for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
           Total+=new Double(tablaCarritoVenta.getValueAt(i, 3).toString());   
         }
         Total-=new Double(txtDescuento.getText());
         txtTotal.setText(String.valueOf(Total));
+       }
 // TODO add your handling code here:
     }//GEN-LAST:event_txtDescuentoKeyReleased
 
