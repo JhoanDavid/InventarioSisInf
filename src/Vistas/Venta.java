@@ -6,9 +6,12 @@
 package Vistas;
 
 
+import Controladores.ClienteJpaController;
+import Controladores.GlobalClass;
 import Controladores.MovimientoJpaController;
 import Controladores.ProductoJpaController;
 import Controladores.ProductoMovimientoJpaController;
+import Entidades.Cliente;
 import Entidades.Movimiento;
 import Entidades.Producto;
 import Entidades.ProductoMovimiento;
@@ -32,6 +35,8 @@ public class Venta extends javax.swing.JFrame {
     DefaultTableModel modeloCarrito;
     List<Producto> listaProducto;
     DefaultTableModel modelo;
+    ClienteJpaController controlCliente= new ClienteJpaController();
+    Cliente cliente=null;
 
     
     public Venta() {
@@ -115,8 +120,8 @@ public class Venta extends javax.swing.JFrame {
       movimientoVenta.setDescripcion(txtDescripcion.getText());
       movimientoVenta.setTipoMov("Venta");
       movimientoVenta.setDescuentoAplicado(new Double(txtDescuento.getText()));
-      movimientoVenta.setUsuarioTrans(null);
-      movimientoVenta.setIdCliente(null);
+      movimientoVenta.setUsuarioTrans(GlobalClass.usuario);
+      movimientoVenta.setIdCliente(cliente);
       controlMovimiento.create(movimientoVenta);
       
       List<Movimiento> lstMovimientos =controlMovimiento.findMovimientoEntities();
@@ -175,12 +180,12 @@ public class Venta extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaCarritoVenta = new javax.swing.JTable();
         jLabel7 = new javax.swing.JLabel();
-        id_proveedor = new javax.swing.JTextField();
+        txtCliente = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JLabel();
         crear = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        txtNombreCliente = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         txtDescuento = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
@@ -448,7 +453,7 @@ public class Venta extends javax.swing.JFrame {
 
         jLabel12.setText("Nombre:");
 
-        jLabel13.setText("Nombre del cliente");
+        txtNombreCliente.setText("No se ha asignado un cliente para esta compra");
 
         jButton3.setText("Buscar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -479,17 +484,9 @@ public class Venta extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel12)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(id_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton3)
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtNombreCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGap(8, 8, 8)
@@ -502,7 +499,14 @@ public class Venta extends javax.swing.JFrame {
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel11)
                                         .addGap(18, 18, 18)
-                                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(26, 26, 26)
+                                .addComponent(jButton3)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -517,12 +521,12 @@ public class Venta extends javax.swing.JFrame {
                         .addGap(3, 3, 3)
                         .addComponent(jLabel7))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(id_proveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton3)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jLabel13))
+                    .addComponent(txtNombreCliente))
                 .addGap(5, 5, 5)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -634,7 +638,12 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDescuentoKeyReleased
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+    cliente=controlCliente.findCliente(new Long(txtCliente.getText())); 
+    if(cliente!=null){
+        txtNombreCliente.setText(cliente.getNombre());
+    }else{
+        txtNombreCliente.setText("No se ha asignado un cliente para esta compra");
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
@@ -675,14 +684,12 @@ public class Venta extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelar;
     private javax.swing.JButton crear;
-    private javax.swing.JTextField id_proveedor;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -698,9 +705,11 @@ public class Venta extends javax.swing.JFrame {
     private javax.swing.JTable tablaProductoInventario;
     private javax.swing.JTextField txtBusqueda;
     private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtCliente;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtDescuento;
     private javax.swing.JLabel txtFecha;
+    private javax.swing.JLabel txtNombreCliente;
     private javax.swing.JLabel txtTotal;
     private javax.swing.JTextField txtValor;
     // End of variables declaration//GEN-END:variables
