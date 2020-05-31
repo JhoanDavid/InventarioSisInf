@@ -56,7 +56,7 @@ public class listaventas extends javax.swing.JFrame {
       for (Movimiento obj : listaMovimiento) {
           if (obj.getTipoMov().contains("Venta")) {
               modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
-                  obj.getUsuarioTrans(), obj.getIdCliente()});
+                  obj.getUsuarioTrans()});
           }
       }
       calcularTotalCompras();
@@ -95,7 +95,7 @@ public class listaventas extends javax.swing.JFrame {
             limpiarTabla();
             DefaultTableModel modelo = (DefaultTableModel) tablaProductoInventario.getModel();
             for(Movimiento obj:listaMovimiento){
-          if (obj.getTipoMov().contains("Compra")) {
+          if (obj.getTipoMov().contains("Venta") && obj.getId().toString().contains(txtBusqueda.getText())) {
         modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
         obj.getUsuarioTrans()});
           }
@@ -118,11 +118,7 @@ public class listaventas extends javax.swing.JFrame {
         }
   }
   
-  public void calcularValor(){
-        double valor=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 3).toString());
-        //double cantidad=new Double(txtCantidad.getText());
-        //txtValor.setText(String.valueOf(valor*cantidad));
-  }
+
     public String getFechaActual() {
     Date fechaActual = new Date();
     SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
@@ -137,7 +133,7 @@ public class listaventas extends javax.swing.JFrame {
         for (Movimiento obj1:listaMovimiento) {                  
         listaProductoMovimiento=controlproductomovimiento.findProductoMovimientoEntities();
         for(ProductoMovimiento obj:listaProductoMovimiento){  
-        if(obj.getIdMov().getId() == obj1.getId()){ 
+        if(obj.getIdMov().getId() == obj1.getId() && obj1.getTipoMov().contains("Venta")){ 
         for (int j = 0; j < 1; j++) {    
         valorTotal= obj.getValorTrans()+ValorTotalCompras;
         ValorTotalCompras=valorTotal;
@@ -196,11 +192,11 @@ public class listaventas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "fecha", "descripcion", "id_remitente", "usuario_trans"
+                "id", "fecha", "descripcion", "id vendedor", "descuento", "id cliente"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -215,13 +211,13 @@ public class listaventas extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tablaProductoInventario);
         if (tablaProductoInventario.getColumnModel().getColumnCount() > 0) {
             tablaProductoInventario.getColumnModel().getColumn(0).setMaxWidth(60);
-            tablaProductoInventario.getColumnModel().getColumn(1).setMinWidth(100);
+            tablaProductoInventario.getColumnModel().getColumn(1).setMaxWidth(80);
             tablaProductoInventario.getColumnModel().getColumn(2).setMinWidth(100);
             tablaProductoInventario.getColumnModel().getColumn(2).setMaxWidth(100);
             tablaProductoInventario.getColumnModel().getColumn(3).setMaxWidth(60);
         }
 
-        jLabel2.setText("codigo de compra");
+        jLabel2.setText("codigo de venta");
 
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -243,7 +239,7 @@ public class listaventas extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
                 .addGap(21, 21, 21))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,25 +252,25 @@ public class listaventas extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel2)
-                        .addGap(16, 16, 16)
+                        .addGap(18, 18, 18)
                         .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(256, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addComponent(txtFecha)
-                .addGap(76, 76, 76)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addGap(41, 41, 41)
                 .addComponent(cancelar))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 440, 380));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 530, 380));
 
         tablaCarritoVenta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -286,24 +282,22 @@ public class listaventas extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(tablaCarritoVenta);
 
-        jLabel11.setText("Total de compra:");
+        jLabel11.setText("Total de venta");
 
         txtTotal.setText("0");
 
-        jLabel8.setText("lista de compras");
+        jLabel8.setText("lista de ventas");
 
-        jLabel1.setText("productos comprados");
+        jLabel1.setText("productos vendidos");
+
+        jLabel3.setText("Total de todas las ventas");
+
+        txtTotalCompras.setText("0");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel11)
-                .addGap(18, 18, 18)
-                .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,7 +308,17 @@ public class listaventas extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(37, Short.MAX_VALUE))))
+                        .addContainerGap(77, Short.MAX_VALUE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel11))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTotalCompras))
+                .addGap(40, 40, 40))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -329,16 +333,14 @@ public class listaventas extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(txtTotal))
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtTotalCompras))
+                .addGap(22, 22, 22))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 20, 540, -1));
-
-        jLabel3.setText("Total de todas las compras:");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 370, -1, -1));
-
-        txtTotalCompras.setText("0");
-        getContentPane().add(txtTotalCompras, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 370, -1, -1));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 20, 580, 390));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -361,8 +363,9 @@ public class listaventas extends javax.swing.JFrame {
 
     private void tablaProductoInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductoInventarioMouseClicked
         //txtCantidad.setText("1");
-        calcularValor();
+        
         limpiarTablaProductos();
+        txtTotal.setText(String.valueOf(0));
         agregarProductoCarrito();
         
         
