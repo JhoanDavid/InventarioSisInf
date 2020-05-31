@@ -299,7 +299,9 @@ public class Vista_Producto extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaAgregarproductoMouseClicked
 
     private void txtCancelar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCancelar1ActionPerformed
-        // TODO add your handling code here:
+    InicioAdmonSupremo i=new InicioAdmonSupremo();
+        i.setVisible(true);
+        this.dispose();            // TODO add your handling code here:
     }//GEN-LAST:event_txtCancelar1ActionPerformed
 
     public void limpiarTabla() {
