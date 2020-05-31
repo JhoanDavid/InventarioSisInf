@@ -217,6 +217,8 @@ public class Vista_Usuarios extends javax.swing.JFrame {
         if (tablaAgregarUsuario.getSelectedRow() == (-1)) {
             JOptionPane.showMessageDialog(null, "Debe de selecionar un valor de la tabla");
         } else {
+            int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro de ejecutar la acción?", "Alerta!", JOptionPane.YES_NO_OPTION);
+            if (resp == 0) {
             user = controlUsuario.findUsuario((Long) tablaAgregarUsuario.getValueAt(tablaAgregarUsuario.getSelectedRow(), 0));
             try {
                 if (btn_Inhabilitar.getText().equals("Inhabilitar")) {
@@ -238,6 +240,12 @@ public class Vista_Usuarios extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, " " + e.getMessage());
             }
 
+            }else{
+                JOptionPane.showMessageDialog(null, "Operacion cancelada");
+                limpiarTabla();
+                LlenarTabla();
+            }
+            
         }
 
 
