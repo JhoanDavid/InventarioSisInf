@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -60,20 +62,44 @@ public class Venta extends javax.swing.JFrame {
         }
     }
 
-  public void agregarProductoCarrito(){
-       int id=(int) tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),0);
+  public boolean agregarProductoCarrito(){
+      int id=(int) tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),0);
+      double cantidad=new Double(txtCantidad.getText());
+      double valor=new Double(txtValor.getText()); 
+      for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
+         int idProducto=new Integer(tablaCarritoVenta.getValueAt(i,0).toString());
+         if(id==idProducto){
+             double stockCarrito=new Double(tablaCarritoVenta.getValueAt(i,2).toString());
+             double valorCarrito=new Double(tablaCarritoVenta.getValueAt(i,3).toString());
+             tablaCarritoVenta.setValueAt(stockCarrito+cantidad, i, 2);
+             double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
+             tablaProductoInventario.setValueAt(stock-cantidad, tablaProductoInventario.getSelectedRow(), 2);
+             tablaCarritoVenta.setValueAt(valorCarrito+valor, i, 3);
+             return false;
+         }
+      }
        String descripcion=tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),1).toString();   // TODO add your handling code here:
-       double cantidad=new Double(txtCantidad.getText());
-       double valor=new Double(txtValor.getText()); 
        modeloCarrito.addRow(new Object[]{id, descripcion, cantidad,(valor)});
        double valorTotal=new Double(txtTotal.getText());
        txtTotal.setText(String.valueOf(valor+valorTotal));
+       double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
+       tablaProductoInventario.setValueAt(stock-cantidad, tablaProductoInventario.getSelectedRow(), 2);
+       return true;
   }
   
     public void quitarProductoCarrito(){
        double valor=(double)tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),3);
        double valorTotal=new Double(txtTotal.getText());
        txtTotal.setText(String.valueOf(valorTotal-valor));
+       double cantidad=new Double(tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),2).toString());
+       double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
+       int id=new Integer(tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),0).toString());
+       for (int i = 0; i < tablaProductoInventario.getRowCount(); i++) {
+           int idProducto=new Integer(tablaProductoInventario.getValueAt(i,0).toString());
+           if(idProducto==id){
+               tablaProductoInventario.setValueAt(stock+cantidad, i, 2);
+           }
+       }
        modeloCarrito.removeRow(tablaCarritoVenta.getSelectedRow());
   }
   
@@ -109,8 +135,23 @@ public class Venta extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Por favor Ingresar solo números");
             return false;
          }
+        validarCantidad(evt);
         return true;
   }
+  
+  
+   public boolean validarCantidad(KeyEvent evt){
+      char validar = evt.getKeyChar();
+      double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 2).toString());
+      double cantidad=new Double(txtCantidad.getText()+validar);
+      if(cantidad>stock){
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(rootPane, "Esta cantidad no se encuentra en inventario");
+            return false;
+     }
+      return true;
+   }
   
   
   
@@ -132,13 +173,19 @@ public class Venta extends javax.swing.JFrame {
       Producto producto = new Producto();
       
       for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
-          ProductoMovimiento productoMovimiento =new ProductoMovimiento();
-          Producto resultP=controlproducto.findProducto(new Integer(tablaCarritoVenta.getValueAt(i,0).toString()));
-          productoMovimiento.setIdProducto(resultP);
-          productoMovimiento.setCantTrans(new Double(tablaCarritoVenta.getValueAt(i,2).toString()));
-          productoMovimiento.setValorTrans(new Double(tablaCarritoVenta.getValueAt(i,3).toString()));
-          productoMovimiento.setIdMov(ultimoMovimiento);
-          ControllerPM.create(productoMovimiento);
+          try {
+              ProductoMovimiento productoMovimiento =new ProductoMovimiento();
+              Producto resultP=controlproducto.findProducto(new Integer(tablaCarritoVenta.getValueAt(i,0).toString()));
+              productoMovimiento.setIdProducto(resultP);
+              productoMovimiento.setCantTrans(new Double(tablaCarritoVenta.getValueAt(i,2).toString()));
+              productoMovimiento.setValorTrans(new Double(tablaCarritoVenta.getValueAt(i,3).toString()));
+              productoMovimiento.setIdMov(ultimoMovimiento);
+              ControllerPM.create(productoMovimiento);
+              resultP.setCantidadStock(resultP.getCantidadStock()-productoMovimiento.getCantTrans());
+              controlproducto.edit(resultP);
+          } catch (Exception ex) {
+              Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
+          }
       }
     
   }
@@ -340,12 +387,20 @@ public class Venta extends javax.swing.JFrame {
         jLabel3.setText("cantidad");
 
         txtCantidad.setText("0");
+        txtCantidad.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtCantidadMouseClicked(evt);
+            }
+        });
         txtCantidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCantidadActionPerformed(evt);
             }
         });
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCantidadKeyReleased(evt);
             }
@@ -604,14 +659,21 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_txtValorActionPerformed
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
-    
+
         calcularValor();        // TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+    double cantidad=new Double(txtCantidad.getText());
+    double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
+    if (cantidad>0 && cantidad<=stock){
     agregarProductoCarrito();     
     txtCantidad.setText("1");
     txtValor.setText(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 3).toString());
+    }else{
+        JOptionPane.showMessageDialog(null,"Por favor ingrese un numero valido");
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -619,7 +681,7 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
-    validarNumero(evt);   // TODO add your handling code here:
+    validarNumero(evt);// TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadKeyTyped
 
     private void txtDescuentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescuentoKeyTyped
@@ -644,6 +706,14 @@ public class Venta extends javax.swing.JFrame {
         txtNombreCliente.setText("No se ha asignado un cliente para esta compra");
     }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void txtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyPressed
+            // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantidadKeyPressed
+
+    private void txtCantidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCantidadMouseClicked
+    txtCantidad.setText("");        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantidadMouseClicked
 
     /**
      * @param args the command line arguments
