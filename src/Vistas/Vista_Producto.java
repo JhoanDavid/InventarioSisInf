@@ -90,7 +90,7 @@ public class Vista_Producto extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel6.setText("Valor_venta:");
 
-        cbx_unidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kg", "Und" }));
+        cbx_unidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Kg", "Unidad" }));
         cbx_unidad.setMaximumSize(new java.awt.Dimension(6, 20));
         cbx_unidad.setMinimumSize(new java.awt.Dimension(6, 20));
         cbx_unidad.setPreferredSize(new java.awt.Dimension(6, 20));
@@ -426,7 +426,17 @@ public class Vista_Producto extends javax.swing.JFrame {
 
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        txtdesc.setText("");
+        txtvalor_compra.setText("");
+        txtvalor_venta.setText("");
+        txtcantidad.setText("");
+        cbx_unidad.setSelectedItem(null);
+        btn_agregar.setText("Agregar");
+        btnCancelar.setVisible(false);
+        limpiarTabla();
+        LlenarTabla();
+
+
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
@@ -453,25 +463,32 @@ public class Vista_Producto extends javax.swing.JFrame {
         if (tablaAgregarproducto.getSelectedRow() == (-1)) {
             JOptionPane.showMessageDialog(null, "Debe de selecionar un valor de la tabla");
         } else {
-            producto = controlproducto.findProducto((Integer) tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 0));
-            try {
-                if (btn_Inhabilitar.getText().equals("Inhabilitar")) {
-                    producto.setEstado(false);
-                    controlproducto.edit(producto);
-                    JOptionPane.showMessageDialog(null, "Producto Deshabilitado correctamente");
-                    limpiarTabla();
-                    LlenarTabla();
+            int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro de ejecutar la acción?", "Alerta!", JOptionPane.YES_NO_OPTION);
+            if (resp == 0) {
+                producto = controlproducto.findProducto((Integer) tablaAgregarproducto.getValueAt(tablaAgregarproducto.getSelectedRow(), 0));
+                try {
+                    if (btn_Inhabilitar.getText().equals("Inhabilitar")) {
+                        producto.setEstado(false);
+                        controlproducto.edit(producto);
+                        JOptionPane.showMessageDialog(null, "Producto Deshabilitado correctamente");
+                        limpiarTabla();
+                        LlenarTabla();
 
-                } else {
-                    producto.setEstado(true);
-                    controlproducto.edit(producto);
-                    JOptionPane.showMessageDialog(null, "Producto Habilitado correctamente");
-                    limpiarTabla();
-                    LlenarTabla();
+                    } else {
+                        producto.setEstado(true);
+                        controlproducto.edit(producto);
+                        JOptionPane.showMessageDialog(null, "Producto Habilitado correctamente");
+                        limpiarTabla();
+                        LlenarTabla();
+                    }
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, " " + e.getMessage());
                 }
-
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, " " + e.getMessage());
+            } else {
+                JOptionPane.showMessageDialog(null, "Operacion cancelada");
+                limpiarTabla();
+                LlenarTabla();
             }
 
         }
