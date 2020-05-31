@@ -184,5 +184,9 @@ public class Movimiento implements Serializable {
     public String toString() {
         return "Entidades.Movimiento[ id=" + id + " ]";
     }
+
+    public void setUsuarioTrans(int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
