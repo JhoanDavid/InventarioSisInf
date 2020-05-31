@@ -17,48 +17,45 @@ import javax.swing.table.DefaultTableModel;
  * @author jramirez
  */
 public class CrearAdministrador extends javax.swing.JFrame {
+
     UsuarioJpaController controlUsuario = new UsuarioJpaController();
     Usuario user = new Usuario();
     DefaultTableModel modelo2;
     List<Usuario> listaUsuario;
     Usuario documento;
+
     /**
      * Creates new form CrearAdministrador
      */
     public CrearAdministrador() {
         initComponents();
-         setTitle("Inventario SisInf");
+        setTitle("Inventario SisInf");
         setResizable(false);
         setLocationRelativeTo(null);
     }
-    
+
     public CrearAdministrador(Usuario usuario) {
         initComponents();
         setTitle("Inventario SisInf");
         setResizable(false);
         setLocationRelativeTo(null);
-        user=usuario;
+        user = usuario;
         llenarDatos();
     }
 
-    
-    public void llenarDatos(){
-            lblTitulo.setText("Editar Administrador");
-            btn_agregar.setText("Actualizar");
-            txtcedula.setText(user.getId().toString());
-            txtcedula.setEditable(false);
-            txtnombre.setText(user.getNombre());
-            txttelefono.setText(user.getTelefono().toString());
-            txtdirecion.setText(user.getDireccion());
-            txtciudad.setText(user.getCiudad());
-            txtusuario.setText(user.getUser());
-            txtcontraseña.setText(user.getPassword());
-            txtcontraseña2.setText(user.getPassword());
+    public void llenarDatos() {
+        btn_agregar.setText("Actualizar");
+        txtcedula.setText(user.getId().toString());
+        txtcedula.setEditable(false);
+        txtnombre.setText(user.getNombre());
+        txttelefono.setText(user.getTelefono().toString());
+        txtdirecion.setText(user.getDireccion());
+        txtciudad.setText(user.getCiudad());
+        txtusuario.setText(user.getUser());
+        txtcontraseña.setText(user.getPassword());
+        txtcontraseña2.setText(user.getPassword());
     }
-    
-    
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -271,7 +268,7 @@ public class CrearAdministrador extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-     if (txtnombre.getText().equals("") || txttelefono.getText().equals("") || txtdirecion.getText().equals("") || txtciudad.getText().equals("") || txtusuario.getText().equals("") || txtcontraseña.getPassword().equals(" ") || txtcontraseña2.getPassword().equals("")) {
+        if (txtnombre.getText().equals("") || txttelefono.getText().equals("") || txtdirecion.getText().equals("") || txtciudad.getText().equals("") || txtusuario.getText().equals("") || txtcontraseña.getPassword().equals(" ") || txtcontraseña2.getPassword().equals("")) {
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!");
         } else {
 
@@ -339,6 +336,9 @@ public class CrearAdministrador extends javax.swing.JFrame {
                         txtcontraseña.setText("");
                         txtcontraseña2.setText("");
                         txtcedula.setEditable(true);
+                        Vista_Usuarios i = new Vista_Usuarios();
+                        i.setVisible(true);
+                        this.dispose();
 
                     } else {
                         JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden!");
@@ -354,20 +354,20 @@ public class CrearAdministrador extends javax.swing.JFrame {
             }
 
         }
-       
+
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-    if (btn_agregar.getText().equalsIgnoreCase("Crear")) {
-        InicioAdmonSupremo i=new InicioAdmonSupremo();
-        i.setVisible(true);
-        this.dispose();
-    }else{
-        Vista_Usuarios i=new Vista_Usuarios();
-        i.setVisible(true);
-        this.dispose();
-    
-    }// TODO add your handling code here:
+        if (btn_agregar.getText().equalsIgnoreCase("Crear")) {
+            InicioAdmonSupremo i = new InicioAdmonSupremo();
+            i.setVisible(true);
+            this.dispose();
+        } else {
+            Vista_Usuarios i = new Vista_Usuarios();
+            i.setVisible(true);
+            this.dispose();
+
+        }// TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
