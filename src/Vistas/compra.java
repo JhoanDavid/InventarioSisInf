@@ -615,7 +615,9 @@ public class compra extends javax.swing.JFrame {
     }//GEN-LAST:event_crearActionPerformed
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
-        // TODO add your handling code here:
+    InicioAdmonSupremo i=new InicioAdmonSupremo();
+        i.setVisible(true);
+        this.dispose();            // TODO add your handling code here:
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void tablaProductoInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductoInventarioMouseClicked

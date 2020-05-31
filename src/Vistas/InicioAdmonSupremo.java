@@ -589,11 +589,16 @@ public class InicioAdmonSupremo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        // TODO add your handling code here:
+    Agregar_producto ap= new Agregar_producto();   
+    ap.setVisible(true);
+    this.dispose();
+// TODO add your handling code here:
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
-        // TODO add your handling code here:
+    Vista_Producto vp=new Vista_Producto();   
+    vp.setVisible(true);
+    this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
