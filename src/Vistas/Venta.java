@@ -168,8 +168,6 @@ public class Venta extends javax.swing.JFrame {
       return true;
    }
   
-  
-  
   public void registrarVenta(){
       Date fechaActual = new Date();
       movimientoVenta.setFechaMovimiento(fechaActual);
@@ -185,7 +183,6 @@ public class Venta extends javax.swing.JFrame {
       
       ProductoMovimientoJpaController ControllerPM= new ProductoMovimientoJpaController();
       ProductoJpaController controlproducto = new ProductoJpaController();
-      Producto producto = new Producto();
       
       for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
           try {
@@ -196,6 +193,22 @@ public class Venta extends javax.swing.JFrame {
               productoMovimiento.setValorTrans(new Double(tablaCarritoVenta.getValueAt(i,3).toString()));
               productoMovimiento.setIdMov(ultimoMovimiento);
               ControllerPM.create(productoMovimiento);
+          } catch (Exception ex) {
+              Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
+          }
+      }
+      
+      
+      //Actualizar stock
+      
+      for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
+          try {
+              ProductoMovimiento productoMovimiento =new ProductoMovimiento();
+              Producto resultP=controlproducto.findProducto(new Integer(tablaCarritoVenta.getValueAt(i,0).toString()));
+              productoMovimiento.setIdProducto(resultP);
+              productoMovimiento.setCantTrans(new Double(tablaCarritoVenta.getValueAt(i,2).toString()));
+              productoMovimiento.setValorTrans(new Double(tablaCarritoVenta.getValueAt(i,3).toString()));
+              productoMovimiento.setIdMov(ultimoMovimiento);
               resultP.setCantidadStock(resultP.getCantidadStock()-productoMovimiento.getCantTrans());
               controlproducto.edit(resultP);
           } catch (Exception ex) {
