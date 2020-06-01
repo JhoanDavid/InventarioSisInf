@@ -55,8 +55,8 @@ public class listaventas extends javax.swing.JFrame {
         listaMovimiento = controlmovimiento.findMovimientoEntities();
       for (Movimiento obj : listaMovimiento) {
           if (obj.getTipoMov().contains("Venta")) {
-              modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
-                  obj.getUsuarioTrans()});
+              modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getUsuarioTrans(),
+                  obj.getDescuentoAplicado(), obj.getIdCliente()});
           }
       }
       calcularTotalCompras();
