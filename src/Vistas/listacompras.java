@@ -406,7 +406,7 @@ public class listacompras extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
-     InicioAdmonSupremo i=new InicioAdmonSupremo();
+        InicioAdmonSupremo i=new InicioAdmonSupremo();
         i.setVisible(true);
         this.dispose();            // TODO add your handling code here:
     }//GEN-LAST:event_cancelarActionPerformed

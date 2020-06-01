@@ -606,7 +606,9 @@ public class InicioAdmonSupremo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton21ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        // TODO add your handling code here:
+    listacompras lc=new listacompras();        // TODO add your handling code here:
+    lc.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_jButton22ActionPerformed
 
     private void jButton24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton24ActionPerformed
@@ -624,7 +626,9 @@ public class InicioAdmonSupremo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton25ActionPerformed
 
     private void jButton23ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton23ActionPerformed
-        // TODO add your handling code here:
+    listaventas lc=new listaventas();        // TODO add your handling code here:
+    lc.setVisible(true);
+    this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton23ActionPerformed
 
     /**
