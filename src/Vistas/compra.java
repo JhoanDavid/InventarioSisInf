@@ -70,18 +70,24 @@ public class compra extends javax.swing.JFrame {
          int idProducto=new Integer(tablaCarritoVenta.getValueAt(i,0).toString());
          if(id==idProducto){
              double stockCarrito=new Double(tablaCarritoVenta.getValueAt(i,2).toString());
-             double valorCarrito=new Double(tablaCarritoVenta.getValueAt(i,3).toString());
+             double valorCapturado=new Double(txtValor.getText().toString());
+             double cantidadCapturada=new Double(txtCantidad.getText().toString());
+             double valorCarrito=(cantidadCapturada*valorCapturado);
              tablaCarritoVenta.setValueAt(stockCarrito+cantidad, i, 2);
              double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
              tablaProductoInventario.setValueAt(stock+cantidad, tablaProductoInventario.getSelectedRow(), 2);
-             tablaCarritoVenta.setValueAt(valorCarrito+valor, i, 3);
-             txtTotal.setText(String.valueOf(valor+valorTotal));
+             tablaCarritoVenta.setValueAt(valorCarrito, i, 3);
+             valorTotal = valorCarrito;
+             txtTotal.setText(String.valueOf(valorCarrito+valorTotal));
              return false;
          }
       }
+      double valorCapturado=new Double(txtValor.getText().toString());
+             double cantidadCapturada=new Double(txtCantidad.getText().toString());
+             double valorCarrito=(cantidadCapturada*valorCapturado);
        String descripcion=tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),1).toString();   // TODO add your handling code here:
-       modeloCarrito.addRow(new Object[]{id, descripcion, cantidad,(valor)});
-       txtTotal.setText(String.valueOf(valor+valorTotal));
+       modeloCarrito.addRow(new Object[]{id, descripcion, cantidad,(valorCarrito)});
+       txtTotal.setText(String.valueOf(valorCarrito+valorTotal));
        double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
        tablaProductoInventario.setValueAt(stock+cantidad, tablaProductoInventario.getSelectedRow(), 2);
        return true;
@@ -195,12 +201,14 @@ public class compra extends javax.swing.JFrame {
           try {
               ProductoMovimiento productoMovimiento =new ProductoMovimiento();
               Producto resultP=controlproducto.findProducto(new Integer(tablaCarritoVenta.getValueAt(i,0).toString()));
-              Producto resulTP=controlproducto.findProducto(new Integer(txtValor.getText()));
               productoMovimiento.setIdProducto(resultP);
               productoMovimiento.setCantTrans(new Double(tablaCarritoVenta.getValueAt(i,2).toString()));
               productoMovimiento.setValorTrans(new Double(tablaCarritoVenta.getValueAt(i,3).toString()));
               productoMovimiento.setIdMov(ultimoMovimiento);
+              double valor = Double.parseDouble(tablaCarritoVenta.getValueAt(i,3).toString());
+              double cantidad = Double.parseDouble(tablaCarritoVenta.getValueAt(i,2).toString());
               resultP.setCantidadStock(resultP.getCantidadStock()+productoMovimiento.getCantTrans());
+              resultP.setValorCompra(valor/cantidad);
               controlproducto.edit(resultP);
           } catch (Exception ex) {
               Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
@@ -635,7 +643,7 @@ public class compra extends javax.swing.JFrame {
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
 
-        calcularValor();        // TODO add your handling code here:
+        //calcularValor();        // TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
