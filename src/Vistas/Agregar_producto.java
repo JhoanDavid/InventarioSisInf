@@ -197,6 +197,17 @@ public class Agregar_producto extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Agregar Producto");
+        jLabel1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jLabel1KeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jLabel1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jLabel1KeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -244,10 +255,10 @@ public class Agregar_producto extends javax.swing.JFrame {
         txtcantidad.setText("");
         cbx_unidad.setSelectedItem(null);
         btn_agregar.setText("Agregar");
-        
-        InicioAdmonSupremo i=new InicioAdmonSupremo();
+
+        InicioAdmonSupremo i = new InicioAdmonSupremo();
         i.setVisible(true);
-        this.dispose();    
+        this.dispose();
 
     }//GEN-LAST:event_btnCancelarActionPerformed
 
@@ -296,9 +307,11 @@ public class Agregar_producto extends javax.swing.JFrame {
                     }
                     controlproducto.edit(producto);
                     JOptionPane.showMessageDialog(null, "Producto editado exitosamente!");
-
+                    this.dispose();
                     btnCancelar.setVisible(false);
-                    
+                    Vista_Producto vp = new Vista_Producto();
+                    vp.setVisible(true);
+
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, " " + e.getMessage());
                 }
@@ -320,6 +333,18 @@ public class Agregar_producto extends javax.swing.JFrame {
     private void txtvalor_ventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtvalor_ventaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtvalor_ventaActionPerformed
+
+    private void jLabel1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel1KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel1KeyReleased
+
+    private void jLabel1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel1KeyPressed
+
+    private void jLabel1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jLabel1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel1KeyTyped
 
     /**
      * @param args the command line arguments

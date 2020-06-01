@@ -76,6 +76,11 @@ public class reporte_producto extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tablaAgregarproducto);
+        if (tablaAgregarproducto.getColumnModel().getColumnCount() > 0) {
+            tablaAgregarproducto.getColumnModel().getColumn(0).setMinWidth(60);
+            tablaAgregarproducto.getColumnModel().getColumn(0).setPreferredWidth(60);
+            tablaAgregarproducto.getColumnModel().getColumn(0).setMaxWidth(60);
+        }
         tablaAgregarproducto.getTableHeader().setReorderingAllowed(false) ;
 
         jLabel1.setText("Costo total:");
