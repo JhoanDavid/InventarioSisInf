@@ -5,6 +5,10 @@
  */
 package Vistas;
 
+import Controladores.ClienteJpaController;
+import Entidades.Cliente;
+import java.math.BigInteger;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,8 +20,16 @@ public class CrearCliente extends javax.swing.JFrame {
     /**
      * Creates new form CrearCliente
      */
+    Cliente user = new Cliente();
+    List<Cliente> lista;
+    ClienteJpaController controlCliente = new ClienteJpaController();
+
     public CrearCliente() {
         initComponents();
+        setTitle("Inventario SisInf");
+        setResizable(false);
+        setLocationRelativeTo(null);
+        lista = controlCliente.findClienteEntities();
     }
 
     /**
@@ -42,6 +54,8 @@ public class CrearCliente extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         txtdirecion = new javax.swing.JTextField();
+        txtbarrio = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
         btn_agregar = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
@@ -103,12 +117,17 @@ public class CrearCliente extends javax.swing.JFrame {
         txtnombre.setMaximumSize(new java.awt.Dimension(6, 20));
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel7.setText("Nombre:");
+        jLabel7.setText("Barrio:");
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel13.setText("Dirección:");
 
         txtdirecion.setMaximumSize(new java.awt.Dimension(6, 20));
+
+        txtbarrio.setMaximumSize(new java.awt.Dimension(6, 20));
+
+        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel8.setText("Nombre:");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -120,21 +139,34 @@ public class CrearCliente extends javax.swing.JFrame {
                     .addComponent(txtnombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtdirecion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE))
+                    .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                    .addComponent(txtbarrio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(41, 41, 41)
                 .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtdirecion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtbarrio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createSequentialGroup()
+                    .addGap(21, 21, 21)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(249, Short.MAX_VALUE)))
         );
 
         btnCancelar.setText("Cancelar");
@@ -218,11 +250,11 @@ public class CrearCliente extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         if (btn_agregar.getText().equalsIgnoreCase("Crear")) {
-            InicioAdmonSupremo i=new InicioAdmonSupremo();
+            InicioAdmonSupremo i = new InicioAdmonSupremo();
             i.setVisible(true);
             this.dispose();
-        }else{
-            Vista_Usuarios i=new Vista_Usuarios();
+        } else {
+            Vista_Usuarios i = new Vista_Usuarios();
             i.setVisible(true);
             this.dispose();
 
@@ -230,7 +262,33 @@ public class CrearCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        
+        if (txtnombre.getText().equals("") || txttelefono.getText().equals("") || txtdirecion.getText().equals("") || txtciudad.getText().equals("") || txtcedula.getText().equals("") || txtbarrio.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!");
+        } else {
+            try {
+                user.setId(Long.parseLong(txtcedula.getText()));
+                user.setNombre(txtnombre.getText());
+                BigInteger bigIntegerStr = new BigInteger(txttelefono.getText());
+                user.setTelefono(bigIntegerStr);
+                user.setDireccion((txtdirecion.getText()));
+                user.setCiudad((txtciudad.getText()));
+                user.setBarrio(txtbarrio.getText());
+                controlCliente.create(user);
+                JOptionPane.showMessageDialog(null, "Cliente registrado Sactifactoriamente!");
+                txtcedula.setText(" ");
+                txtnombre.setText(" ");
+                txttelefono.setText(" ");
+                txtdirecion.setText("");
+                txtciudad.setText("");
+                txtbarrio.setText(" ");
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error: " + e);
+            }
+
+        }
+
+
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     /**
@@ -276,10 +334,12 @@ public class CrearCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JTextField txtbarrio;
     private javax.swing.JTextField txtcedula;
     private javax.swing.JTextField txtciudad;
     private javax.swing.JTextField txtdirecion;
