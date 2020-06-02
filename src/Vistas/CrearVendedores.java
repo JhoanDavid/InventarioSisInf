@@ -7,6 +7,7 @@ package Vistas;
 
 import Controladores.UsuarioJpaController;
 import Entidades.Usuario;
+import java.awt.event.KeyEvent;
 import java.math.BigInteger;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -56,7 +57,16 @@ public class CrearVendedores extends javax.swing.JFrame {
             txtcontraseña2.setText(user.getPassword());
     }
     
-      
+      public boolean validarNumero(KeyEvent evt){
+        char validar = evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(rootPane, "Por favor Ingresar solo números");
+            return false;
+         }
+        return true;
+  }
       
       
     /**
@@ -104,11 +114,21 @@ public class CrearVendedores extends javax.swing.JFrame {
         jLabel9.setText("Contraseña:\t");
 
         txttelefono.setMaximumSize(new java.awt.Dimension(6, 20));
+        txttelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txttelefonoKeyTyped(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel11.setText("Cedula:");
 
         txtcedula.setMaximumSize(new java.awt.Dimension(6, 20));
+        txtcedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtcedulaKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -271,6 +291,29 @@ public class CrearVendedores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
+        String a = "";
+        String b = "";
+        if (txtnombre.getText().equals("") || txttelefono.getText().equals("") || txtdirecion.getText().equals("") || txtciudad.getText().equals("") || txtusuario.getText().equals("") || txtcontraseña.getPassword().equals(" ") || txtcontraseña2.getPassword().equals("")) {
+            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!");
+        } else {
+            listaUsuario=controlUsuario.findUsuarioEntities();
+        for(Usuario obj:listaUsuario){  
+        if(obj.getId().toString().matches(txtcedula.getText())){ 
+        for (int j = 0; j < 1; j++) {    
+        a =  obj.getNombre();
+        }}}}
+            if (a!="") {
+                JOptionPane.showMessageDialog(null, "el documento ya fue registrado");
+            }else{ 
+                listaUsuario=controlUsuario.findUsuarioEntities();
+        for(Usuario obj:listaUsuario){  
+        if(obj.getUser().toString().matches(txtusuario.getText())){ 
+        for (int j = 0; j < 1; j++) {    
+        b =  obj.getNombre();
+        }}}
+        if (b !="") {
+            JOptionPane.showMessageDialog(null, "el usuario ya fue registrado");
+            }else {
         if (txtnombre.getText().equals("") || txttelefono.getText().equals("") || txtdirecion.getText().equals("") || txtciudad.getText().equals("") || txtusuario.getText().equals("") || txtcontraseña.getPassword().equals(" ") || txtcontraseña2.getPassword().equals("")) {
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!");
         } else {
@@ -355,7 +398,7 @@ public class CrearVendedores extends javax.swing.JFrame {
             }
 
         }
-
+        }}
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -370,6 +413,14 @@ public class CrearVendedores extends javax.swing.JFrame {
 
         }// TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void txtcedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcedulaKeyTyped
+        validarNumero(evt); // TODO add your handling code here:
+    }//GEN-LAST:event_txtcedulaKeyTyped
+
+    private void txttelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelefonoKeyTyped
+        validarNumero(evt);// TODO add your handling code here:
+    }//GEN-LAST:event_txttelefonoKeyTyped
 
     /**
      * @param args the command line arguments

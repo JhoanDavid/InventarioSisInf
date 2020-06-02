@@ -7,6 +7,7 @@ package Vistas;
 
 import Controladores.ProductoJpaController;
 import Entidades.Producto;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -52,6 +53,19 @@ public class Agregar_producto extends javax.swing.JFrame {
         txtcantidad.setText(producto.getCantidadStock().toString());
 
     }
+    
+     public boolean validarNumero(KeyEvent evt){
+        char validar = evt.getKeyChar();
+        if(Character.isLetter(validar)){
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(rootPane, "Por favor Ingresar solo números");
+            return false;
+         }
+        
+        return true;
+  }
+     
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -123,6 +137,11 @@ public class Agregar_producto extends javax.swing.JFrame {
         jLabel5.setText("Valor_compra:");
 
         txtvalor_compra.setMaximumSize(new java.awt.Dimension(6, 20));
+        txtvalor_compra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtvalor_compraKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -165,11 +184,24 @@ public class Agregar_producto extends javax.swing.JFrame {
         jLabel8.setText("Cantidad_stock:\t");
 
         txtcantidad.setMaximumSize(new java.awt.Dimension(6, 20));
+        txtcantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtcantidadKeyTyped(evt);
+            }
+        });
 
         txtvalor_venta.setMaximumSize(new java.awt.Dimension(6, 20));
         txtvalor_venta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtvalor_ventaActionPerformed(evt);
+            }
+        });
+        txtvalor_venta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtvalor_ventaKeyTyped(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtvalor_ventaKeyReleased(evt);
             }
         });
 
@@ -278,7 +310,7 @@ public class Agregar_producto extends javax.swing.JFrame {
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
         
-        if (txtdesc.getText().equals("") || txtvalor_compra.getText().equals("") || txtvalor_venta.getText().equals("") || txtcantidad.getText().equals("")) {
+        if (txtdesc.getText().equals("") || txtvalor_compra.getText().equals("") || txtvalor_venta.getText().equals("") || txtcantidad.getText().equals("") || cbx_unidad.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!");
         } else {
             if (btn_agregar.getText().equalsIgnoreCase("Agregar")) {
@@ -347,6 +379,22 @@ public class Agregar_producto extends javax.swing.JFrame {
     private void txtvalor_ventaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtvalor_ventaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtvalor_ventaActionPerformed
+
+    private void txtvalor_ventaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtvalor_ventaKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtvalor_ventaKeyReleased
+
+    private void txtvalor_ventaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtvalor_ventaKeyTyped
+          validarNumero(evt);     // TODO add your handling code here:
+    }//GEN-LAST:event_txtvalor_ventaKeyTyped
+
+    private void txtcantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcantidadKeyTyped
+        validarNumero(evt);        // TODO add your handling code here:
+    }//GEN-LAST:event_txtcantidadKeyTyped
+
+    private void txtvalor_compraKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtvalor_compraKeyTyped
+        validarNumero(evt);        // TODO add your handling code here:
+    }//GEN-LAST:event_txtvalor_compraKeyTyped
 
     /**
      * @param args the command line arguments

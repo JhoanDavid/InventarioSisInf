@@ -59,7 +59,7 @@ public class GestionVendedores extends javax.swing.JFrame {
             limpiarTabla();
             DefaultTableModel modelo = (DefaultTableModel) tablaAgregarUsuario.getModel();
             for (Usuario obj : listaUsuario) {
-                if (obj.getNombre().contains(buscar.getText())) {
+                if (obj.getNombre().contains(buscar.getText()) && obj.getRol().matches("Vendedor") ) {
                     modelo.addRow(new Object[]{obj.getId(), obj.getNombre(), obj.getTelefono(), obj.getDireccion(), obj.getCiudad(), obj.getUser(), obj.getRol(), obj.getPassword(), obj.getEstado()});
                 }
             }
@@ -186,7 +186,7 @@ public class GestionVendedores extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(394, Short.MAX_VALUE))
+                .addContainerGap(399, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(64, 64, 64)

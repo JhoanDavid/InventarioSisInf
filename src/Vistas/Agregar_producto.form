@@ -204,6 +204,9 @@
               <Dimension value="[6, 20]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtvalor_compraKeyTyped"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -265,6 +268,9 @@
               <Dimension value="[6, 20]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtcantidadKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtvalor_venta">
           <Properties>
@@ -274,6 +280,8 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtvalor_ventaActionPerformed"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtvalor_ventaKeyTyped"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtvalor_ventaKeyReleased"/>
           </Events>
         </Component>
       </SubComponents>
