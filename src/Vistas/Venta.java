@@ -226,6 +226,17 @@ public class Venta extends javax.swing.JFrame {
         modeloCarrito.removeRow(i );
         }
   }
+   
+   
+    public void validarVacios(){
+        if (tablaCarritoVenta.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null,"Por favor llene todos los campos");
+       } else  {
+            registrarVenta(); 
+            JOptionPane.showMessageDialog(null, "Venta realizada exitosamente!");
+        }
+    }
+  
   
   
   
@@ -657,11 +668,11 @@ public class Venta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearActionPerformed
-        registrarVenta(); 
+
+        validarVacios();
         limpiarTabla();
         LlenarTabla();
         limpiarTablaCarrito();
-        
                  // TODO add your handling code here:
     }//GEN-LAST:event_crearActionPerformed
 
