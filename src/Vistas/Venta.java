@@ -51,6 +51,7 @@ public class Venta extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         LlenarTabla();
+        TextPrompt texto = new TextPrompt("Buscar Producto", txtBusqueda);
     }
 
 
@@ -219,6 +220,25 @@ public class Venta extends javax.swing.JFrame {
   }
   
   
+   public void limpiarTablaCarrito(){
+        int a =modeloCarrito.getRowCount()-1;
+        for(int i=a; i>=0; i--){
+        modeloCarrito.removeRow(i );
+        }
+  }
+   
+   
+    public void validarVacios(){
+        if (tablaCarritoVenta.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null,"Por favor llene todos los campos");
+       } else  {
+            registrarVenta(); 
+            JOptionPane.showMessageDialog(null, "Venta realizada exitosamente!");
+        }
+    }
+  
+  
+  
   
   public String getFechaActual() {
     Date fechaActual = new Date();
@@ -238,7 +258,6 @@ public class Venta extends javax.swing.JFrame {
         cancelar = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaProductoInventario = new javax.swing.JTable();
-        jLabel2 = new javax.swing.JLabel();
         txtBusqueda = new javax.swing.JTextField();
         txtFecha = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -315,8 +334,6 @@ public class Venta extends javax.swing.JFrame {
             tablaProductoInventario.getColumnModel().getColumn(3).setMaxWidth(100);
         }
 
-        jLabel2.setText("Nombre del producto");
-
         txtBusqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtBusquedaActionPerformed(evt);
@@ -360,19 +377,18 @@ public class Venta extends javax.swing.JFrame {
                                 .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
                                 .addComponent(txtFecha)))
-                        .addGap(0, 80, Short.MAX_VALUE))
+                        .addGap(0, 174, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,9 +396,7 @@ public class Venta extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(txtFecha)
                 .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(txtBusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -653,25 +667,14 @@ public class Venta extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescripcionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDescripcionActionPerformed
-
     private void crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearActionPerformed
-        registrarVenta();     
+
+        validarVacios();
+        limpiarTabla();
+        LlenarTabla();
+        limpiarTablaCarrito();
                  // TODO add your handling code here:
     }//GEN-LAST:event_crearActionPerformed
-
-    private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
-     InicioAdmonSupremo i=new InicioAdmonSupremo();
-        i.setVisible(true);
-        this.dispose();            // TODO add your handling code here:
-    }//GEN-LAST:event_cancelarActionPerformed
-
-    private void tablaProductoInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductoInventarioMouseClicked
-        txtCantidad.setText("1");
-        calcularValor();        
-    }//GEN-LAST:event_tablaProductoInventarioMouseClicked
 
     private void txtCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadActionPerformed
         // TODO add your handling code here:
@@ -745,6 +748,10 @@ public class Venta extends javax.swing.JFrame {
     txtCantidad.setText("");        // TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadMouseClicked
 
+    private void txtDescripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDescripcionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDescripcionActionPerformed
+
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
         filtrarTabla();// TODO add your handling code here:
     }//GEN-LAST:event_txtBusquedaKeyReleased
@@ -760,6 +767,17 @@ public class Venta extends javax.swing.JFrame {
     private void txtBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBusquedaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBusquedaActionPerformed
+
+    private void tablaProductoInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductoInventarioMouseClicked
+        txtCantidad.setText("1");
+        calcularValor();
+    }//GEN-LAST:event_tablaProductoInventarioMouseClicked
+
+    private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
+        InicioAdmonSupremo i=new InicioAdmonSupremo();
+        i.setVisible(true);
+        this.dispose();            // TODO add your handling code here:
+    }//GEN-LAST:event_cancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -807,7 +825,6 @@ public class Venta extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
