@@ -3,10 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 package Vistas;
-
 
 import Controladores.ProductoJpaController;
 import Controladores.MovimientoJpaController;
@@ -21,11 +18,13 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author esteban
  */
 public class listacompras extends javax.swing.JFrame {
+
     MovimientoJpaController controlmovimiento = new MovimientoJpaController();
     ProductoMovimientoJpaController controlproductomovimiento = new ProductoMovimientoJpaController();
     ProductoJpaController controlproducto = new ProductoJpaController();
@@ -38,11 +37,10 @@ public class listacompras extends javax.swing.JFrame {
     List<Producto> listaProducto;
     DefaultTableModel modelo;
 
-    
     public listacompras() {
         initComponents();
-        modelo=(DefaultTableModel)tablaProductoInventario.getModel();
-        modeloCarrito=(DefaultTableModel)tablaCarritoVenta.getModel();
+        modelo = (DefaultTableModel) tablaProductoInventario.getModel();
+        modeloCarrito = (DefaultTableModel) tablaCarritoVenta.getModel();
         txtFecha.setText(getFechaActual());
         setTitle("Inventario SisInf");
         setResizable(false);
@@ -50,116 +48,113 @@ public class listacompras extends javax.swing.JFrame {
         LlenarTabla();
     }
 
-
-  public void LlenarTabla(){
+    public void LlenarTabla() {
         listaMovimiento = controlmovimiento.findMovimientoEntities();
-      for (Movimiento obj : listaMovimiento) {
-          if (obj.getTipoMov().contains("Compra")) {
-              modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
-                  obj.getUsuarioTrans()});
-          }
-      }
-      calcularTotalCompras();
+        for (Movimiento obj : listaMovimiento) {
+            if (obj.getTipoMov().contains("Compra")) {
+                modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
+                    obj.getUsuarioTrans()});
+            }
+        }
+        calcularTotalCompras();
     }
 
-  public void agregarProductoCarrito(){
-      double valorTotal= 0;
-        int id_movi= new Integer(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),0).toString());
-       listaProductoMovimiento=controlproductomovimiento.findProductoMovimientoEntities();
-        for(ProductoMovimiento obj:listaProductoMovimiento){  
-        if(obj.getIdMov().getId() == id_movi){
-        modeloCarrito.addRow(new Object[]{obj.getIdProducto().getId(), obj.getIdProducto().getDescripcion(), obj.getCantTrans(),
-        obj.getValorTrans()});
-        }}
+    public void agregarProductoCarrito() {
+        double valorTotal = 0;
+        int id_movi = new Integer(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 0).toString());
+        listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
+        for (ProductoMovimiento obj : listaProductoMovimiento) {
+            if (obj.getIdMov().getId() == id_movi) {
+                modeloCarrito.addRow(new Object[]{obj.getIdProducto().getId(), obj.getIdProducto().getDescripcion(), obj.getCantTrans(),
+                    obj.getValorTrans()});
+            }
+        }
         for (int i = 0; i < tablaCarritoVenta.getColumnCount(); i++) {
-       double valor=(double)tablaCarritoVenta.getValueAt(i, 3)+valorTotal; 
-       valorTotal= (valor);
-       txtTotal.setText(String.valueOf(valorTotal));
-  }}
-  
-    public void quitarProductoCarrito(){
-       double valor=(double)tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),3);
-       double valorTotal=new Double(txtTotal.getText());
-       txtTotal.setText(String.valueOf(valorTotal-valor));
-       modeloCarrito.removeRow(tablaCarritoVenta.getSelectedRow());
-  }
-  
-  
-  public void filtrarTabla(){
-      limpiarTabla();
-      if (calendario.equals("")) {
+            double valor = (double) tablaCarritoVenta.getValueAt(i, 3) + valorTotal;
+            valorTotal = (valor);
+            txtTotal.setText(String.valueOf(valorTotal));
+        }
+    }
+
+    public void quitarProductoCarrito() {
+        double valor = (double) tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(), 3);
+        double valorTotal = new Double(txtTotal.getText());
+        txtTotal.setText(String.valueOf(valorTotal - valor));
+        modeloCarrito.removeRow(tablaCarritoVenta.getSelectedRow());
+    }
+
+    public void filtrarTabla() {
+        limpiarTabla();
+        if (calendario.equals("")) {
             limpiarTabla();
             LlenarTabla();
 
         } else {
             limpiarTabla();
+            int a = 0;
             DefaultTableModel modelo = (DefaultTableModel) tablaProductoInventario.getModel();
-            for(Movimiento obj:listaMovimiento){
-          if (obj.getTipoMov().contains("Compra") && obj.getFechaMovimiento().toString().contains(calendario.getDate().toString())) {
-        modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
-        obj.getUsuarioTrans()});
-          }
-          else{
-              limpiarTabla();
-          }
+            listaMovimiento = controlmovimiento.findMovimientoEntities();
+            for (Movimiento obj : listaMovimiento) {
+                for (int i = 0; i < 1; i++) {
+                    Date B = calendario.getDate();
+                    Date A = obj.getFechaMovimiento();
+                    a = A.compareTo(B);
+                    if (obj.getTipoMov().contains("Compra") && a >= 0) {
+                        modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
+                            obj.getUsuarioTrans()});
+                    }
+                }
+            }
         }
-       
+    }
+
+    public void limpiarTabla() {
+        int a = modelo.getRowCount() - 1;
+        for (int i = a; i >= 0; i--) {
+            modelo.removeRow(i);
         }
-  }
-  
-  public void limpiarTabla(){
-        int a =modelo.getRowCount()-1;
-        for(int i=a; i>=0; i--){
-        modelo.removeRow(i );
+    }
+
+    public void limpiarTablaProductos() {
+        int a = modeloCarrito.getRowCount() - 1;
+        for (int i = a; i >= 0; i--) {
+            modeloCarrito.removeRow(i);
         }
-  }
-  
-  public void limpiarTablaProductos(){
-        int a =modeloCarrito.getRowCount()-1;
-        for(int i=a; i>=0; i--){
-        modeloCarrito.removeRow(i );
-        }
-  }
-  
+    }
 
     public String getFechaActual() {
-    Date fechaActual = new Date();
-    SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
-    return formateador.format(fechaActual);
-}
-    public void calcularTotalCompras(){
+        Date fechaActual = new Date();
+        SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+        return formateador.format(fechaActual);
+    }
+
+    public void calcularTotalCompras() {
         double ValorTotalCompras = 0;
         double valorTotal = 0;
         double total = 0;
-        listaMovimiento=controlmovimiento.findMovimientoEntities();
+        listaMovimiento = controlmovimiento.findMovimientoEntities();
         for (int i = 0; i < controlmovimiento.getMovimientoCount(); i++) {
-        for (Movimiento obj1:listaMovimiento) {                  
-        listaProductoMovimiento=controlproductomovimiento.findProductoMovimientoEntities();
-        for(ProductoMovimiento obj:listaProductoMovimiento){  
-        if(obj.getIdMov().getId() == obj1.getId() && obj1.getTipoMov().contains("Compra")){ 
-        for (int j = 0; j < 1; j++) {    
-        valorTotal= obj.getValorTrans()+ValorTotalCompras;
-        ValorTotalCompras=valorTotal;
-        total = ValorTotalCompras/controlmovimiento.getMovimientoCount();
-        txtTotalCompras.setText(String.valueOf(total));
-        }}
+            for (Movimiento obj1 : listaMovimiento) {
+                listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
+                for (ProductoMovimiento obj : listaProductoMovimiento) {
+                    if (obj.getIdMov().getId() == obj1.getId() && obj1.getTipoMov().contains("Compra")) {
+                        for (int j = 0; j < 1; j++) {
+                            valorTotal = obj.getValorTrans() + ValorTotalCompras;
+                            ValorTotalCompras = valorTotal;
+                            total = ValorTotalCompras / controlmovimiento.getMovimientoCount();
+                            txtTotalCompras.setText(String.valueOf(total));
+                        }
+                    }
+                }
+
+            }
+
         }
-        
-        
-        }
-       
-  }}
-    
-    
-   public void prueba(){
-                  for(Movimiento obj:listaMovimiento){
-          
-     JOptionPane.showMessageDialog(null, obj.getFechaMovimiento().toString()); 
-    }}
-    
-  
- 
-  
+    }
+
+    public void prueba() {
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -177,6 +172,7 @@ public class listacompras extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         txtTotalCompras = new javax.swing.JTextField();
         calendario = new com.toedter.calendar.JDateChooser();
+        jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaCarritoVenta = new javax.swing.JTable();
@@ -186,7 +182,6 @@ public class listacompras extends javax.swing.JFrame {
         cancelar = new javax.swing.JButton();
         txtFecha = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 400));
@@ -243,14 +238,10 @@ public class listacompras extends javax.swing.JFrame {
             }
         });
 
-        calendario.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                calendarioMouseClicked(evt);
-            }
-        });
-        calendario.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                calendarioKeyReleased(evt);
+        jButton2.setText("prueba");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
             }
         });
 
@@ -263,8 +254,10 @@ public class listacompras extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -286,10 +279,11 @@ public class listacompras extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(13, 13, 13)
                 .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(7, 7, 7)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
-                    .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(calendario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -380,13 +374,6 @@ public class listacompras extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Reporte de Compras");
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -397,9 +384,7 @@ public class listacompras extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(119, 119, 119)
-                .addComponent(jButton1)
-                .addGap(185, 185, 185)
+                .addGap(386, 386, 386)
                 .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -419,55 +404,43 @@ public class listacompras extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGap(15, 15, 15))
+                .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
-        InicioAdmonSupremo i=new InicioAdmonSupremo();
+        InicioAdmonSupremo i = new InicioAdmonSupremo();
         i.setVisible(true);
         this.dispose();            // TODO add your handling code here:
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void tablaProductoInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductoInventarioMouseClicked
         //txtCantidad.setText("1");
-        
+
         limpiarTablaProductos();
         txtTotal.setText(String.valueOf(0));
         agregarProductoCarrito();
-        
-        
+
+
     }//GEN-LAST:event_tablaProductoInventarioMouseClicked
 
     private void txtTotalComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalComprasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTotalComprasActionPerformed
 
-    private void calendarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_calendarioKeyReleased
-      filtrarTabla();  // TODO add your handling code here:
-    }//GEN-LAST:event_calendarioKeyReleased
-
-    private void calendarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_calendarioMouseClicked
-      filtrarTabla();  // TODO add your handling code here:
-    }//GEN-LAST:event_calendarioMouseClicked
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     prueba();        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+          filtrarTabla();     // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
-        
-        
-         try {
+
+        try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -483,9 +456,7 @@ public class listacompras extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(listacompras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
-        
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new listacompras().setVisible(true);
@@ -496,7 +467,7 @@ public class listacompras extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser calendario;
     private javax.swing.JButton cancelar;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
