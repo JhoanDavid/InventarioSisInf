@@ -228,6 +228,7 @@ public class listacompras extends javax.swing.JFrame {
             tablaProductoInventario.getColumnModel().getColumn(2).setMaxWidth(100);
             tablaProductoInventario.getColumnModel().getColumn(3).setMaxWidth(60);
         }
+        tablaProductoInventario.getTableHeader().setReorderingAllowed(false);
 
         jLabel2.setText("codigo de compra");
 
@@ -325,6 +326,7 @@ public class listacompras extends javax.swing.JFrame {
             tablaCarritoVenta.getColumnModel().getColumn(0).setPreferredWidth(60);
             tablaCarritoVenta.getColumnModel().getColumn(0).setMaxWidth(60);
         }
+        tablaCarritoVenta.getTableHeader().setReorderingAllowed(false);
 
         jLabel11.setText("Total de compra:");
 

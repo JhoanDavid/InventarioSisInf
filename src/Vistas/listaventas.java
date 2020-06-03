@@ -218,6 +218,7 @@ public class listaventas extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(tablaProductoInventario);
+        tablaProductoInventario.getTableHeader().setReorderingAllowed(false);
 
         jLabel2.setText("codigo de venta");
 
@@ -296,6 +297,7 @@ public class listaventas extends javax.swing.JFrame {
             }
         ));
         jScrollPane3.setViewportView(tablaCarritoVenta);
+        tablaCarritoVenta.getTableHeader().setReorderingAllowed(false);
 
         jLabel11.setText("Total de venta");
 

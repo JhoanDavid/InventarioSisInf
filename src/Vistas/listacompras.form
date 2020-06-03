@@ -152,7 +152,7 @@
                     <Column editable="false" title="usuario_trans" type="java.lang.Integer"/>
                   </Table>
                 </Property>
-                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="tablaProductoInventario.getTableHeader().setReorderingAllowed(false);">
                   <TableColumnModel selectionModel="0">
                     <Column maxWidth="60" minWidth="-1" prefWidth="-1" resizable="true">
                       <Title/>
@@ -288,7 +288,7 @@
                     <Column editable="false" title="valor" type="java.lang.Object"/>
                   </Table>
                 </Property>
-                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor" postCode="tablaCarritoVenta.getTableHeader().setReorderingAllowed(false);">
                   <TableColumnModel selectionModel="0">
                     <Column maxWidth="60" minWidth="60" prefWidth="60" resizable="true">
                       <Title/>

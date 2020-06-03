@@ -343,6 +343,7 @@ public class Venta extends javax.swing.JFrame {
             tablaProductoInventario.getColumnModel().getColumn(3).setMinWidth(100);
             tablaProductoInventario.getColumnModel().getColumn(3).setMaxWidth(100);
         }
+        tablaProductoInventario.getTableHeader().setReorderingAllowed(false);
 
         txtBusqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -549,6 +550,7 @@ public class Venta extends javax.swing.JFrame {
             tablaCarritoVenta.getColumnModel().getColumn(3).setMinWidth(100);
             tablaCarritoVenta.getColumnModel().getColumn(3).setMaxWidth(100);
         }
+        tablaCarritoVenta.getTableHeader().setReorderingAllowed(false);
 
         jLabel7.setText("Id Cliente");
 
