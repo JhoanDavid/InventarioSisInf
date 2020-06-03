@@ -117,6 +117,7 @@ public class GestionVendedores extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tablaAgregarUsuario);
+        tablaAgregarUsuario.getTableHeader().setReorderingAllowed(false);
 
         buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
