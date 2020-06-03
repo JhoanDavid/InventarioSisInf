@@ -157,7 +157,7 @@ public class Vista_Usuarios extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(394, Short.MAX_VALUE))
+                .addContainerGap(399, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(64, 64, 64)
@@ -276,12 +276,16 @@ public class Vista_Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_buscarKeyReleased
 
     private void tablaAgregarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAgregarUsuarioMouseClicked
-        user = controlUsuario.findUsuario((Long) tablaAgregarUsuario.getValueAt(tablaAgregarUsuario.getSelectedRow(), 0));
+        try {
+            user = controlUsuario.findUsuario((Long) tablaAgregarUsuario.getValueAt(tablaAgregarUsuario.getSelectedRow(), 0));
         if (user.getEstado().equals(true)) {
             btn_Inhabilitar.setText("Inhabilitar");
         } else {
             btn_Inhabilitar.setText("Habilitar");
         }
+        } catch (Exception e) {
+        }
+        
 
     }//GEN-LAST:event_tablaAgregarUsuarioMouseClicked
 
@@ -308,7 +312,7 @@ public class Vista_Usuarios extends javax.swing.JFrame {
             limpiarTabla();
             DefaultTableModel modelo = (DefaultTableModel) tablaAgregarUsuario.getModel();
             for (Usuario obj : listaUsuario) {
-                if (obj.getNombre().contains(buscar.getText())) {
+                if (obj.getNombre().contains(buscar.getText()) && obj.getRol().equalsIgnoreCase("Administrador")) {
                     modelo.addRow(new Object[]{obj.getId(), obj.getNombre(), obj.getTelefono(), obj.getDireccion(), obj.getCiudad(), obj.getUser(), obj.getRol(), obj.getPassword(), obj.getEstado()});
                 }
             }

@@ -414,12 +414,12 @@ public class listaventas extends javax.swing.JFrame {
 
     private void tablaProductoInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductoInventarioMouseClicked
         //txtCantidad.setText("1");
-        
-        limpiarTablaProductos();
+        try {
+            limpiarTablaProductos();
         txtTotal.setText(String.valueOf(0));
         agregarProductoCarrito();
-        
-        
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_tablaProductoInventarioMouseClicked
 
     private void txtTotalComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalComprasActionPerformed

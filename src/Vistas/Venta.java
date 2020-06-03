@@ -157,7 +157,9 @@ public class Venta extends javax.swing.JFrame {
   
   
    public boolean validarCantidad(KeyEvent evt){
-      char validar = evt.getKeyChar();
+       try {
+           
+       char validar = evt.getKeyChar();
       double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 2).toString());
       double cantidad=new Double(txtCantidad.getText()+validar);
       if(cantidad>stock){
@@ -167,6 +169,9 @@ public class Venta extends javax.swing.JFrame {
             return false;
      }
       return true;
+       } catch (Exception e) {
+       }
+        return false;
    }
   
   public void registrarVenta(){
@@ -445,14 +450,14 @@ public class Venta extends javax.swing.JFrame {
             }
         });
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
+            }
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCantidadKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCantidadKeyReleased(evt);
-            }
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtCantidadKeyTyped(evt);
             }
         });
 
@@ -687,8 +692,11 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_txtValorActionPerformed
 
     private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
-
-        calcularValor();        // TODO add your handling code here:
+        try {
+        calcularValor();    
+        } catch (Exception e) {
+        }
+                // TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
