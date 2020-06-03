@@ -87,7 +87,8 @@ public class listaventas extends javax.swing.JFrame {
   
   
  public void filtrarTabla() {
-        limpiarTabla();
+        try {
+         limpiarTabla();
         if (calendario.equals("")) {
             limpiarTabla();
             LlenarTabla();
@@ -109,6 +110,8 @@ public class listaventas extends javax.swing.JFrame {
                 }
             }
         }
+     } catch (Exception e) {
+     }
     }
   
   public void limpiarTabla(){

@@ -63,7 +63,8 @@ public class compra extends javax.swing.JFrame {
     }
 
   public boolean agregarProductoCarrito(){
-      int id=(int) tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),0);
+      try {
+          int id=(int) tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),0);
       double cantidad=new Double(txtCantidad.getText());
       double valor=new Double(txtValor.getText());
       double valorTotal=new Double(txtTotal.getText());
@@ -92,6 +93,9 @@ public class compra extends javax.swing.JFrame {
        double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
        tablaProductoInventario.setValueAt(stock+cantidad, tablaProductoInventario.getSelectedRow(), 2);
        return true;
+      } catch (Exception e) {
+      }
+        return false;
   }
   
     public void quitarProductoCarrito(){
@@ -159,14 +163,15 @@ public class compra extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Por favor Ingresar solo números");
             return false;
          }
-        validarCantidad(evt);
+        
         return true;
   }
 
   
   
    public boolean validarCantidad(KeyEvent evt){
-      char validar = evt.getKeyChar();
+       try {
+           char validar = evt.getKeyChar();
       double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 2).toString());
       double cantidad=new Double(txtCantidad.getText()+validar);
       if(cantidad>stock){
@@ -175,6 +180,9 @@ public class compra extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Esta cantidad no se encuentra en inventario");
             return false;
      }
+       } catch (Exception e) {
+       }
+       
       return true;
    }
   
@@ -532,6 +540,11 @@ public class compra extends javax.swing.JFrame {
 
         jLabel7.setText("Id Proveedor");
 
+        txtIdProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdProveedorActionPerformed(evt);
+            }
+        });
         txtIdProveedor.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtIdProveedorKeyTyped(evt);
@@ -665,17 +678,23 @@ public class compra extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-    double cantidad=new Double(txtCantidad.getText());
+        try {
+            double cantidad=new Double(txtCantidad.getText());
     double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
     agregarProductoCarrito();     
     txtCantidad.setText("1");
     txtValor.setText(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 3).toString());
+        } catch (Exception e) {
+        }
+    
     
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-    quitarProductoCarrito();        // TODO add your handling code here:
+        try {
+            quitarProductoCarrito();        // TODO add your handling code here:
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
@@ -689,7 +708,10 @@ public class compra extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCantidadKeyPressed
 
     private void txtCantidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCantidadMouseClicked
-    txtCantidad.setText("");        // TODO add your handling code here:
+        try {
+         txtCantidad.setText("");        // TODO add your handling code here:   
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_txtCantidadMouseClicked
 
     private void txtBusquedaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyReleased
@@ -715,6 +737,10 @@ public class compra extends javax.swing.JFrame {
     private void txtIdProveedorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdProveedorKeyTyped
         validarNumero(evt);// TODO add your handling code here:
     }//GEN-LAST:event_txtIdProveedorKeyTyped
+
+    private void txtIdProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdProveedorActionPerformed
+           // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdProveedorActionPerformed
 
     /**
      * @param args the command line arguments

@@ -91,7 +91,8 @@ public class Venta extends javax.swing.JFrame {
   }
   
     public void quitarProductoCarrito(){
-       double valor=(double)tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),3);
+        try {
+            double valor=(double)tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),3);
        double valorTotal=new Double(txtTotal.getText());
        txtTotal.setText(String.valueOf(valorTotal-valor));
        double cantidad=new Double(tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),2).toString());
@@ -104,6 +105,8 @@ public class Venta extends javax.swing.JFrame {
            }
        }
        modeloCarrito.removeRow(tablaCarritoVenta.getSelectedRow());
+        } catch (Exception e) {
+        }
   }
   
   
@@ -250,6 +253,8 @@ public class Venta extends javax.swing.JFrame {
     SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
     return formateador.format(fechaActual);
 }
+  
+  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -547,6 +552,12 @@ public class Venta extends javax.swing.JFrame {
 
         jLabel7.setText("Id Cliente");
 
+        txtCliente.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClienteKeyTyped(evt);
+            }
+        });
+
         jLabel11.setText("Total:");
 
         txtTotal.setText("0");
@@ -700,8 +711,8 @@ public class Venta extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-    double cantidad=new Double(txtCantidad.getText());
+        try {
+            double cantidad=new Double(txtCantidad.getText());
     double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
     if (cantidad>0 && cantidad<=stock){
     agregarProductoCarrito();     
@@ -710,6 +721,8 @@ public class Venta extends javax.swing.JFrame {
     }else{
         JOptionPane.showMessageDialog(null,"Por favor ingrese un numero valido");
     }
+        } catch (Exception e) {
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -788,6 +801,10 @@ public class Venta extends javax.swing.JFrame {
         i.setVisible(true);
         this.dispose();            // TODO add your handling code here:
     }//GEN-LAST:event_cancelarActionPerformed
+
+    private void txtClienteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClienteKeyTyped
+        validarNumero2(evt);   // TODO add your handling code here:
+    }//GEN-LAST:event_txtClienteKeyTyped
 
     /**
      * @param args the command line arguments

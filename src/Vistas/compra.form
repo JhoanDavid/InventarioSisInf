@@ -443,6 +443,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="txtIdProveedor">
           <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtIdProveedorActionPerformed"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtIdProveedorKeyTyped"/>
           </Events>
         </Component>

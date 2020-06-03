@@ -60,7 +60,8 @@ public class listacompras extends javax.swing.JFrame {
     }
 
     public void agregarProductoCarrito() {
-        double valorTotal = 0;
+        try {
+            double valorTotal = 0;
         int id_movi = new Integer(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 0).toString());
         listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
         for (ProductoMovimiento obj : listaProductoMovimiento) {
@@ -74,6 +75,8 @@ public class listacompras extends javax.swing.JFrame {
             valorTotal = (valor);
             txtTotal.setText(String.valueOf(valorTotal));
         }
+        } catch (Exception e) {
+        }
     }
 
     public void quitarProductoCarrito() {
@@ -84,7 +87,8 @@ public class listacompras extends javax.swing.JFrame {
     }
 
     public void filtrarTabla() {
-        limpiarTabla();
+        try {
+            limpiarTabla();
         if (calendario.equals("")) {
             limpiarTabla();
             LlenarTabla();
@@ -105,6 +109,8 @@ public class listacompras extends javax.swing.JFrame {
                     }
                 }
             }
+        }
+        } catch (Exception e) {
         }
     }
 
