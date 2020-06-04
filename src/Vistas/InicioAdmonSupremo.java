@@ -191,7 +191,7 @@ public class InicioAdmonSupremo extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Personal", jPanel1);
 
-        jButton8.setText("Crear Venta");
+        jButton8.setText("Crear Salida");
         jButton8.setMaximumSize(new java.awt.Dimension(159, 23));
         jButton8.setMinimumSize(new java.awt.Dimension(159, 23));
         jButton8.setPreferredSize(new java.awt.Dimension(159, 23));
@@ -201,7 +201,7 @@ public class InicioAdmonSupremo extends javax.swing.JFrame {
             }
         });
 
-        jButton11.setText("Crear Compra");
+        jButton11.setText("Crear Entrada");
         jButton11.setMaximumSize(new java.awt.Dimension(159, 23));
         jButton11.setMinimumSize(new java.awt.Dimension(159, 23));
         jButton11.setPreferredSize(new java.awt.Dimension(159, 23));
