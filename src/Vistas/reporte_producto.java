@@ -279,7 +279,10 @@ public class reporte_producto extends javax.swing.JFrame {
 
     public void generarExcel() {
         try {
-            Thread t = new Thread() {
+            if(tablaAgregarproducto.getRowCount()==0){
+                JOptionPane.showMessageDialog(null,"No hay reportes de productos en la Tabla" );
+            }else{
+                 Thread t = new Thread() {
                 public void run() {
                     XSSFWorkbook workbook = new XSSFWorkbook();
                     XSSFSheet hoja = workbook.createSheet();
@@ -340,6 +343,8 @@ public class reporte_producto extends javax.swing.JFrame {
 
             };
             t.start();
+            }
+           
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, " Error" + e);
         }

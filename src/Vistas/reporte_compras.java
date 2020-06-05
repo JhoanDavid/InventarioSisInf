@@ -183,7 +183,10 @@ public class reporte_compras extends javax.swing.JFrame {
 
     public void generarExcel() {
         try {
-            Thread t = new Thread() {
+             if(tablaReporteVentas.getRowCount()==0){
+                JOptionPane.showMessageDialog(null,"No hay reportes de compras en la Tabla" );
+            }else{
+                  Thread t = new Thread() {
                 public void run() {
                     XSSFWorkbook workbook = new XSSFWorkbook();
                     XSSFSheet hoja = workbook.createSheet();
@@ -235,8 +238,8 @@ public class reporte_compras extends javax.swing.JFrame {
                     
                     Progressbar_salidas.setString("Abriendo Excel...");
                     try {
-                        workbook.write(new FileOutputStream(new File(ruta + "//reporteSalida.xlsx")));
-                        Desktop.getDesktop().open(new File(ruta + "//reporteSalida.xlsx"));
+                        workbook.write(new FileOutputStream(new File(ruta + "//reporteEntrada.xlsx")));
+                        Desktop.getDesktop().open(new File(ruta + "//reporteEntrada.xlsx"));
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, " Error" + e);
                     }
@@ -244,6 +247,9 @@ public class reporte_compras extends javax.swing.JFrame {
 
             };
             t.start();
+                 
+             }
+           
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, " Error" + e);
         }
