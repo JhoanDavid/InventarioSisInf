@@ -241,7 +241,6 @@
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
@@ -325,7 +324,7 @@
         <Component class="javax.swing.JLabel" name="jLabel8">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Movimiento de Salida"/>
+            <Property name="text" type="java.lang.String" value="Compra"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="cmbxtipomovimiento">
