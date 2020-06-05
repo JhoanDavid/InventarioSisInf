@@ -202,14 +202,14 @@ public class Venta extends javax.swing.JFrame {
         txtValor.setText("");  
         txtCantidad.setText("");
         cmbxtipomovimiento.setSelectedItem(null);
-        limpiarTablaCarrito();
+       
         
       
       List<Movimiento> lstMovimientos =controlMovimiento.findMovimientoEntities();
       Movimiento ultimoMovimiento=lstMovimientos.get(lstMovimientos.size()-1);
       
       ProductoMovimientoJpaController ControllerPM= new ProductoMovimientoJpaController();
-      ProductoJpaController controlproducto = new ProductoJpaController();
+     
       
       for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
           try {
@@ -258,7 +258,8 @@ public class Venta extends javax.swing.JFrame {
         if (tablaCarritoVenta.getRowCount() == 0 || cmbxtipomovimiento.getSelectedItem()==null) {
             JOptionPane.showMessageDialog(null,"Por favor llene todos los campos");
        } else  {
-            registrarVenta(); 
+            registrarVenta();
+            limpiarTablaCarrito();
             JOptionPane.showMessageDialog(null, "Venta realizada exitosamente!");
         }
     }
