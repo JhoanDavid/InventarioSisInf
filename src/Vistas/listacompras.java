@@ -51,9 +51,9 @@ public class listacompras extends javax.swing.JFrame {
     public void LlenarTabla() {
         listaMovimiento = controlmovimiento.findMovimientoEntities();
         for (Movimiento obj : listaMovimiento) {
-            if (obj.getTipoMov().contains("Compra")) {
+            if (obj.getTipoMov().contains("Compra")||obj.getTipoMov().contains("PrestamoEntrada")||obj.getTipoMov().contains("DevolucionEntrada")) {
                 modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
-                    obj.getUsuarioTrans()});
+                    obj.getUsuarioTrans(), obj.getTipoMov()});
             }
         }
         calcularTotalCompras();
@@ -62,19 +62,19 @@ public class listacompras extends javax.swing.JFrame {
     public void agregarProductoCarrito() {
         try {
             double valorTotal = 0;
-        int id_movi = new Integer(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 0).toString());
-        listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
-        for (ProductoMovimiento obj : listaProductoMovimiento) {
-            if (obj.getIdMov().getId() == id_movi) {
-                modeloCarrito.addRow(new Object[]{obj.getIdProducto().getId(), obj.getIdProducto().getDescripcion(), obj.getCantTrans(),
-                    obj.getValorTrans()});
+            int id_movi = new Integer(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 0).toString());
+            listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
+            for (ProductoMovimiento obj : listaProductoMovimiento) {
+                if (obj.getIdMov().getId() == id_movi) {
+                    modeloCarrito.addRow(new Object[]{obj.getIdProducto().getId(), obj.getIdProducto().getDescripcion(), obj.getCantTrans(),
+                        obj.getValorTrans()});
+                }
             }
-        }
-        for (int i = 0; i < tablaCarritoVenta.getColumnCount(); i++) {
-            double valor = (double) tablaCarritoVenta.getValueAt(i, 3) + valorTotal;
-            valorTotal = (valor);
-            txtTotal.setText(String.valueOf(valorTotal));
-        }
+            for (int i = 0; i < tablaCarritoVenta.getColumnCount(); i++) {
+                double valor = (double) tablaCarritoVenta.getValueAt(i, 3) + valorTotal;
+                valorTotal = (valor);
+                txtTotal.setText(String.valueOf(valorTotal));
+            }
         } catch (Exception e) {
         }
     }
@@ -89,27 +89,30 @@ public class listacompras extends javax.swing.JFrame {
     public void filtrarTabla() {
         try {
             limpiarTabla();
-        if (calendario.equals("")) {
-            limpiarTabla();
-            LlenarTabla();
+            if (calendario.equals("")) {
+                limpiarTabla();
+                LlenarTabla();
+                limpiarTablaProductos();
 
-        } else {
-            limpiarTabla();
-            int a = 0;
-            DefaultTableModel modelo = (DefaultTableModel) tablaProductoInventario.getModel();
-            listaMovimiento = controlmovimiento.findMovimientoEntities();
-            for (Movimiento obj : listaMovimiento) {
-                for (int i = 0; i < 1; i++) {
-                    Date B = calendario.getDate();
-                    Date A = obj.getFechaMovimiento();
-                    a = A.compareTo(B);
-                    if (obj.getTipoMov().contains("Compra") && a >= 0) {
-                        modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
-                            obj.getUsuarioTrans()});
+            } else {
+                limpiarTabla();
+                limpiarTablaProductos();
+                int a = 0;
+                DefaultTableModel modelo = (DefaultTableModel) tablaProductoInventario.getModel();
+                listaMovimiento = controlmovimiento.findMovimientoEntities();
+                for (Movimiento obj : listaMovimiento) {
+                    for (int i = 0; i < 1; i++) {
+                        Date B = calendario.getDate();
+                        Date A = obj.getFechaMovimiento();
+                        a = A.compareTo(B);
+                        if ((obj.getTipoMov().contains("Compra")||obj.getTipoMov().contains("PrestamoEntrada")||obj.getTipoMov().contains("DevolucionEntrada")) && a >= 0) {
+                            modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
+                                obj.getUsuarioTrans(), obj.getTipoMov()});
+                            calcularTotalCompras();
+                        }
                     }
                 }
             }
-        }
         } catch (Exception e) {
         }
     }
@@ -138,21 +141,20 @@ public class listacompras extends javax.swing.JFrame {
         double ValorTotalCompras = 0;
         double valorTotal = 0;
         double total = 0;
-        listaMovimiento = controlmovimiento.findMovimientoEntities();
-        for (int i = 0; i < controlmovimiento.getMovimientoCount(); i++) {
-            for (Movimiento obj1 : listaMovimiento) {
-                listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
-                for (ProductoMovimiento obj : listaProductoMovimiento) {
-                    if (obj.getIdMov().getId() == obj1.getId() && obj1.getTipoMov().contains("Compra")) {
-                        for (int j = 0; j < 1; j++) {
-                            valorTotal = obj.getValorTrans() + ValorTotalCompras;
-                            ValorTotalCompras = valorTotal;
-                            total = ValorTotalCompras / controlmovimiento.getMovimientoCount();
-                            txtTotalCompras.setText(String.valueOf(total));
-                        }
-                    }
+       
+        listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
+        for (ProductoMovimiento obj : listaProductoMovimiento) {
+            
+            for (int i = 0; i < tablaProductoInventario.getRowCount(); i++) {
+                
+                if (tablaProductoInventario.getValueAt(i, 0)==obj.getIdMov().getId()) {
+                    valorTotal = obj.getValorTrans() + ValorTotalCompras;
+                    ValorTotalCompras = valorTotal;
+                    total = ValorTotalCompras ;
+                    txtTotalCompras.setText(String.valueOf(total));
+                    //JOptionPane.showMessageDialog(null, tablaProductoInventario.getValueAt(i, 0));
+                
                 }
-
             }
 
         }
@@ -198,14 +200,14 @@ public class listacompras extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "fecha", "descripcion", "id_remitente", "usuario_trans"
+                "id", "fecha", "descripcion", "id_remitente", "usuario_trans", "tipo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -246,7 +248,7 @@ public class listacompras extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("prueba");
+        jButton2.setText("buscar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -447,6 +449,7 @@ public class listacompras extends javax.swing.JFrame {
         limpiarTablaProductos();
         txtTotal.setText(String.valueOf(0));
         agregarProductoCarrito();
+        
 
 
     }//GEN-LAST:event_tablaProductoInventarioMouseClicked
@@ -456,7 +459,13 @@ public class listacompras extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTotalComprasActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-          filtrarTabla();     // TODO add your handling code here:
+        if(calendario.getDate().toString().equalsIgnoreCase("")){
+         JOptionPane.showMessageDialog(null, "seleccione una fecha");
+        }else{
+        txtTotalCompras.setText("0");
+        txtTotal.setText("0");
+        filtrarTabla();     // TODO add your handling code here:
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btn_imprimir_reporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimir_reporteActionPerformed

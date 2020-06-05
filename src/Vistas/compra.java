@@ -40,10 +40,12 @@ public class compra extends javax.swing.JFrame {
     DefaultTableModel modelo;
     ClienteJpaController controlCliente= new ClienteJpaController();
     Cliente cliente=null;
+    
 
     
     public compra() {
         initComponents();
+        cmbxtipomovimiento.setSelectedItem(null);
         modelo=(DefaultTableModel)tablaProductoInventario.getModel();
         modeloCarrito=(DefaultTableModel)tablaCarritoVenta.getModel();
         txtFecha.setText(getFechaActual());
@@ -119,7 +121,7 @@ public class compra extends javax.swing.JFrame {
       limpiarTabla();
       for(Producto obj:listaProducto){
             if(obj.getDescripcion().contains(txtBusqueda.getText())){
-                modelo.addRow(new Object[]{obj.getId(),obj.getDescripcion(),obj.getCantidadStock(),obj.getValorVenta()});
+                modelo.addRow(new Object[]{obj.getId(),obj.getDescripcion(),obj.getCantidadStock(),obj.getValorCompra()});
             }
         }
   }
@@ -137,7 +139,7 @@ public class compra extends javax.swing.JFrame {
         txtValor.setText(String.valueOf(valor*cantidad));
   }
    public void validarVacios(){
-        if (txtIdProveedor.getText().equalsIgnoreCase("") || tablaCarritoVenta.getRowCount() == 0) {
+        if (txtIdProveedor.getText().equalsIgnoreCase("") || tablaCarritoVenta.getRowCount() == 0 || cmbxtipomovimiento.getSelectedItem()==null) {
             JOptionPane.showMessageDialog(null,"Por favor llene todos los campos");
        } else  {
             registrarCompra();
@@ -189,14 +191,29 @@ public class compra extends javax.swing.JFrame {
   
   
   public void registrarCompra(){
+       
+      String tipo = "";
+      if (cmbxtipomovimiento.getSelectedItem().toString()=="Compra"){
+          tipo = "Compra";
+      } else if (cmbxtipomovimiento.getSelectedItem().toString()=="Devolucion"){
+          tipo = "DevolucionEntrada";
+      } else {
+          tipo = "PrestamoEntrada";
+      }
+      
       Date fechaActual = new Date();
       movimientoCompra.setFechaMovimiento(fechaActual);
       movimientoCompra.setDescripcion(txtDescripcion.getText());
-      movimientoCompra.setTipoMov("Compra");
+      movimientoCompra.setTipoMov(tipo);
       movimientoCompra.setIdRemitente(new Integer(txtIdProveedor.getText()));
       movimientoCompra.setIdDestino(new Integer("1234"));
       movimientoCompra.setUsuarioTrans(null);
       controlMovimiento.create(movimientoCompra);
+      txtIdProveedor.setText("");  
+        txtDescripcion.setText(""); 
+        txtValor.setText("");  
+        txtCantidad.setText(""); 
+        cmbxtipomovimiento.setSelectedItem(null);
       
       List<Movimiento> lstMovimientos =controlMovimiento.findMovimientoEntities();
       Movimiento ultimoMovimiento=lstMovimientos.get(lstMovimientos.size()-1);
@@ -230,6 +247,8 @@ public class compra extends javax.swing.JFrame {
               resultP.setCantidadStock(resultP.getCantidadStock()+productoMovimiento.getCantTrans());
               resultP.setValorCompra(valor/cantidad);
               controlproducto.edit(resultP);
+              
+              
           } catch (Exception ex) {
               Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
           }
@@ -269,6 +288,7 @@ public class compra extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtCantidad = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        cmbxtipomovimiento = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaCarritoVenta = new javax.swing.JTable();
@@ -456,33 +476,41 @@ public class compra extends javax.swing.JFrame {
         });
 
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Movimiento de Salida");
+        jLabel8.setText("Compra");
+
+        cmbxtipomovimiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Compra", "Devolucion", "Prestamo" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtCantidad, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtValor, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGap(11, 11, 11))
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(43, 43, 43))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(jLabel4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtCantidad, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtValor, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(11, 11, 11))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cmbxtipomovimiento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -499,6 +527,8 @@ public class compra extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cmbxtipomovimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
@@ -632,11 +662,11 @@ public class compra extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
@@ -648,8 +678,7 @@ public class compra extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDescripcionActionPerformed
 
     private void crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearActionPerformed
-        validarVacios();
-        txtIdProveedor.setText("");    
+        validarVacios(); 
         limpiarTabla();
         LlenarTabla();
                  // TODO add your handling code here:
@@ -783,6 +812,7 @@ public class compra extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelar;
+    private javax.swing.JComboBox<String> cmbxtipomovimiento;
     private javax.swing.JButton crear;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
