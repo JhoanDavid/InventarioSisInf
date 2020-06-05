@@ -160,7 +160,7 @@
                     <Column editable="false" title="fecha" type="java.lang.String"/>
                     <Column editable="false" title="descripcion" type="java.lang.String"/>
                     <Column editable="false" title="id_remitente" type="java.lang.Double"/>
-                    <Column editable="false" title="usuario_trans" type="java.lang.Integer"/>
+                    <Column editable="false" title="usuario_trans" type="java.lang.String"/>
                     <Column editable="true" title="tipo" type="java.lang.Object"/>
                   </Table>
                 </Property>

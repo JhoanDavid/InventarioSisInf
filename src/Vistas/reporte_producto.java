@@ -294,14 +294,18 @@ public class reporte_producto extends javax.swing.JFrame {
         listaProducto = controlproducto.findProductoEntities();
         for (Producto obj : listaProducto) {
             double gananciaP = (obj.getCantidadStock() * obj.getGanancia());
-            modelo.addRow(new Object[]{obj.getId(), obj.getDescripcion(), obj.getUnidadMedida(), obj.getValorCompra(), obj.getValorVenta(), obj.getGanancia(), obj.getCantidadStock(),gananciaP, obj.getEstado()});
+            modelo.addRow(new Object[]{obj.getId(), obj.getDescripcion(), obj.getUnidadMedida(), obj.getValorCompra(), obj.getValorVenta(), obj.getGanancia(), obj.getCantidadStock(), gananciaP, obj.getEstado()});
 
         }
     }
 
     public void generarExcel() {
         try {
-            Thread t = new Thread() {
+
+            if (tablaAgregarproducto.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "No hay reportes de Productos en la Tabla");
+            }else{
+                Thread t = new Thread() {
                 public void run() {
                     XSSFWorkbook workbook = new XSSFWorkbook();
                     XSSFSheet hoja = workbook.createSheet();
@@ -362,6 +366,8 @@ public class reporte_producto extends javax.swing.JFrame {
 
             };
             t.start();
+            }
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, " Error" + e);
         }

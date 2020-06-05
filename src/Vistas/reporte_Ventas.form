@@ -27,7 +27,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="txtgenerando" min="-2" pref="67" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="Progressbar_entrada" min="-2" pref="445" max="-2" attributes="0"/>
+              <Component id="Progressbar_salidas" min="-2" pref="445" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
@@ -60,7 +60,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="txtgenerando" min="-2" max="-2" attributes="0"/>
-                  <Component id="Progressbar_entrada" min="-2" max="-2" attributes="0"/>
+                  <Component id="Progressbar_salidas" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="264" max="-2" attributes="0"/>
@@ -81,7 +81,7 @@
           <Font name="Tahoma" size="18" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Reporte de Entrada"/>
+        <Property name="text" type="java.lang.String" value="Reporte de Salidas"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">
@@ -99,7 +99,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tablaReporteCompras">
+        <Component class="javax.swing.JTable" name="tablaReporteVentas">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="12" rowCount="0">
@@ -186,7 +186,7 @@
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tablaReporteCompras.getTableHeader().setReorderingAllowed(false) ;"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="tablaReporteVentas.getTableHeader().setReorderingAllowed(false) ;"/>
           </AuxValues>
         </Component>
       </SubComponents>
@@ -199,7 +199,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_reporteActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JProgressBar" name="Progressbar_entrada">
+    <Component class="javax.swing.JProgressBar" name="Progressbar_salidas">
     </Component>
     <Component class="javax.swing.JLabel" name="txtgenerando">
       <Properties>

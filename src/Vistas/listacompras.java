@@ -53,7 +53,7 @@ public class listacompras extends javax.swing.JFrame {
         for (Movimiento obj : listaMovimiento) {
             if (obj.getTipoMov().contains("Compra")||obj.getTipoMov().contains("PrestamoEntrada")||obj.getTipoMov().contains("DevolucionEntrada")) {
                 modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
-                    obj.getUsuarioTrans(), obj.getTipoMov()});
+                    obj.getUsuarioTrans().getNombre(), obj.getTipoMov()});
             }
         }
         calcularTotalCompras();
@@ -204,7 +204,7 @@ public class listacompras extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, true

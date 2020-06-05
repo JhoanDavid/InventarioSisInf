@@ -27,7 +27,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author warriors
  */
-public class reporte_compras extends javax.swing.JFrame {
+public class reporte_Ventas extends javax.swing.JFrame {
 
     MovimientoJpaController controlmovimiento = new MovimientoJpaController();
     ProductoMovimientoJpaController controlproductoM = new ProductoMovimientoJpaController();
@@ -38,11 +38,11 @@ public class reporte_compras extends javax.swing.JFrame {
     DefaultTableModel modelo;
     private final String ruta = System.getProperties().getProperty("user.dir");
 
-    public reporte_compras() {
+    public reporte_Ventas() {
         initComponents();
         LlenarTabla();
         txtgenerando.setVisible(false);
-        Progressbar_entrada.setVisible(false);
+        Progressbar_salidas.setVisible(false);
         setTitle("Inventario SisInf");
         setResizable(false);
         setLocationRelativeTo(null);
@@ -61,16 +61,16 @@ public class reporte_compras extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaReporteCompras = new javax.swing.JTable();
+        tablaReporteVentas = new javax.swing.JTable();
         btn_reporte = new javax.swing.JButton();
-        Progressbar_entrada = new javax.swing.JProgressBar();
+        Progressbar_salidas = new javax.swing.JProgressBar();
         txtgenerando = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Reporte de Entrada");
+        jLabel4.setText("Reporte de Salidas");
 
         jButton1.setText("Regresar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -79,7 +79,7 @@ public class reporte_compras extends javax.swing.JFrame {
             }
         });
 
-        tablaReporteCompras.setModel(new javax.swing.table.DefaultTableModel(
+        tablaReporteVentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -102,8 +102,8 @@ public class reporte_compras extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(tablaReporteCompras);
-        tablaReporteCompras.getTableHeader().setReorderingAllowed(false) ;
+        jScrollPane1.setViewportView(tablaReporteVentas);
+        tablaReporteVentas.getTableHeader().setReorderingAllowed(false) ;
 
         btn_reporte.setText("Generar Reporte");
         btn_reporte.addActionListener(new java.awt.event.ActionListener() {
@@ -122,7 +122,7 @@ public class reporte_compras extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(txtgenerando, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(Progressbar_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Progressbar_salidas, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -148,7 +148,7 @@ public class reporte_compras extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtgenerando)
-                    .addComponent(Progressbar_entrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Progressbar_salidas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -185,8 +185,8 @@ public class reporte_compras extends javax.swing.JFrame {
 
     public void generarExcel() {
         try {
-            if (tablaReporteCompras.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(null, "No hay reportes de Compras en la Tabla");
+            if (tablaReporteVentas.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "No hay reportes de Ventas en la Tabla");
             } else {
                 Thread t = new Thread() {
                     public void run() {
@@ -195,7 +195,7 @@ public class reporte_compras extends javax.swing.JFrame {
                         XSSFSheet hoja = workbook.createSheet();
 
                         txtgenerando.setVisible(true);
-                        Progressbar_entrada.setVisible(true);
+                        Progressbar_salidas.setVisible(true);
 
                         XSSFRow fila = hoja.createRow(0);
                         fila.createCell(0).setCellValue("ID");
@@ -211,42 +211,41 @@ public class reporte_compras extends javax.swing.JFrame {
                         fila.createCell(10).setCellValue("Unidad_Medida");
                         fila.createCell(11).setCellValue("Valor_Venta");
 
-                        Progressbar_entrada.setMaximum(tablaReporteCompras.getRowCount());
+                        Progressbar_salidas.setMaximum(tablaReporteVentas.getRowCount());
                         XSSFRow filas;
                         Rectangle rect;
-                        for (int i = 0; i < tablaReporteCompras.getRowCount(); i++) {
-                            rect = tablaReporteCompras.getCellRect(i, 0, true);
+                        for (int i = 0; i < tablaReporteVentas.getRowCount(); i++) {
+                            rect = tablaReporteVentas.getCellRect(i, 0, true);
                             try {
-                                tablaReporteCompras.scrollRectToVisible(rect);
+                                tablaReporteVentas.scrollRectToVisible(rect);
                             } catch (Exception e) {
                                 JOptionPane.showMessageDialog(null, "Error " + e);
                             }
-                            tablaReporteCompras.setRowSelectionInterval(i, i);
-                            Progressbar_entrada.setValue((i + 1));
+                            tablaReporteVentas.setRowSelectionInterval(i, i);
+                            Progressbar_salidas.setValue((i + 1));
 
                             filas = hoja.createRow((i + 1));
-                            filas.createCell(0).setCellValue(tablaReporteCompras.getValueAt(i, 0).toString());
-                            filas.createCell(1).setCellValue(tablaReporteCompras.getValueAt(i, 1).toString());
-                            filas.createCell(2).setCellValue(tablaReporteCompras.getValueAt(i, 2).toString());
-                            filas.createCell(3).setCellValue(tablaReporteCompras.getValueAt(i, 3).toString());
-                            filas.createCell(4).setCellValue(tablaReporteCompras.getValueAt(i, 4).toString());
-                            filas.createCell(5).setCellValue(tablaReporteCompras.getValueAt(i, 5).toString());
-                            filas.createCell(6).setCellValue(tablaReporteCompras.getValueAt(i, 6).toString());
-                            filas.createCell(7).setCellValue(tablaReporteCompras.getValueAt(i, 7).toString());
-                            filas.createCell(8).setCellValue(tablaReporteCompras.getValueAt(i, 8).toString());
-                            filas.createCell(9).setCellValue(tablaReporteCompras.getValueAt(i, 9).toString());
-                            filas.createCell(10).setCellValue(tablaReporteCompras.getValueAt(i, 10).toString());
-                            filas.createCell(11).setCellValue(tablaReporteCompras.getValueAt(i, 11).toString());
+                            filas.createCell(0).setCellValue(tablaReporteVentas.getValueAt(i, 0).toString());
+                            filas.createCell(1).setCellValue(tablaReporteVentas.getValueAt(i, 1).toString());
+                            filas.createCell(2).setCellValue(tablaReporteVentas.getValueAt(i, 2).toString());
+                            filas.createCell(3).setCellValue(tablaReporteVentas.getValueAt(i, 3).toString());
+                            filas.createCell(4).setCellValue(tablaReporteVentas.getValueAt(i, 4).toString());
+                            filas.createCell(5).setCellValue(tablaReporteVentas.getValueAt(i, 5).toString());
+                            filas.createCell(6).setCellValue(tablaReporteVentas.getValueAt(i, 6).toString());
+                            filas.createCell(7).setCellValue(tablaReporteVentas.getValueAt(i, 7).toString());
+                            filas.createCell(8).setCellValue(tablaReporteVentas.getValueAt(i, 8).toString());
+                            filas.createCell(9).setCellValue(tablaReporteVentas.getValueAt(i, 9).toString());
+                            filas.createCell(10).setCellValue(tablaReporteVentas.getValueAt(i, 10).toString());
+                            filas.createCell(11).setCellValue(tablaReporteVentas.getValueAt(i, 11).toString());
                         }
 
-                        Progressbar_entrada.setString("Abriendo Excel...");
+                        Progressbar_salidas.setString("Abriendo Excel...");
                         try {
-                            workbook.write(new FileOutputStream(new File(ruta + "//reporteEntrada.xlsx")));
-                            Desktop.getDesktop().open(new File(ruta + "//reporteEntrada.xlsx"));
+                            workbook.write(new FileOutputStream(new File(ruta + "//reporteSalida.xlsx")));
+                            Desktop.getDesktop().open(new File(ruta + "//reporteSalida.xlsx"));
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, " Error" + e);
                         }
-
                     }
 
                 };
@@ -268,12 +267,12 @@ public class reporte_compras extends javax.swing.JFrame {
     public void LlenarTabla() {
         listaMovimiento = controlmovimiento.findMovimientoEntities();
         listaProductoMovimiento = controlproductoM.findProductoMovimientoEntities();
-        DefaultTableModel modelo = (DefaultTableModel) tablaReporteCompras.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tablaReporteVentas.getModel();
         if (listaMovimiento != null && listaProductoMovimiento != null) {
             for (Movimiento obj : listaMovimiento) {
                 for (ProductoMovimiento obj1 : listaProductoMovimiento) {
-                    if (obj.getId() == obj1.getIdMov().getId() && (obj.getTipoMov().equalsIgnoreCase("Compra") || obj.getTipoMov().equalsIgnoreCase("PrestamoEntrada")
-                            || obj.getTipoMov().equalsIgnoreCase("DevolucionEntrada"))) {
+                    if (obj.getId() == obj1.getIdMov().getId() && (obj.getTipoMov().equalsIgnoreCase("Venta") || obj.getTipoMov().equalsIgnoreCase("PrestamoSalida")
+                            || obj.getTipoMov().equalsIgnoreCase("DevolucionSalida"))) {
                         modelo.addRow(new Object[]{obj1.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
                             obj.getUsuarioTrans().getNombre(), obj.getTipoMov(), obj.getIdCliente().getNombre(), obj1.getIdProducto().getId(),
                             obj1.getIdProducto().getDescripcion(), obj1.getCantTrans(), obj1.getIdProducto().getUnidadMedida(), obj1.getValorTrans()});
@@ -305,31 +304,32 @@ public class reporte_compras extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(reporte_compras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reporte_Ventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(reporte_compras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reporte_Ventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(reporte_compras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reporte_Ventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(reporte_compras.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reporte_Ventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new reporte_compras().setVisible(true);
+                new reporte_Ventas().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JProgressBar Progressbar_entrada;
+    private javax.swing.JProgressBar Progressbar_salidas;
     private javax.swing.JButton btn_reporte;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaReporteCompras;
+    private javax.swing.JTable tablaReporteVentas;
     private javax.swing.JLabel txtgenerando;
     // End of variables declaration//GEN-END:variables
 }
