@@ -51,9 +51,9 @@ public class listacompras extends javax.swing.JFrame {
     public void LlenarTabla() {
         listaMovimiento = controlmovimiento.findMovimientoEntities();
         for (Movimiento obj : listaMovimiento) {
-            if (obj.getTipoMov().contains("Compra")) {
+            if (obj.getTipoMov().contains("Compra")||obj.getTipoMov().contains("PrestamoEntrada")||obj.getTipoMov().contains("DevolucionEntrada")) {
                 modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
-                    obj.getUsuarioTrans()});
+                    obj.getUsuarioTrans(), obj.getTipoMov()});
             }
         }
         calcularTotalCompras();
@@ -62,19 +62,19 @@ public class listacompras extends javax.swing.JFrame {
     public void agregarProductoCarrito() {
         try {
             double valorTotal = 0;
-        int id_movi = new Integer(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 0).toString());
-        listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
-        for (ProductoMovimiento obj : listaProductoMovimiento) {
-            if (obj.getIdMov().getId() == id_movi) {
-                modeloCarrito.addRow(new Object[]{obj.getIdProducto().getId(), obj.getIdProducto().getDescripcion(), obj.getCantTrans(),
-                    obj.getValorTrans()});
+            int id_movi = new Integer(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 0).toString());
+            listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
+            for (ProductoMovimiento obj : listaProductoMovimiento) {
+                if (obj.getIdMov().getId() == id_movi) {
+                    modeloCarrito.addRow(new Object[]{obj.getIdProducto().getId(), obj.getIdProducto().getDescripcion(), obj.getCantTrans(),
+                        obj.getValorTrans()});
+                }
             }
-        }
-        for (int i = 0; i < tablaCarritoVenta.getColumnCount(); i++) {
-            double valor = (double) tablaCarritoVenta.getValueAt(i, 3) + valorTotal;
-            valorTotal = (valor);
-            txtTotal.setText(String.valueOf(valorTotal));
-        }
+            for (int i = 0; i < tablaCarritoVenta.getColumnCount(); i++) {
+                double valor = (double) tablaCarritoVenta.getValueAt(i, 3) + valorTotal;
+                valorTotal = (valor);
+                txtTotal.setText(String.valueOf(valorTotal));
+            }
         } catch (Exception e) {
         }
     }
@@ -89,27 +89,30 @@ public class listacompras extends javax.swing.JFrame {
     public void filtrarTabla() {
         try {
             limpiarTabla();
-        if (calendario.equals("")) {
-            limpiarTabla();
-            LlenarTabla();
+            if (calendario.equals("")) {
+                limpiarTabla();
+                LlenarTabla();
+                limpiarTablaProductos();
 
-        } else {
-            limpiarTabla();
-            int a = 0;
-            DefaultTableModel modelo = (DefaultTableModel) tablaProductoInventario.getModel();
-            listaMovimiento = controlmovimiento.findMovimientoEntities();
-            for (Movimiento obj : listaMovimiento) {
-                for (int i = 0; i < 1; i++) {
-                    Date B = calendario.getDate();
-                    Date A = obj.getFechaMovimiento();
-                    a = A.compareTo(B);
-                    if (obj.getTipoMov().contains("Compra") && a >= 0) {
-                        modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
-                            obj.getUsuarioTrans()});
+            } else {
+                limpiarTabla();
+                limpiarTablaProductos();
+                int a = 0;
+                DefaultTableModel modelo = (DefaultTableModel) tablaProductoInventario.getModel();
+                listaMovimiento = controlmovimiento.findMovimientoEntities();
+                for (Movimiento obj : listaMovimiento) {
+                    for (int i = 0; i < 1; i++) {
+                        Date B = calendario.getDate();
+                        Date A = obj.getFechaMovimiento();
+                        a = A.compareTo(B);
+                        if ((obj.getTipoMov().contains("Compra")||obj.getTipoMov().contains("PrestamoEntrada")||obj.getTipoMov().contains("DevolucionEntrada")) && a >= 0) {
+                            modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
+                                obj.getUsuarioTrans(), obj.getTipoMov()});
+                            calcularTotalCompras();
+                        }
                     }
                 }
             }
-        }
         } catch (Exception e) {
         }
     }
@@ -138,21 +141,20 @@ public class listacompras extends javax.swing.JFrame {
         double ValorTotalCompras = 0;
         double valorTotal = 0;
         double total = 0;
-        listaMovimiento = controlmovimiento.findMovimientoEntities();
-        for (int i = 0; i < controlmovimiento.getMovimientoCount(); i++) {
-            for (Movimiento obj1 : listaMovimiento) {
-                listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
-                for (ProductoMovimiento obj : listaProductoMovimiento) {
-                    if (obj.getIdMov().getId() == obj1.getId() && obj1.getTipoMov().contains("Compra")) {
-                        for (int j = 0; j < 1; j++) {
-                            valorTotal = obj.getValorTrans() + ValorTotalCompras;
-                            ValorTotalCompras = valorTotal;
-                            total = ValorTotalCompras / controlmovimiento.getMovimientoCount();
-                            txtTotalCompras.setText(String.valueOf(total));
-                        }
-                    }
+       
+        listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
+        for (ProductoMovimiento obj : listaProductoMovimiento) {
+            
+            for (int i = 0; i < tablaProductoInventario.getRowCount(); i++) {
+                
+                if (tablaProductoInventario.getValueAt(i, 0)==obj.getIdMov().getId()) {
+                    valorTotal = obj.getValorTrans() + ValorTotalCompras;
+                    ValorTotalCompras = valorTotal;
+                    total = ValorTotalCompras ;
+                    txtTotalCompras.setText(String.valueOf(total));
+                    //JOptionPane.showMessageDialog(null, tablaProductoInventario.getValueAt(i, 0));
+                
                 }
-
             }
 
         }
@@ -188,6 +190,7 @@ public class listacompras extends javax.swing.JFrame {
         cancelar = new javax.swing.JButton();
         txtFecha = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        btn_imprimir_reporte = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 400));
@@ -197,14 +200,14 @@ public class listacompras extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "fecha", "descripcion", "id_remitente", "usuario_trans"
+                "id", "fecha", "descripcion", "id_remitente", "usuario_trans", "tipo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -245,7 +248,7 @@ public class listacompras extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("prueba");
+        jButton2.setText("buscar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -382,23 +385,36 @@ public class listacompras extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("Reporte de Compras");
 
+        btn_imprimir_reporte.setText("Imprimir reporte");
+        btn_imprimir_reporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_imprimir_reporteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(386, 386, 386)
-                .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_imprimir_reporte, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(130, 130, 130))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtFecha)
-                .addGap(274, 274, 274)
-                .addComponent(jLabel1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(txtFecha)
+                        .addGap(274, 274, 274)
+                        .addComponent(jLabel1)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -412,7 +428,9 @@ public class listacompras extends javax.swing.JFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_imprimir_reporte))
                 .addGap(19, 19, 19))
         );
 
@@ -431,6 +449,7 @@ public class listacompras extends javax.swing.JFrame {
         limpiarTablaProductos();
         txtTotal.setText(String.valueOf(0));
         agregarProductoCarrito();
+        
 
 
     }//GEN-LAST:event_tablaProductoInventarioMouseClicked
@@ -440,8 +459,24 @@ public class listacompras extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTotalComprasActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-          filtrarTabla();     // TODO add your handling code here:
+        if(calendario.getDate().toString().equalsIgnoreCase("")){
+         JOptionPane.showMessageDialog(null, "seleccione una fecha");
+        }else{
+        txtTotalCompras.setText("0");
+        txtTotal.setText("0");
+        filtrarTabla();     // TODO add your handling code here:
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btn_imprimir_reporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimir_reporteActionPerformed
+        reporte_compras re = new reporte_compras();
+        re.setVisible(true);
+        this.dispose();
+        
+        
+        
+        
+    }//GEN-LAST:event_btn_imprimir_reporteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -473,6 +508,7 @@ public class listacompras extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_imprimir_reporte;
     private com.toedter.calendar.JDateChooser calendario;
     private javax.swing.JButton cancelar;
     private javax.swing.JButton jButton2;

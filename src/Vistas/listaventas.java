@@ -55,9 +55,9 @@ public class listaventas extends javax.swing.JFrame {
   public void LlenarTabla(){
         listaMovimiento = controlmovimiento.findMovimientoEntities();
       for (Movimiento obj : listaMovimiento) {
-          if (obj.getTipoMov().contains("Venta")) {
+          if (obj.getTipoMov().contains("Venta")||obj.getTipoMov().contains("PrestamoSalida")||obj.getTipoMov().contains("DevolucionSalida")) {
               modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getUsuarioTrans(),
-                  obj.getDescuentoAplicado(), obj.getIdCliente()});
+                  obj.getDescuentoAplicado(), obj.getIdCliente(), obj.getTipoMov()});
           }
       }
       calcularTotalCompras();
@@ -103,9 +103,10 @@ public class listaventas extends javax.swing.JFrame {
                     Date B = calendario.getDate();
                     Date A = obj.getFechaMovimiento();
                     a = A.compareTo(B);
-                    if (obj.getTipoMov().contains("Venta") && a >= 0) {
-                        modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
-                            obj.getUsuarioTrans()});
+                    if ((obj.getTipoMov().contains("Venta")||obj.getTipoMov().contains("PrestamoSalida")||obj.getTipoMov().contains("DevolucionSalida")) && a >= 0) {
+                        modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getUsuarioTrans(),
+                  obj.getDescuentoAplicado(), obj.getIdCliente(),obj.getTipoMov()});
+                        calcularTotalCompras();
                     }
                 }
             }
@@ -134,28 +135,25 @@ public class listaventas extends javax.swing.JFrame {
     SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
     return formateador.format(fechaActual);
 }
-    public void calcularTotalCompras(){
+     public void calcularTotalCompras() {
         double ValorTotalCompras = 0;
         double valorTotal = 0;
         double total = 0;
-        listaMovimiento=controlmovimiento.findMovimientoEntities();
-        for (int i = 0; i < controlmovimiento.getMovimientoCount(); i++) {
-        for (Movimiento obj1:listaMovimiento) {                  
-        listaProductoMovimiento=controlproductomovimiento.findProductoMovimientoEntities();
-        for(ProductoMovimiento obj:listaProductoMovimiento){  
-        if(obj.getIdMov().getId() == obj1.getId() && obj1.getTipoMov().contains("Venta")){ 
-        for (int j = 0; j < 1; j++) {    
-        valorTotal= obj.getValorTrans()+ValorTotalCompras;
-        ValorTotalCompras=valorTotal;
-        total = ValorTotalCompras/controlmovimiento.getMovimientoCount();
-        txtTotalCompras.setText(String.valueOf(total));
-        }}
+        listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
+        for (ProductoMovimiento obj : listaProductoMovimiento) {
+            for (int i = 0; i < tablaProductoInventario.getRowCount(); i++) {
+                if (tablaProductoInventario.getValueAt(i, 0)==obj.getIdMov().getId()) {
+                    valorTotal = obj.getValorTrans() + ValorTotalCompras;
+                    ValorTotalCompras = valorTotal;
+                    total = ValorTotalCompras ;
+                    txtTotalCompras.setText(String.valueOf(total));
+                    //JOptionPane.showMessageDialog(null, tablaProductoInventario.getValueAt(i, 0));
+                }
+
+            }
+
         }
-        
-        
-        }
-       
-  }}
+    }
     
     public void prueba(){
         listaMovimiento=controlmovimiento.findMovimientoEntities();
@@ -201,11 +199,11 @@ public class listaventas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "fecha", "descripcion", "id vendedor", "descuento", "id cliente"
+                "id", "fecha", "descripcion", "id vendedor", "descuento", "id cliente", "tipo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -432,7 +430,10 @@ public class listaventas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTotalComprasActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        filtrarTabla();// TODO add your handling code here:
+       txtTotalCompras.setText("0");
+        txtTotal.setText("0");
+        limpiarTablaProductos();
+        filtrarTabla(); // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
