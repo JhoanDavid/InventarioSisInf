@@ -43,6 +43,9 @@ public class reporte_compras extends javax.swing.JFrame {
         LlenarTabla();
         txtgenerando.setVisible(false);
         Progressbar_salidas.setVisible(false);
+        setTitle("Inventario SisInf");
+        setResizable(false);
+        setLocationRelativeTo(null);
 
     }
 

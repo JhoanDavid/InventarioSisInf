@@ -460,7 +460,13 @@ public class listacompras extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btn_imprimir_reporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimir_reporteActionPerformed
-     
+        reporte_compras re = new reporte_compras();
+        re.setVisible(true);
+        this.dispose();
+        
+        
+        
+        
     }//GEN-LAST:event_btn_imprimir_reporteActionPerformed
 
     /**
