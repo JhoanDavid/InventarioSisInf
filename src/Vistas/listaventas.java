@@ -190,7 +190,6 @@ public class listaventas extends javax.swing.JFrame {
         cancelar = new javax.swing.JButton();
         txtFecha = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        btn_imprimir_reporte = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 400));
@@ -206,9 +205,16 @@ public class listaventas extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
         tablaProductoInventario.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -294,7 +300,15 @@ public class listaventas extends javax.swing.JFrame {
             new String [] {
                 "id", "producto", "cantidad", "valor"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(tablaCarritoVenta);
         tablaCarritoVenta.getTableHeader().setReorderingAllowed(false);
 
@@ -344,13 +358,6 @@ public class listaventas extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setText("Productos de la Venta");
 
-        btn_imprimir_reporte.setText("Imprimir reporte");
-        btn_imprimir_reporte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_imprimir_reporteActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -358,9 +365,7 @@ public class listaventas extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(210, 210, 210)
-                .addComponent(btn_imprimir_reporte, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(142, 142, 142))
+                .addGap(475, 475, 475))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -397,9 +402,7 @@ public class listaventas extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelar)
-                    .addComponent(btn_imprimir_reporte))
+                .addComponent(cancelar)
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -448,12 +451,6 @@ public class listaventas extends javax.swing.JFrame {
         filtrarTabla(); // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void btn_imprimir_reporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_imprimir_reporteActionPerformed
-       reporte_Ventas re = new reporte_Ventas();
-        re.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btn_imprimir_reporteActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -484,7 +481,6 @@ public class listaventas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_imprimir_reporte;
     private com.toedter.calendar.JDateChooser calendario;
     private javax.swing.JButton cancelar;
     private javax.swing.JButton jButton1;
