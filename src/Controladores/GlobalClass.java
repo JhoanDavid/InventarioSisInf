@@ -5,11 +5,10 @@
  */
 package Controladores;
 
-import Entidades.Cliente;
 import Entidades.Usuario;
 
 
 public class GlobalClass {
     public static Usuario usuario=null;
-    public static Cliente cliente=null;
+    
 }

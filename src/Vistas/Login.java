@@ -169,8 +169,6 @@ public class Login extends javax.swing.JFrame {
                 }
             }else{
                 JOptionPane.showMessageDialog(null,"Usuario o Contraseña Incorrectos");
-                txtUser.setText(" ");
-                txtPassword.setText(" ");
             }
         }
     }//GEN-LAST:event_btnIniciarSesionActionPerformed

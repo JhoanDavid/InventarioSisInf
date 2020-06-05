@@ -5,7 +5,6 @@
  */
 package Vistas;
 
-
 import Controladores.ClienteJpaController;
 import Controladores.GlobalClass;
 import Controladores.MovimientoJpaController;
@@ -26,11 +25,13 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author esteban
  */
 public class compra extends javax.swing.JFrame {
+
     ProductoJpaController controlproducto = new ProductoJpaController();
     Producto producto = new Producto();
     MovimientoJpaController controlMovimiento = new MovimientoJpaController();
@@ -38,16 +39,14 @@ public class compra extends javax.swing.JFrame {
     DefaultTableModel modeloCarrito;
     List<Producto> listaProducto;
     DefaultTableModel modelo;
-    ClienteJpaController controlCliente= new ClienteJpaController();
-    Cliente cliente=null;
-    
+    ClienteJpaController controlCliente = new ClienteJpaController();
+    Cliente cliente = null;
 
-    
     public compra() {
         initComponents();
         cmbxtipomovimiento.setSelectedItem(null);
-        modelo=(DefaultTableModel)tablaProductoInventario.getModel();
-        modeloCarrito=(DefaultTableModel)tablaCarritoVenta.getModel();
+        modelo = (DefaultTableModel) tablaProductoInventario.getModel();
+        modeloCarrito = (DefaultTableModel) tablaCarritoVenta.getModel();
         txtFecha.setText(getFechaActual());
         setTitle("Inventario SisInf");
         setResizable(false);
@@ -56,217 +55,208 @@ public class compra extends javax.swing.JFrame {
         TextPrompt texto = new TextPrompt("Buscar Producto", txtBusqueda);
     }
 
-
-  public void LlenarTabla(){
-        listaProducto=controlproducto.findProductoEntities();
-        for(Producto obj:listaProducto){
-                modelo.addRow(new Object[]{obj.getId(),obj.getDescripcion(),obj.getCantidadStock(),obj.getValorCompra()});
+    public void LlenarTabla() {
+        listaProducto = controlproducto.findProductoEntities();
+        for (Producto obj : listaProducto) {
+            modelo.addRow(new Object[]{obj.getId(), obj.getDescripcion(), obj.getCantidadStock(), obj.getValorCompra()});
         }
     }
 
-  public boolean agregarProductoCarrito(){
-      try {
-          int id=(int) tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),0);
-      double cantidad=new Double(txtCantidad.getText());
-      double valor=new Double(txtValor.getText());
-      double valorTotal=new Double(txtTotal.getText());
-      for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
-         int idProducto=new Integer(tablaCarritoVenta.getValueAt(i,0).toString());
-         if(id==idProducto){
-             double stockCarrito=new Double(tablaCarritoVenta.getValueAt(i,2).toString());
-             double valorCapturado=new Double(txtValor.getText().toString());
-             double cantidadCapturada=new Double(txtCantidad.getText().toString());
-             double valorCarrito=(cantidadCapturada*valorCapturado);
-             tablaCarritoVenta.setValueAt(stockCarrito+cantidad, i, 2);
-             double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
-             tablaProductoInventario.setValueAt(stock+cantidad, tablaProductoInventario.getSelectedRow(), 2);
-             tablaCarritoVenta.setValueAt(valorCarrito, i, 3);
-             valorTotal = valorCarrito;
-             txtTotal.setText(String.valueOf(valorCarrito+valorTotal));
-             return false;
-         }
-      }
-      double valorCapturado=new Double(txtValor.getText().toString());
-             double cantidadCapturada=new Double(txtCantidad.getText().toString());
-             double valorCarrito=(cantidadCapturada*valorCapturado);
-       String descripcion=tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),1).toString();   // TODO add your handling code here:
-       modeloCarrito.addRow(new Object[]{id, descripcion, cantidad,(valorCarrito)});
-       txtTotal.setText(String.valueOf(valorCarrito+valorTotal));
-       double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
-       tablaProductoInventario.setValueAt(stock+cantidad, tablaProductoInventario.getSelectedRow(), 2);
-       return true;
-      } catch (Exception e) {
-      }
+    public boolean agregarProductoCarrito() {
+        try {
+            int id = (int) tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 0);
+            double cantidad = new Double(txtCantidad.getText());
+            double valor = new Double(txtValor.getText());
+            double valorTotal = new Double(txtTotal.getText());
+            for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
+                int idProducto = new Integer(tablaCarritoVenta.getValueAt(i, 0).toString());
+                if (id == idProducto) {
+                    double stockCarrito = new Double(tablaCarritoVenta.getValueAt(i, 2).toString());
+                    double valorCapturado = new Double(txtValor.getText().toString());
+                    double cantidadCapturada = new Double(txtCantidad.getText().toString());
+                    double valorCarrito = (cantidadCapturada * valorCapturado);
+                    tablaCarritoVenta.setValueAt(stockCarrito + cantidad, i, 2);
+                    double stock = new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 2).toString());
+                    tablaProductoInventario.setValueAt(stock + cantidad, tablaProductoInventario.getSelectedRow(), 2);
+                    tablaCarritoVenta.setValueAt(valorCarrito+valor, i, 3); 
+                    txtTotal.setText(String.valueOf(valor+ valorTotal));
+                    return false;
+                }
+            }
+            double valorCapturado = new Double(txtValor.getText().toString());
+            double cantidadCapturada = new Double(txtCantidad.getText().toString());
+            double valorCarrito = (cantidadCapturada * valorCapturado);
+            String descripcion = tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 1).toString();   // TODO add your handling code here:
+            modeloCarrito.addRow(new Object[]{id, descripcion, cantidad, (valorCarrito)});
+            txtTotal.setText(String.valueOf(valorCarrito + valorTotal));
+            double stock = new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 2).toString());
+            tablaProductoInventario.setValueAt(stock + cantidad, tablaProductoInventario.getSelectedRow(), 2);
+            return true;
+        } catch (Exception e) {
+        }
         return false;
-  }
-  
-    public void quitarProductoCarrito(){
-       double valor=(double)tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),3);
-       double valorTotal=new Double(txtTotal.getText());
-       txtTotal.setText(String.valueOf(valorTotal-valor));
-       double cantidad=new Double(tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),2).toString());
-       double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
-       int id=new Integer(tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),0).toString());
-       for (int i = 0; i < tablaProductoInventario.getRowCount(); i++) {
-           int idProducto=new Integer(tablaProductoInventario.getValueAt(i,0).toString());
-           if(idProducto==id){
-               tablaProductoInventario.setValueAt(stock-cantidad, i, 2);
-           }
-       }
-       modeloCarrito.removeRow(tablaCarritoVenta.getSelectedRow());
-  }
-  
-  
-  public void filtrarTabla(){
-      limpiarTabla();
-      for(Producto obj:listaProducto){
-            if(obj.getDescripcion().contains(txtBusqueda.getText())){
-                modelo.addRow(new Object[]{obj.getId(),obj.getDescripcion(),obj.getCantidadStock(),obj.getValorCompra()});
+    }
+
+    public void quitarProductoCarrito() {
+        double valor = (double) tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(), 3);
+        double valorTotal = new Double(txtTotal.getText());
+        txtTotal.setText(String.valueOf(valorTotal - valor));
+        double cantidad = new Double(tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(), 2).toString());
+        double stock = new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 2).toString());
+        int id = new Integer(tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(), 0).toString());
+        for (int i = 0; i < tablaProductoInventario.getRowCount(); i++) {
+            int idProducto = new Integer(tablaProductoInventario.getValueAt(i, 0).toString());
+            if (idProducto == id) {
+                tablaProductoInventario.setValueAt(stock - cantidad, i, 2);
             }
         }
-  }
-  
-  public void limpiarTabla(){
-        int a =modelo.getRowCount()-1;
-        for(int i=a; i>=0; i--){
-        modelo.removeRow(i );
+        modeloCarrito.removeRow(tablaCarritoVenta.getSelectedRow());
+    }
+
+    public void filtrarTabla() {
+        limpiarTabla();
+        for (Producto obj : listaProducto) {
+            if (obj.getDescripcion().contains(txtBusqueda.getText())) {
+                modelo.addRow(new Object[]{obj.getId(), obj.getDescripcion(), obj.getCantidadStock(), obj.getValorCompra()});
+            }
         }
-  }
-  
-  public void calcularValor(){
-        double valor=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 3).toString());
-        double cantidad=new Double(txtCantidad.getText());
-        txtValor.setText(String.valueOf(valor*cantidad));
-  }
-   public void validarVacios(){
-        if (txtIdProveedor.getText().equalsIgnoreCase("") || tablaCarritoVenta.getRowCount() == 0 || cmbxtipomovimiento.getSelectedItem()==null) {
-            JOptionPane.showMessageDialog(null,"Por favor llene todos los campos");
-       } else  {
+    }
+
+    public void limpiarTabla() {
+        int a = modelo.getRowCount() - 1;
+        for (int i = a; i >= 0; i--) {
+            modelo.removeRow(i);
+        }
+    }
+
+    public void calcularValor() {
+        double valor = new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 3).toString());
+        double cantidad = new Double(txtCantidad.getText());
+        txtValor.setText(String.valueOf(valor * cantidad));
+    }
+
+    public void validarVacios() {
+        if (txtIdProveedor.getText().equalsIgnoreCase("") || tablaCarritoVenta.getRowCount() == 0 || cmbxtipomovimiento.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Por favor llene todos los campos");
+        } else {
             registrarCompra();
             JOptionPane.showMessageDialog(null, "Compra realizada exitosamente!");
             limpiarTablaCarrito();
             txtTotal.setText("0");
         }
-  
-               
-   }
-   public void limpiarTablaCarrito(){
-        int a =modeloCarrito.getRowCount()-1;
-        for(int i=a; i>=0; i--){
-        modeloCarrito.removeRow(i );
+
+    }
+
+    public void limpiarTablaCarrito() {
+        int a = modeloCarrito.getRowCount() - 1;
+        for (int i = a; i >= 0; i--) {
+            modeloCarrito.removeRow(i);
         }
-  }
-  
-   public boolean validarNumero(KeyEvent evt){
+    }
+
+    public boolean validarNumero(KeyEvent evt) {
         char validar = evt.getKeyChar();
-        if(Character.isLetter(validar)){
+        if (Character.isLetter(validar)) {
             getToolkit().beep();
             evt.consume();
             JOptionPane.showMessageDialog(rootPane, "Por favor Ingresar solo números");
             return false;
-         }
-        
-        return true;
-  }
+        }
 
-  
-  
-   public boolean validarCantidad(KeyEvent evt){
-       try {
-           char validar = evt.getKeyChar();
-      double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 2).toString());
-      double cantidad=new Double(txtCantidad.getText()+validar);
-      if(cantidad>stock){
-            getToolkit().beep();
-            evt.consume();
-            JOptionPane.showMessageDialog(rootPane, "Esta cantidad no se encuentra en inventario");
-            return false;
-     }
-       } catch (Exception e) {
-       }
-       
-      return true;
-   }
-  
-  
-  
-  public void registrarCompra(){
-       
-      String tipo = "";
-      if (cmbxtipomovimiento.getSelectedItem().toString()=="Compra"){
-          tipo = "Compra";
-      } else if (cmbxtipomovimiento.getSelectedItem().toString()=="Devolucion"){
-          tipo = "DevolucionEntrada";
-      } else {
-          tipo = "PrestamoEntrada";
-      }
-      
-      Date fechaActual = new Date();
-      movimientoCompra.setFechaMovimiento(fechaActual);
-      movimientoCompra.setDescripcion(txtDescripcion.getText());
-      movimientoCompra.setTipoMov(tipo);
-      movimientoCompra.setIdRemitente(new Integer(txtIdProveedor.getText()));
-      movimientoCompra.setIdDestino(new Integer("1234"));
-      movimientoCompra.setUsuarioTrans(null);
-      controlMovimiento.create(movimientoCompra);
-      txtIdProveedor.setText("");  
-        txtDescripcion.setText(""); 
-        txtValor.setText("");  
-        txtCantidad.setText(""); 
+        return true;
+    }
+
+    public boolean validarCantidad(KeyEvent evt) {
+        try {
+            char validar = evt.getKeyChar();
+            double stock = new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 2).toString());
+            double cantidad = new Double(txtCantidad.getText() + validar);
+            if (cantidad > stock) {
+                getToolkit().beep();
+                evt.consume();
+                JOptionPane.showMessageDialog(rootPane, "Esta cantidad no se encuentra en inventario");
+                return false;
+            }
+        } catch (Exception e) {
+        }
+
+        return true;
+    }
+
+    public void registrarCompra() {
+
+        String tipo = "";
+        if (cmbxtipomovimiento.getSelectedItem().toString() == "Compra") {
+            tipo = "Compra";
+        } else if (cmbxtipomovimiento.getSelectedItem().toString() == "Devolucion") {
+            tipo = "DevolucionEntrada";
+        } else {
+            tipo = "PrestamoEntrada";
+        }
+
+        Date fechaActual = new Date();
+        movimientoCompra.setFechaMovimiento(fechaActual);
+        movimientoCompra.setDescripcion(txtDescripcion.getText());
+        movimientoCompra.setTipoMov(tipo);
+        movimientoCompra.setIdRemitente(new Integer(txtIdProveedor.getText()));
+        movimientoCompra.setIdDestino(new Integer("1234"));
+        movimientoCompra.setUsuarioTrans(null);
+        controlMovimiento.create(movimientoCompra);
+        txtIdProveedor.setText("");
+        txtDescripcion.setText("");
+        txtValor.setText("");
+        txtCantidad.setText("");
         cmbxtipomovimiento.setSelectedItem(null);
-      
-      List<Movimiento> lstMovimientos =controlMovimiento.findMovimientoEntities();
-      Movimiento ultimoMovimiento=lstMovimientos.get(lstMovimientos.size()-1);
-      
-      ProductoMovimientoJpaController ControllerPM= new ProductoMovimientoJpaController();
-      
-      
-      for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
-          try {
-              ProductoMovimiento productoMovimiento =new ProductoMovimiento();
-              Producto resultP=controlproducto.findProducto(new Integer(tablaCarritoVenta.getValueAt(i,0).toString()));
-              productoMovimiento.setIdProducto(resultP);
-              productoMovimiento.setCantTrans(new Double(tablaCarritoVenta.getValueAt(i,2).toString()));
-              productoMovimiento.setValorTrans(new Double(tablaCarritoVenta.getValueAt(i,3).toString()));
-              productoMovimiento.setIdMov(ultimoMovimiento);
-              ControllerPM.create(productoMovimiento);
-          } catch (Exception ex) {
-              Logger.getLogger(compra.class.getName()).log(Level.SEVERE, null, ex);
-          }
-      }
-      for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
-          try {
-              ProductoMovimiento productoMovimiento =new ProductoMovimiento();
-              Producto resultP=controlproducto.findProducto(new Integer(tablaCarritoVenta.getValueAt(i,0).toString()));
-              productoMovimiento.setIdProducto(resultP);
-              productoMovimiento.setCantTrans(new Double(tablaCarritoVenta.getValueAt(i,2).toString()));
-              productoMovimiento.setValorTrans(new Double(tablaCarritoVenta.getValueAt(i,3).toString()));
-              productoMovimiento.setIdMov(ultimoMovimiento);
-              double valor = Double.parseDouble(tablaCarritoVenta.getValueAt(i,3).toString());
-              double cantidad = Double.parseDouble(tablaCarritoVenta.getValueAt(i,2).toString());
-              resultP.setCantidadStock(resultP.getCantidadStock()+productoMovimiento.getCantTrans());
-              resultP.setValorCompra(valor/cantidad);
-              controlproducto.edit(resultP);
-              
-              
-          } catch (Exception ex) {
-              Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
-          }
-      }
-    
-  }
-  
-  
-  
-  public String getFechaActual() {
-    Date fechaActual = new Date();
-    SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
-    return formateador.format(fechaActual);
-}
+
+        List<Movimiento> lstMovimientos = controlMovimiento.findMovimientoEntities();
+        Movimiento ultimoMovimiento = lstMovimientos.get(lstMovimientos.size() - 1);
+
+        ProductoMovimientoJpaController ControllerPM = new ProductoMovimientoJpaController();
+
+        for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
+            try {
+                ProductoMovimiento productoMovimiento = new ProductoMovimiento();
+                Producto resultP = controlproducto.findProducto(new Integer(tablaCarritoVenta.getValueAt(i, 0).toString()));
+                productoMovimiento.setIdProducto(resultP);
+                productoMovimiento.setCantTrans(new Double(tablaCarritoVenta.getValueAt(i, 2).toString()));
+                productoMovimiento.setValorTrans(new Double(tablaCarritoVenta.getValueAt(i, 3).toString()));
+                productoMovimiento.setIdMov(ultimoMovimiento);
+                ControllerPM.create(productoMovimiento);
+            } catch (Exception ex) {
+                Logger.getLogger(compra.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        for (int i = 0; i < tablaCarritoVenta.getRowCount(); i++) {
+            try {
+                ProductoMovimiento productoMovimiento = new ProductoMovimiento();
+                Producto resultP = controlproducto.findProducto(new Integer(tablaCarritoVenta.getValueAt(i, 0).toString()));
+                productoMovimiento.setIdProducto(resultP);
+                productoMovimiento.setCantTrans(new Double(tablaCarritoVenta.getValueAt(i, 2).toString()));
+                productoMovimiento.setValorTrans(new Double(tablaCarritoVenta.getValueAt(i, 3).toString()));
+                productoMovimiento.setIdMov(ultimoMovimiento);
+                double valor = Double.parseDouble(tablaCarritoVenta.getValueAt(i, 3).toString());
+                double cantidad = Double.parseDouble(tablaCarritoVenta.getValueAt(i, 2).toString());
+                resultP.setCantidadStock(resultP.getCantidadStock() + productoMovimiento.getCantTrans());
+                resultP.setValorCompra(valor / cantidad);
+                controlproducto.edit(resultP);
+
+            } catch (Exception ex) {
+                Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
+    public String getFechaActual() {
+        Date fechaActual = new Date();
+        SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+        return formateador.format(fechaActual);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor. 
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -678,21 +668,21 @@ public class compra extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDescripcionActionPerformed
 
     private void crearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearActionPerformed
-        validarVacios(); 
+        validarVacios();
         limpiarTabla();
         LlenarTabla();
-                 // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_crearActionPerformed
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
-    InicioAdmonSupremo i=new InicioAdmonSupremo();
+        InicioAdmonSupremo i = new InicioAdmonSupremo();
         i.setVisible(true);
         this.dispose();            // TODO add your handling code here:
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void tablaProductoInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductoInventarioMouseClicked
         txtCantidad.setText("1");
-        calcularValor();        
+        calcularValor();
     }//GEN-LAST:event_tablaProductoInventarioMouseClicked
 
     private void txtCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadActionPerformed
@@ -710,15 +700,15 @@ public class compra extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            double cantidad=new Double(txtCantidad.getText());
-    double stock=new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),2).toString());
-    agregarProductoCarrito();     
-    txtCantidad.setText("1");
-    txtValor.setText(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 3).toString());
+            double cantidad = new Double(txtCantidad.getText());
+            double stock = new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 2).toString());
+            agregarProductoCarrito();
+            txtCantidad.setText("1");
+            txtValor.setText(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 3).toString());
         } catch (Exception e) {
         }
-    
-    
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -729,18 +719,18 @@ public class compra extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
-    
+
         validarNumero(evt);
-   // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadKeyTyped
 
     private void txtCantidadKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyPressed
-            // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_txtCantidadKeyPressed
 
     private void txtCantidadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCantidadMouseClicked
         try {
-         txtCantidad.setText("");        // TODO add your handling code here:   
+            txtCantidad.setText("");        // TODO add your handling code here:   
         } catch (Exception e) {
         }
     }//GEN-LAST:event_txtCantidadMouseClicked
@@ -770,7 +760,7 @@ public class compra extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdProveedorKeyTyped
 
     private void txtIdProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdProveedorActionPerformed
-           // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_txtIdProveedorActionPerformed
 
     /**
@@ -782,24 +772,24 @@ public class compra extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-       
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    try {
-                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                        break;
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(compra.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (InstantiationException ex) {
-                        Logger.getLogger(compra.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IllegalAccessException ex) {
-                        Logger.getLogger(compra.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (UnsupportedLookAndFeelException ex) {
-                        Logger.getLogger(compra.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                try {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(compra.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InstantiationException ex) {
+                    Logger.getLogger(compra.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(compra.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (UnsupportedLookAndFeelException ex) {
+                    Logger.getLogger(compra.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-    
+        }
+
         //</editor-fold>
 
         /* Create and display the form */
