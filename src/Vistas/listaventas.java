@@ -3,10 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 package Vistas;
-
 
 import Controladores.GlobalClass;
 import Controladores.ProductoJpaController;
@@ -22,11 +19,13 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author esteban
  */
 public class listaventas extends javax.swing.JFrame {
+
     MovimientoJpaController controlmovimiento = new MovimientoJpaController();
     ProductoMovimientoJpaController controlproductomovimiento = new ProductoMovimientoJpaController();
     ProductoJpaController controlproducto = new ProductoJpaController();
@@ -39,11 +38,10 @@ public class listaventas extends javax.swing.JFrame {
     List<Producto> listaProducto;
     DefaultTableModel modelo;
 
-    
     public listaventas() {
         initComponents();
-        modelo=(DefaultTableModel)tablaProductoInventario.getModel();
-        modeloCarrito=(DefaultTableModel)tablaCarritoVenta.getModel();
+        modelo = (DefaultTableModel) tablaProductoInventario.getModel();
+        modeloCarrito = (DefaultTableModel) tablaCarritoVenta.getModel();
         txtFecha.setText(getFechaActual());
         setTitle("Inventario SisInf");
         setResizable(false);
@@ -51,101 +49,101 @@ public class listaventas extends javax.swing.JFrame {
         LlenarTabla();
     }
 
-
-  public void LlenarTabla(){
+    public void LlenarTabla() {
         listaMovimiento = controlmovimiento.findMovimientoEntities();
-      for (Movimiento obj : listaMovimiento) {
-          if (obj.getTipoMov().contains("Venta")||obj.getTipoMov().contains("PrestamoSalida")||obj.getTipoMov().contains("DevolucionSalida")) {
-              modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getUsuarioTrans(),
-                  obj.getDescuentoAplicado(), obj.getIdCliente(), obj.getTipoMov()});
-          }
-      }
-      calcularTotalCompras();
+        for (Movimiento obj : listaMovimiento) {
+            if (obj.getTipoMov().contains("Venta") || obj.getTipoMov().contains("PrestamoSalida") || obj.getTipoMov().contains("DevolucionSalida")) {
+                modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getUsuarioTrans(),
+                    obj.getDescuentoAplicado(), obj.getIdCliente(), obj.getTipoMov()});
+            }
+        }
+        calcularTotalCompras();
     }
 
-  public void agregarProductoCarrito(){
-      double valorTotal= 0;
-        int id_movi= new Integer(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(),0).toString());
-       listaProductoMovimiento=controlproductomovimiento.findProductoMovimientoEntities();
-        for(ProductoMovimiento obj:listaProductoMovimiento){  
-        if(obj.getIdMov().getId() == id_movi){
-        modeloCarrito.addRow(new Object[]{obj.getIdProducto().getId(), obj.getIdProducto().getDescripcion(), obj.getCantTrans(),
-        obj.getValorTrans()});
-        }}
+    public void agregarProductoCarrito() {
+        double valorTotal = 0;
+        int id_movi = new Integer(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 0).toString());
+        listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
+        for (ProductoMovimiento obj : listaProductoMovimiento) {
+            if (obj.getIdMov().getId() == id_movi) {
+                modeloCarrito.addRow(new Object[]{obj.getIdProducto().getId(), obj.getIdProducto().getDescripcion(), obj.getCantTrans(),
+                    obj.getValorTrans()});
+            }
+        }
         for (int i = 0; i < tablaCarritoVenta.getColumnCount(); i++) {
-       double valor=(double)tablaCarritoVenta.getValueAt(i, 3)+valorTotal; 
-       valorTotal= (valor);
-       txtTotal.setText(String.valueOf(valorTotal));
-  }}
-  
-    public void quitarProductoCarrito(){
-       double valor=(double)tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(),3);
-       double valorTotal=new Double(txtTotal.getText());
-       txtTotal.setText(String.valueOf(valorTotal-valor));
-       modeloCarrito.removeRow(tablaCarritoVenta.getSelectedRow());
-  }
-  
-  
- public void filtrarTabla() {
-        try {
-         limpiarTabla();
-        if (calendario.equals("")) {
-            limpiarTabla();
-            LlenarTabla();
+            double valor = (double) tablaCarritoVenta.getValueAt(i, 3) + valorTotal;
+            valorTotal = (valor);
+            txtTotal.setText(String.valueOf(valorTotal));
+        }
+    }
 
-        } else {
+    public void quitarProductoCarrito() {
+        double valor = (double) tablaCarritoVenta.getValueAt(tablaCarritoVenta.getSelectedRow(), 3);
+        double valorTotal = new Double(txtTotal.getText());
+        txtTotal.setText(String.valueOf(valorTotal - valor));
+        modeloCarrito.removeRow(tablaCarritoVenta.getSelectedRow());
+    }
+
+    public void filtrarTabla() {
+        try {
             limpiarTabla();
-            int a = 0;
-            DefaultTableModel modelo = (DefaultTableModel) tablaProductoInventario.getModel();
-            listaMovimiento = controlmovimiento.findMovimientoEntities();
-            for (Movimiento obj : listaMovimiento) {
-                for (int i = 0; i < 1; i++) {
-                    Date B = calendario.getDate();
-                    Date A = obj.getFechaMovimiento();
-                    a = A.compareTo(B);
-                    if ((obj.getTipoMov().contains("Venta")||obj.getTipoMov().contains("PrestamoSalida")||obj.getTipoMov().contains("DevolucionSalida")) && a >= 0) {
-                        modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getUsuarioTrans(),
-                  obj.getDescuentoAplicado(), obj.getIdCliente(),obj.getTipoMov()});
-                        calcularTotalCompras();
+            if (calendario.equals("")) {
+                limpiarTabla();
+                LlenarTabla();
+
+            } else {
+                limpiarTabla();
+                int a = 0;
+                DefaultTableModel modelo = (DefaultTableModel) tablaProductoInventario.getModel();
+                listaMovimiento = controlmovimiento.findMovimientoEntities();
+                for (Movimiento obj : listaMovimiento) {
+                    for (int i = 0; i < 1; i++) {
+                        Date B = calendario.getDate();
+                        Date A = obj.getFechaMovimiento();
+                        a = A.compareTo(B);
+                        if ((obj.getTipoMov().contains("Venta") || obj.getTipoMov().contains("PrestamoSalida") || obj.getTipoMov().contains("DevolucionSalida")) && a >= 0) {
+                            modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getUsuarioTrans(),
+                                obj.getDescuentoAplicado(), obj.getIdCliente(), obj.getTipoMov()});
+                            calcularTotalCompras();
+                        }
                     }
                 }
             }
+        } catch (Exception e) {
         }
-     } catch (Exception e) {
-     }
     }
-  
-  public void limpiarTabla(){
-        int a =modelo.getRowCount()-1;
-        for(int i=a; i>=0; i--){
-        modelo.removeRow(i );
+
+    public void limpiarTabla() {
+        int a = modelo.getRowCount() - 1;
+        for (int i = a; i >= 0; i--) {
+            modelo.removeRow(i);
         }
-  }
-  
-  public void limpiarTablaProductos(){
-        int a =modeloCarrito.getRowCount()-1;
-        for(int i=a; i>=0; i--){
-        modeloCarrito.removeRow(i );
+    }
+
+    public void limpiarTablaProductos() {
+        int a = modeloCarrito.getRowCount() - 1;
+        for (int i = a; i >= 0; i--) {
+            modeloCarrito.removeRow(i);
         }
-  }
-  
+    }
 
     public String getFechaActual() {
-    Date fechaActual = new Date();
-    SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
-    return formateador.format(fechaActual);
-}
-     public void calcularTotalCompras() {
+        Date fechaActual = new Date();
+        SimpleDateFormat formateador = new SimpleDateFormat("dd-MM-yyyy");
+        return formateador.format(fechaActual);
+    }
+
+    public void calcularTotalCompras() {
         double ValorTotalCompras = 0;
         double valorTotal = 0;
         double total = 0;
         listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
         for (ProductoMovimiento obj : listaProductoMovimiento) {
             for (int i = 0; i < tablaProductoInventario.getRowCount(); i++) {
-                if (tablaProductoInventario.getValueAt(i, 0)==obj.getIdMov().getId()) {
+                if (tablaProductoInventario.getValueAt(i, 0) == obj.getIdMov().getId()) {
                     valorTotal = obj.getValorTrans() + ValorTotalCompras;
                     ValorTotalCompras = valorTotal;
-                    total = ValorTotalCompras ;
+                    total = ValorTotalCompras;
                     txtTotalCompras.setText(String.valueOf(total));
                     //JOptionPane.showMessageDialog(null, tablaProductoInventario.getValueAt(i, 0));
                 }
@@ -154,15 +152,13 @@ public class listaventas extends javax.swing.JFrame {
 
         }
     }
-    
-    public void prueba(){
-        listaMovimiento=controlmovimiento.findMovimientoEntities();
+
+    public void prueba() {
+        listaMovimiento = controlmovimiento.findMovimientoEntities();
         int a = controlmovimiento.getMovimientoCount();
         JOptionPane.showMessageDialog(null, a);
     }
-  
- 
-  
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -190,6 +186,7 @@ public class listaventas extends javax.swing.JFrame {
         cancelar = new javax.swing.JButton();
         txtFecha = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 400));
@@ -358,6 +355,13 @@ public class listaventas extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setText("Productos de la Venta");
 
+        jButton2.setText("Imprimir reporte");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -365,7 +369,9 @@ public class listaventas extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(475, 475, 475))
+                .addGap(204, 204, 204)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(126, 126, 126))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -402,7 +408,9 @@ public class listaventas extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(cancelar)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelar)
+                    .addComponent(jButton2))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -410,7 +418,7 @@ public class listaventas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
-   if (GlobalClass.usuario != null) {
+        if (GlobalClass.usuario != null) {
 
             if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
                 InicioAdministrador i = new InicioAdministrador();
@@ -434,8 +442,8 @@ public class listaventas extends javax.swing.JFrame {
         //txtCantidad.setText("1");
         try {
             limpiarTablaProductos();
-        txtTotal.setText(String.valueOf(0));
-        agregarProductoCarrito();
+            txtTotal.setText(String.valueOf(0));
+            agregarProductoCarrito();
         } catch (Exception e) {
         }
     }//GEN-LAST:event_tablaProductoInventarioMouseClicked
@@ -445,18 +453,24 @@ public class listaventas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTotalComprasActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       txtTotalCompras.setText("0");
+        txtTotalCompras.setText("0");
         txtTotal.setText("0");
         limpiarTablaProductos();
         filtrarTabla(); // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        reporte_ventas re = new reporte_ventas();
+        re.setVisible(true);
+        this.dispose();        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
-         try {
+
+        try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -472,7 +486,7 @@ public class listaventas extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(listaventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new listaventas().setVisible(true);
@@ -484,6 +498,7 @@ public class listaventas extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser calendario;
     private javax.swing.JButton cancelar;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
