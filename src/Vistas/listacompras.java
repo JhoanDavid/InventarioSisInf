@@ -89,8 +89,7 @@ public class listacompras extends javax.swing.JFrame {
 
     public void filtrarTabla() {
         try {
-            limpiarTabla();
-            if (calendario.equals("")) {
+            if (calendario==null) {
                 limpiarTabla();
                 LlenarTabla();
                 limpiarTablaProductos();

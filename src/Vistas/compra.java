@@ -74,7 +74,7 @@ public class compra extends javax.swing.JFrame {
                     double stockCarrito = new Double(tablaCarritoVenta.getValueAt(i, 2).toString());
                     double valorCapturado = new Double(txtValor.getText().toString());
                     double cantidadCapturada = new Double(txtCantidad.getText().toString());
-                    double valorCarrito = (cantidadCapturada * valorCapturado);
+                    double valorCarrito = new Double(tablaCarritoVenta.getValueAt(i,3).toString());;
                     tablaCarritoVenta.setValueAt(stockCarrito + cantidad, i, 2);
                     double stock = new Double(tablaProductoInventario.getValueAt(tablaProductoInventario.getSelectedRow(), 2).toString());
                     tablaProductoInventario.setValueAt(stock + cantidad, tablaProductoInventario.getSelectedRow(), 2);
