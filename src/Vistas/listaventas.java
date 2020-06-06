@@ -89,7 +89,7 @@ public class listaventas extends javax.swing.JFrame {
  public void filtrarTabla() {
         try {
          limpiarTabla();
-        if (calendario.equals("")) {
+        if (calendario==null) {
             limpiarTabla();
             LlenarTabla();
 
