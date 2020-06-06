@@ -23,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+
 /**
  *
  * @author warriors
@@ -42,7 +43,7 @@ public class reporte_compras extends javax.swing.JFrame {
         initComponents();
         LlenarTabla();
         txtgenerando.setVisible(false);
-        Progressbar_salidas.setVisible(false);
+        Progressbar_entradas.setVisible(false);
         setTitle("Inventario SisInf");
         setResizable(false);
         setLocationRelativeTo(null);
@@ -63,14 +64,14 @@ public class reporte_compras extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaReportecompras = new javax.swing.JTable();
         btn_reporte = new javax.swing.JButton();
-        Progressbar_salidas = new javax.swing.JProgressBar();
+        Progressbar_entradas = new javax.swing.JProgressBar();
         txtgenerando = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setText("Reporte de Salidas");
+        jLabel4.setText("Reporte de Entradas");
 
         jButton1.setText("Regresar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -119,37 +120,39 @@ public class reporte_compras extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(179, 179, 179)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_reporte)
-                        .addGap(185, 185, 185))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 847, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(txtgenerando, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Progressbar_salidas, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Progressbar_entradas, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(179, 179, 179)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 261, Short.MAX_VALUE)
+                        .addComponent(btn_reporte)
+                        .addGap(185, 185, 185)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Progressbar_salidas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtgenerando, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(Progressbar_entradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtgenerando))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(btn_reporte))
@@ -182,17 +185,18 @@ public class reporte_compras extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void generarExcel() {
+        
         try {
              if(tablaReportecompras.getRowCount()==0){
-                JOptionPane.showMessageDialog(null,"No hay reportes de compras en la Tabla" );
+                JOptionPane.showMessageDialog(null,"No hay reportes de Compras en la Tabla" );
             }else{
-                  Thread t = new Thread() {
+                Thread t = new Thread() {
                 public void run() {
                     XSSFWorkbook workbook = new XSSFWorkbook();
                     XSSFSheet hoja = workbook.createSheet();
 
                     txtgenerando.setVisible(true);
-                    Progressbar_salidas.setVisible(true);
+                    Progressbar_entradas.setVisible(true);
 
                     XSSFRow fila = hoja.createRow(0);
                     fila.createCell(0).setCellValue("ID");
@@ -208,7 +212,7 @@ public class reporte_compras extends javax.swing.JFrame {
                     fila.createCell(10).setCellValue("Unidad_Medida");
                     fila.createCell(11).setCellValue("Valor_Venta");
 
-                    Progressbar_salidas.setMaximum(tablaReportecompras.getRowCount());
+                    Progressbar_entradas.setMaximum(tablaReportecompras.getRowCount());
                     XSSFRow filas;
                     Rectangle rect;
                     for (int i = 0; i < tablaReportecompras.getRowCount(); i++) {
@@ -219,7 +223,7 @@ public class reporte_compras extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(null, "Error " + e);
                         }
                         tablaReportecompras.setRowSelectionInterval(i, i);
-                        Progressbar_salidas.setValue((i + 1));
+                        Progressbar_entradas.setValue((i + 1));
 
                         filas = hoja.createRow((i + 1));
                         filas.createCell(0).setCellValue(tablaReportecompras.getValueAt(i, 0).toString());
@@ -235,8 +239,8 @@ public class reporte_compras extends javax.swing.JFrame {
                         filas.createCell(10).setCellValue(tablaReportecompras.getValueAt(i, 10).toString());
                         filas.createCell(11).setCellValue(tablaReportecompras.getValueAt(i, 11).toString());
                     }
-                    
-                    Progressbar_salidas.setString("Abriendo Excel...");
+
+                    Progressbar_entradas.setString("Abriendo Excel...");
                     try {
                         workbook.write(new FileOutputStream(new File(ruta + "//reporteEntrada.xlsx")));
                         Desktop.getDesktop().open(new File(ruta + "//reporteEntrada.xlsx"));
@@ -246,13 +250,16 @@ public class reporte_compras extends javax.swing.JFrame {
                 }
 
             };
-            t.start();
-                 
+            t.start(); 
              }
-           
+            
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, " Error" + e);
         }
+        
+        
+        
+        
+      
     }
 
 
@@ -272,10 +279,10 @@ public class reporte_compras extends javax.swing.JFrame {
                     if (obj.getId() == obj1.getIdMov().getId() && (obj.getTipoMov().equalsIgnoreCase("Compra") || obj.getTipoMov().equalsIgnoreCase("PrestamoEntrada")
                             || obj.getTipoMov().equalsIgnoreCase("DevolucionEntrada"))) {
                         modelo.addRow(new Object[]{obj1.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
-                             obj.getUsuarioTrans().getNombre(), obj.getTipoMov(), obj.getIdCliente().getNombre(), obj1.getIdProducto().getId(),
+                            obj.getUsuarioTrans().getNombre(), obj.getTipoMov(), obj.getIdCliente().getNombre(), obj1.getIdProducto().getId(),
                             obj1.getIdProducto().getDescripcion(), obj1.getCantTrans(), obj1.getIdProducto().getUnidadMedida(), obj1.getValorTrans()});
                     } else {
-                      
+
                     }
 
                 }
@@ -321,7 +328,7 @@ public class reporte_compras extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JProgressBar Progressbar_salidas;
+    private javax.swing.JProgressBar Progressbar_entradas;
     private javax.swing.JButton btn_reporte;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel4;
