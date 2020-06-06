@@ -186,7 +186,6 @@ public class listaventas extends javax.swing.JFrame {
         cancelar = new javax.swing.JButton();
         txtFecha = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 400));
@@ -341,7 +340,7 @@ public class listaventas extends javax.swing.JFrame {
         );
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel4.setText("Reporte de Ventas");
+        jLabel4.setText("Reporte de Salida");
 
         cancelar.setText("cancelar");
         cancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -355,13 +354,6 @@ public class listaventas extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel8.setText("Productos de la Venta");
 
-        jButton2.setText("Imprimir reporte");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -369,9 +361,7 @@ public class listaventas extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(204, 204, 204)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(126, 126, 126))
+                .addGap(475, 475, 475))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -408,9 +398,7 @@ public class listaventas extends javax.swing.JFrame {
                         .addGap(21, 21, 21)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelar)
-                    .addComponent(jButton2))
+                .addComponent(cancelar)
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -459,12 +447,6 @@ public class listaventas extends javax.swing.JFrame {
         filtrarTabla(); // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        reporte_ventas re = new reporte_ventas();
-        re.setVisible(true);
-        this.dispose();        
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -498,7 +480,6 @@ public class listaventas extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser calendario;
     private javax.swing.JButton cancelar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
