@@ -23,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+
 /**
  *
  * @author warriors
@@ -145,13 +146,13 @@ public class reporte_compras extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Progressbar_entradas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtgenerando, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(Progressbar_entradas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtgenerando))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(btn_reporte))
@@ -184,11 +185,12 @@ public class reporte_compras extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void generarExcel() {
+        
         try {
              if(tablaReportecompras.getRowCount()==0){
-                JOptionPane.showMessageDialog(null,"No hay reportes de compras en la Tabla" );
+                JOptionPane.showMessageDialog(null,"No hay reportes de Compras en la Tabla" );
             }else{
-                  Thread t = new Thread() {
+                Thread t = new Thread() {
                 public void run() {
                     XSSFWorkbook workbook = new XSSFWorkbook();
                     XSSFSheet hoja = workbook.createSheet();
@@ -237,7 +239,7 @@ public class reporte_compras extends javax.swing.JFrame {
                         filas.createCell(10).setCellValue(tablaReportecompras.getValueAt(i, 10).toString());
                         filas.createCell(11).setCellValue(tablaReportecompras.getValueAt(i, 11).toString());
                     }
-                    
+
                     Progressbar_entradas.setString("Abriendo Excel...");
                     try {
                         workbook.write(new FileOutputStream(new File(ruta + "//reporteEntrada.xlsx")));
@@ -248,13 +250,16 @@ public class reporte_compras extends javax.swing.JFrame {
                 }
 
             };
-            t.start();
-                 
+            t.start(); 
              }
-           
+            
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, " Error" + e);
         }
+        
+        
+        
+        
+      
     }
 
 
@@ -274,10 +279,10 @@ public class reporte_compras extends javax.swing.JFrame {
                     if (obj.getId() == obj1.getIdMov().getId() && (obj.getTipoMov().equalsIgnoreCase("Compra") || obj.getTipoMov().equalsIgnoreCase("PrestamoEntrada")
                             || obj.getTipoMov().equalsIgnoreCase("DevolucionEntrada"))) {
                         modelo.addRow(new Object[]{obj1.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
-                             obj.getUsuarioTrans().getNombre(), obj.getTipoMov(), obj.getIdCliente().getNombre(), obj1.getIdProducto().getId(),
+                            obj.getUsuarioTrans().getNombre(), obj.getTipoMov(), obj.getIdCliente().getNombre(), obj1.getIdProducto().getId(),
                             obj1.getIdProducto().getDescripcion(), obj1.getCantTrans(), obj1.getIdProducto().getUnidadMedida(), obj1.getValorTrans()});
                     } else {
-                      
+
                     }
 
                 }

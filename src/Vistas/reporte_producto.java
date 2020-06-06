@@ -19,6 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+
 /**
  *
  * @author warriors
@@ -276,8 +277,7 @@ public class reporte_producto extends javax.swing.JFrame {
 
         }
     }
-
-    public void generarExcel() {
+      public void generarExcel() {
         try {
             if(tablaAgregarproducto.getRowCount()==0){
                 JOptionPane.showMessageDialog(null,"No hay reportes de productos en la Tabla" );
@@ -350,6 +350,7 @@ public class reporte_producto extends javax.swing.JFrame {
         }
     }
 
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar Progressbar_salidas;
     private javax.swing.JButton btn_reporte;
