@@ -233,6 +233,7 @@ public class reporte_ventas extends javax.swing.JFrame {
                         Progressbar_entradas.setMaximum(tablaReporteventas.getRowCount());
                         XSSFRow filas;
                         Rectangle rect;
+                        int cont = 0;
                         for (int i = 0; i < tablaReporteventas.getRowCount(); i++) {
                             rect = tablaReporteventas.getCellRect(i, 0, true);
                             try {
@@ -255,8 +256,9 @@ public class reporte_ventas extends javax.swing.JFrame {
                             filas.createCell(8).setCellValue(tablaReporteventas.getValueAt(i, 8).toString());
                             filas.createCell(9).setCellValue(tablaReporteventas.getValueAt(i, 9).toString());
                             filas.createCell(10).setCellValue(tablaReporteventas.getValueAt(i, 10).toString());
+                            cont++;
                         }
-                        filas=hoja.createRow(4);
+                        filas = hoja.createRow(cont + 1);
                         filas.createCell(11).setCellValue(ventatotal);
 
                         Progressbar_entradas.setString("Abriendo Excel...");
@@ -276,6 +278,8 @@ public class reporte_ventas extends javax.swing.JFrame {
         }
 
     }
+
+   
 
     public double calcularTotalVentas() {
 
