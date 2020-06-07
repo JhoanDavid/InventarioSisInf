@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  *
  * @author jramirez
  */
-public class CrearCliente extends javax.swing.JFrame {
+public class CrearCliente extends javax.swing.JDialog {
 
     /**
      * Creates new form CrearCliente
@@ -60,7 +60,7 @@ public class CrearCliente extends javax.swing.JFrame {
         btn_agregar = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel4.setText("Teléfono:");
@@ -281,13 +281,13 @@ public class CrearCliente extends javax.swing.JFrame {
                 txtdirecion.setText("");
                 txtciudad.setText("");
                 txtbarrio.setText(" ");
-
+            this.dispose();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Error: " + e);
             }
 
         }
-
+ 
 
     }//GEN-LAST:event_btn_agregarActionPerformed
 
