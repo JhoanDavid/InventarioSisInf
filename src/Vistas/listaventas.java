@@ -43,7 +43,7 @@ public class listaventas extends javax.swing.JFrame {
         modelo = (DefaultTableModel) tablaProductoInventario.getModel();
         modeloCarrito = (DefaultTableModel) tablaCarritoVenta.getModel();
         txtFecha.setText(getFechaActual());
-        setTitle("Inventario SisInf");
+       setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
         LlenarTabla();

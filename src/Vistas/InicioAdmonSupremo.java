@@ -5,6 +5,8 @@
  */
 package Vistas;
 
+import Controladores.GlobalClass;
+
 /**
  *
  * @author jramirez
@@ -16,7 +18,7 @@ public class InicioAdmonSupremo extends javax.swing.JFrame {
      */
     public InicioAdmonSupremo() {
         initComponents();
-        setTitle("Inventario SisInf");
+        setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
     }
@@ -530,7 +532,11 @@ public class InicioAdmonSupremo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton23ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+        Login l=new Login();
+        l.setVisible(true);
+        GlobalClass.usuario=null;
+        this.dispose();        // TODO add your handling code here:
+     
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -571,15 +577,24 @@ public class InicioAdmonSupremo extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+ Login l=new Login();
+ l.setVisible(true);
+        GlobalClass.usuario=null;
+        this.dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+ Login l=new Login();
+ l.setVisible(true);
+        GlobalClass.usuario=null;
+        this.dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+ Login l=new Login();
+ l.setVisible(true);
+        GlobalClass.usuario=null;
+        this.dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed

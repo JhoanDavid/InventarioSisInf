@@ -5,6 +5,7 @@
  */
 package Vistas;
 
+import Controladores.GlobalClass;
 import Controladores.UsuarioJpaController;
 import Entidades.Usuario;
 import java.awt.event.KeyEvent;
@@ -31,14 +32,14 @@ public class CrearAdministrador extends javax.swing.JFrame {
      */
     public CrearAdministrador() {
         initComponents();
-        setTitle("Inventario SisInf");
+        setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
     }
 
     public CrearAdministrador(Usuario usuario) {
         initComponents();
-        setTitle("Inventario SisInf");
+        setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
         user = usuario;
@@ -409,9 +410,24 @@ public class CrearAdministrador extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         if (btn_agregar.getText().equalsIgnoreCase("Crear")) {
+                if (GlobalClass.usuario != null) {
+
+            if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
+                InicioAdministrador i = new InicioAdministrador();
+                i.setVisible(true);
+                this.dispose();
+            } else {
+                InicioVendedor i = new InicioVendedor();
+                i.setVisible(true);
+                this.dispose();
+            }
+
+        } else {
             InicioAdmonSupremo i = new InicioAdmonSupremo();
             i.setVisible(true);
             this.dispose();
+
+        }  
         } else {
             Vista_Usuarios i = new Vista_Usuarios();
             i.setVisible(true);

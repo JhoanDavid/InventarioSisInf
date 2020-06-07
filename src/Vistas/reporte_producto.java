@@ -37,7 +37,7 @@ public class reporte_producto extends javax.swing.JFrame {
         calcularCostotoal();
         txtgenerando.setVisible(false);
         Progressbar_salidas.setVisible(false);
-        setTitle("Inventario SisInf");
+        setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
     }

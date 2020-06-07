@@ -5,6 +5,7 @@
  */
 package Vistas;
 
+import Controladores.GlobalClass;
 import Controladores.UsuarioJpaController;
 import Entidades.Usuario;
 import java.util.List;
@@ -25,7 +26,7 @@ public class GestionVendedores extends javax.swing.JFrame {
 
     public GestionVendedores() {
         initComponents();
-        setTitle("Inventario SisInf");
+        setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
         LlenarTabla();
@@ -250,9 +251,24 @@ public class GestionVendedores extends javax.swing.JFrame {
     }//GEN-LAST:event_buscarKeyReleased
 
     private void btn_Inhabilitar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Inhabilitar1ActionPerformed
-        InicioAdmonSupremo i = new InicioAdmonSupremo();
-        i.setVisible(true);
-        this.dispose();        // TODO add your handling code here:
+           if (GlobalClass.usuario != null) {
+
+            if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
+                InicioAdministrador i = new InicioAdministrador();
+                i.setVisible(true);
+                this.dispose();
+            } else {
+                InicioVendedor i = new InicioVendedor();
+                i.setVisible(true);
+                this.dispose();
+            }
+
+        } else {
+            InicioAdmonSupremo i = new InicioAdmonSupremo();
+            i.setVisible(true);
+            this.dispose();
+
+        }       // TODO add your handling code here:
     }//GEN-LAST:event_btn_Inhabilitar1ActionPerformed
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed

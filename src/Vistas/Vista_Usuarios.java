@@ -5,6 +5,7 @@
  */
 package Vistas;
 
+import Controladores.GlobalClass;
 import Controladores.UsuarioJpaController;
 import Entidades.Usuario;
 import java.math.BigInteger;
@@ -26,7 +27,7 @@ public class Vista_Usuarios extends javax.swing.JFrame {
 
     public Vista_Usuarios() {
         initComponents();
-        setTitle("Inventario SisInf");
+        setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
         LlenarTabla();
@@ -290,9 +291,24 @@ public class Vista_Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaAgregarUsuarioMouseClicked
 
     private void btn_Inhabilitar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Inhabilitar1ActionPerformed
-        InicioAdmonSupremo i=new InicioAdmonSupremo();
-        i.setVisible(true);
-        this.dispose();        // TODO add your handling code here:
+             if (GlobalClass.usuario != null) {
+
+            if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
+                InicioAdministrador i = new InicioAdministrador();
+                i.setVisible(true);
+                this.dispose();
+            } else {
+                InicioVendedor i = new InicioVendedor();
+                i.setVisible(true);
+                this.dispose();
+            }
+
+        } else {
+            InicioAdmonSupremo i = new InicioAdmonSupremo();
+            i.setVisible(true);
+            this.dispose();
+
+        }        // TODO add your handling code here:
     }//GEN-LAST:event_btn_Inhabilitar1ActionPerformed
 
     public void limpiarTabla() {

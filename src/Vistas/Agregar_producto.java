@@ -5,6 +5,7 @@
  */
 package Vistas;
 
+import Controladores.GlobalClass;
 import Controladores.ProductoJpaController;
 import Entidades.Producto;
 import java.awt.event.KeyEvent;
@@ -25,7 +26,7 @@ public class Agregar_producto extends javax.swing.JFrame {
 
     public Agregar_producto() {
         initComponents();
-        setTitle("Inventario SisInf");
+        setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
         lblTitulo.setText("Agregar Producto");
@@ -302,9 +303,24 @@ public class Agregar_producto extends javax.swing.JFrame {
         cbx_unidad.setSelectedItem(null);
         btn_agregar.setText("Agregar");
 
-        InicioAdmonSupremo i = new InicioAdmonSupremo();
-        i.setVisible(true);
-        this.dispose();
+            if (GlobalClass.usuario != null) {
+
+            if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
+                InicioAdministrador i = new InicioAdministrador();
+                i.setVisible(true);
+                this.dispose();
+            } else {
+                InicioVendedor i = new InicioVendedor();
+                i.setVisible(true);
+                this.dispose();
+            }
+
+        } else {
+            InicioAdmonSupremo i = new InicioAdmonSupremo();
+            i.setVisible(true);
+            this.dispose();
+
+        }  
 
     }//GEN-LAST:event_btnCancelarActionPerformed
 

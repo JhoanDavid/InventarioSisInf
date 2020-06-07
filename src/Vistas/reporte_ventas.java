@@ -44,7 +44,7 @@ public class reporte_ventas extends javax.swing.JFrame {
         LlenarTabla();
         txtgenerando.setVisible(false);
         Progressbar_entradas.setVisible(false);
-        setTitle("Inventario SisInf");
+        setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
         ventatotal = calcularTotalVentas();

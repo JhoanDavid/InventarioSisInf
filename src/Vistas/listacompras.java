@@ -6,6 +6,7 @@
 //aja
 package Vistas;
 
+import Controladores.GlobalClass;
 import Controladores.ProductoJpaController;
 import Controladores.MovimientoJpaController;
 import Controladores.ProductoMovimientoJpaController;
@@ -43,7 +44,7 @@ public class listacompras extends javax.swing.JFrame {
         modelo = (DefaultTableModel) tablaProductoInventario.getModel();
         modeloCarrito = (DefaultTableModel) tablaCarritoVenta.getModel();
         txtFecha.setText(getFechaActual());
-        setTitle("Inventario SisInf");
+        setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
         LlenarTabla();
@@ -454,9 +455,24 @@ public class listacompras extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
-        InicioAdmonSupremo i = new InicioAdmonSupremo();
-        i.setVisible(true);
-        this.dispose();            // TODO add your handling code here:
+             if (GlobalClass.usuario != null) {
+
+            if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
+                InicioAdministrador i = new InicioAdministrador();
+                i.setVisible(true);
+                this.dispose();
+            } else {
+                InicioVendedor i = new InicioVendedor();
+                i.setVisible(true);
+                this.dispose();
+            }
+
+        } else {
+            InicioAdmonSupremo i = new InicioAdmonSupremo();
+            i.setVisible(true);
+            this.dispose();
+
+        }           // TODO add your handling code here:
     }//GEN-LAST:event_cancelarActionPerformed
 
     private void tablaProductoInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductoInventarioMouseClicked
