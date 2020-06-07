@@ -19,7 +19,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-
 /**
  *
  * @author warriors
@@ -273,84 +272,88 @@ public class reporte_producto extends javax.swing.JFrame {
         listaProducto = controlproducto.findProductoEntities();
         for (Producto obj : listaProducto) {
             double gananciaP = (obj.getCantidadStock() * obj.getGanancia());
-            modelo.addRow(new Object[]{obj.getId(), obj.getDescripcion(), obj.getUnidadMedida(), obj.getValorCompra(), obj.getValorVenta(), obj.getGanancia(), obj.getCantidadStock(),gananciaP, obj.getEstado()});
+            modelo.addRow(new Object[]{obj.getId(), obj.getDescripcion(), obj.getUnidadMedida(), obj.getValorCompra(), obj.getValorVenta(), obj.getGanancia(), obj.getCantidadStock(), gananciaP, obj.getEstado()});
 
         }
     }
-      public void generarExcel() {
+
+    public void generarExcel() {
         try {
-            if(tablaAgregarproducto.getRowCount()==0){
-                JOptionPane.showMessageDialog(null,"No hay reportes de productos en la Tabla" );
-            }else{
-                 Thread t = new Thread() {
-                public void run() {
-                    XSSFWorkbook workbook = new XSSFWorkbook();
-                    XSSFSheet hoja = workbook.createSheet();
+            if (tablaAgregarproducto.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(null, "No hay reportes de productos en la Tabla");
+            } else {
+                Thread t = new Thread() {
+                    public void run() {
+                        XSSFWorkbook workbook = new XSSFWorkbook();
+                        XSSFSheet hoja = workbook.createSheet();
 
-                    txtgenerando.setVisible(true);
-                    Progressbar_salidas.setVisible(true);
+                        txtgenerando.setVisible(true);
+                        Progressbar_salidas.setVisible(true);
 
-                    XSSFRow fila = hoja.createRow(0);
-                    fila.createCell(0).setCellValue("ID");
-                    fila.createCell(1).setCellValue("Descripcion");
-                    fila.createCell(2).setCellValue("Unida_medida");
-                    fila.createCell(3).setCellValue("Valor_compra");
-                    fila.createCell(4).setCellValue("Valor_venta");
-                    fila.createCell(5).setCellValue("Ganancia");
-                    fila.createCell(6).setCellValue("Cantidad");
-                    fila.createCell(7).setCellValue("Ganancia_por_Producto");
-                    fila.createCell(8).setCellValue("Estado");
-                    fila.createCell(9).setCellValue("Costo_Total");
-                    fila.createCell(10).setCellValue("Valor_Venta_Total");
-                    fila.createCell(11).setCellValue("Ganancia_Total");
+                        XSSFRow fila = hoja.createRow(0);
+                        fila.createCell(0).setCellValue("ID");
+                        fila.createCell(1).setCellValue("Descripcion");
+                        fila.createCell(2).setCellValue("Unida_medida");
+                        fila.createCell(3).setCellValue("Valor_compra");
+                        fila.createCell(4).setCellValue("Valor_venta");
+                        fila.createCell(5).setCellValue("Ganancia");
+                        fila.createCell(6).setCellValue("Cantidad");
+                        fila.createCell(7).setCellValue("Ganancia_por_Producto");
+                        fila.createCell(8).setCellValue("Estado");
+                        fila.createCell(9).setCellValue("Costo_Total");
+                        fila.createCell(10).setCellValue("Valor_Venta_Total");
+                        fila.createCell(11).setCellValue("Ganancia_Total");
 
-                    Progressbar_salidas.setMaximum(tablaAgregarproducto.getRowCount());
-                    XSSFRow filas;
-                    Rectangle rect;
-                    for (int i = 0; i < tablaAgregarproducto.getRowCount(); i++) {
-                        rect = tablaAgregarproducto.getCellRect(i, 0, true);
-                        try {
-                            tablaAgregarproducto.scrollRectToVisible(rect);
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, "Error " + e);
+                        Progressbar_salidas.setMaximum(tablaAgregarproducto.getRowCount());
+                        XSSFRow filas;
+                        Rectangle rect;
+                        int cont = 0;
+                        for (int i = 0; i < tablaAgregarproducto.getRowCount(); i++) {
+                            rect = tablaAgregarproducto.getCellRect(i, 0, true);
+                            try {
+                                tablaAgregarproducto.scrollRectToVisible(rect);
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(null, "Error " + e);
+                            }
+                            tablaAgregarproducto.setRowSelectionInterval(i, i);
+                            Progressbar_salidas.setValue((i + 1));
+
+                            filas = hoja.createRow((i + 1));
+                            filas.createCell(0).setCellValue(tablaAgregarproducto.getValueAt(i, 0).toString());
+                            filas.createCell(1).setCellValue(tablaAgregarproducto.getValueAt(i, 1).toString());
+                            filas.createCell(2).setCellValue(tablaAgregarproducto.getValueAt(i, 2).toString());
+                            filas.createCell(3).setCellValue(tablaAgregarproducto.getValueAt(i, 3).toString());
+                            filas.createCell(4).setCellValue(tablaAgregarproducto.getValueAt(i, 4).toString());
+                            filas.createCell(5).setCellValue(tablaAgregarproducto.getValueAt(i, 5).toString());
+                            filas.createCell(6).setCellValue(tablaAgregarproducto.getValueAt(i, 6).toString());
+                            filas.createCell(7).setCellValue(tablaAgregarproducto.getValueAt(i, 7).toString());
+                            filas.createCell(8).setCellValue(tablaAgregarproducto.getValueAt(i, 8).toString());
+                            cont++;
                         }
-                        tablaAgregarproducto.setRowSelectionInterval(i, i);
-                        Progressbar_salidas.setValue((i + 1));
-
-                        filas = hoja.createRow((i + 1));
-                        filas.createCell(0).setCellValue(tablaAgregarproducto.getValueAt(i, 0).toString());
-                        filas.createCell(1).setCellValue(tablaAgregarproducto.getValueAt(i, 1).toString());
-                        filas.createCell(2).setCellValue(tablaAgregarproducto.getValueAt(i, 2).toString());
-                        filas.createCell(3).setCellValue(tablaAgregarproducto.getValueAt(i, 3).toString());
-                        filas.createCell(4).setCellValue(tablaAgregarproducto.getValueAt(i, 4).toString());
-                        filas.createCell(5).setCellValue(tablaAgregarproducto.getValueAt(i, 5).toString());
-                        filas.createCell(6).setCellValue(tablaAgregarproducto.getValueAt(i, 6).toString());
-                        filas.createCell(7).setCellValue(tablaAgregarproducto.getValueAt(i, 7).toString());
-                        filas.createCell(8).setCellValue(tablaAgregarproducto.getValueAt(i, 8).toString());
+                        filas = hoja.createRow(cont + 1);
                         filas.createCell(9).setCellValue(txtcosto.getText());
                         filas.createCell(10).setCellValue(txtventa.getText());
                         filas.createCell(11).setCellValue(txtganancia.getText());
+
+                        Progressbar_salidas.setString("Abriendo Excel...");
+                        try {
+                            workbook.write(new FileOutputStream(new File(ruta + "//reporteProducto.xlsx")));
+                            Desktop.getDesktop().open(new File(ruta + "//reporteProducto.xlsx"));
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, " Error" + e);
+                        }
                     }
 
-                    Progressbar_salidas.setString("Abriendo Excel...");
-                    try {
-                        workbook.write(new FileOutputStream(new File(ruta + "//reporteProducto.xlsx")));
-                        Desktop.getDesktop().open(new File(ruta + "//reporteProducto.xlsx"));
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, " Error" + e);
-                    }
-                }
-
-            };
-            t.start();
+                };
+                t.start();
             }
-           
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, " Error" + e);
         }
     }
 
-  
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar Progressbar_salidas;
     private javax.swing.JButton btn_reporte;

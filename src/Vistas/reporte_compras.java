@@ -241,6 +241,7 @@ public class reporte_compras extends javax.swing.JFrame {
                         Progressbar_entradas.setMaximum(tablaReportecompras.getRowCount());
                         XSSFRow filas;
                         Rectangle rect;
+                        int cont=0;
                         for (int i = 0; i < tablaReportecompras.getRowCount(); i++) {
                             rect = tablaReportecompras.getCellRect(i, 0, true);
                             try {
@@ -263,8 +264,9 @@ public class reporte_compras extends javax.swing.JFrame {
                             filas.createCell(8).setCellValue(tablaReportecompras.getValueAt(i, 8).toString());
                             filas.createCell(9).setCellValue(tablaReportecompras.getValueAt(i, 9).toString());
                             filas.createCell(10).setCellValue(tablaReportecompras.getValueAt(i, 10).toString());
+                            cont++;
                         }
-                         filas=hoja.createRow(10);
+                         filas=hoja.createRow(cont+1);
                         filas.createCell(11).setCellValue(compratotal);
 
                         Progressbar_entradas.setString("Abriendo Excel...");
