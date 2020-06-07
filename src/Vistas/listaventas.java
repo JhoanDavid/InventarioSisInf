@@ -87,9 +87,10 @@ public class listaventas extends javax.swing.JFrame {
     public void filtrarTabla() {
         try {
             limpiarTabla();
-            if (calendario.equals("")) {
+            if (calendario.getDate()==null) {
                 limpiarTabla();
                 LlenarTabla();
+                JOptionPane.showMessageDialog(null, "Debe escoger una fecha en el calendario");
 
             } else {
                 limpiarTabla();

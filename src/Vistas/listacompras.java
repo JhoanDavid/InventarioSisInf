@@ -89,10 +89,11 @@ public class listacompras extends javax.swing.JFrame {
 
     public void filtrarTabla() {
         try {
-            if (calendario==null) {
+            if (calendario.getDate()==null) {
                 limpiarTabla();
                 LlenarTabla();
                 limpiarTablaProductos();
+                JOptionPane.showMessageDialog(null, "Debe escoger una fecha en el calendario");
 
             } else {
                 limpiarTabla();
@@ -475,13 +476,11 @@ public class listacompras extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTotalComprasActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(calendario.getDate().toString().equalsIgnoreCase("")){
-         JOptionPane.showMessageDialog(null, "seleccione una fecha");
-        }else{
+        
         txtTotalCompras.setText("0");
         txtTotal.setText("0");
         filtrarTabla();     // TODO add your handling code here:
-        }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
