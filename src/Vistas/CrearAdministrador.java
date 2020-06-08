@@ -58,25 +58,29 @@ public class CrearAdministrador extends javax.swing.JFrame {
         txtcontraseña.setText(user.getPassword());
         txtcontraseña2.setText(user.getPassword());
     }
-    
-     public boolean validarNumero(KeyEvent evt){
+
+    public boolean validarNumero(KeyEvent evt) {
         char validar = evt.getKeyChar();
-        if(Character.isLetter(validar)){
+        if (Character.isLetter(validar)) {
             getToolkit().beep();
             evt.consume();
             JOptionPane.showMessageDialog(rootPane, "Por favor Ingresar solo números");
             return false;
-         }
+        }
         return true;
-  }
+    }
 
-     public void prueba (){
-     listaUsuario=controlUsuario.findUsuarioEntities();
-        for(Usuario obj:listaUsuario){  
-        if(obj.getId().toString().matches(txtcedula.getText())){ 
-        for (int j = 0; j < 1; j++) {    
-        JOptionPane.showMessageDialog(null, obj.getNombre());
-        }}}}
+    public void prueba() {
+        listaUsuario = controlUsuario.findUsuarioEntities();
+        for (Usuario obj : listaUsuario) {
+            if (obj.getId().toString().matches(txtcedula.getText())) {
+                for (int j = 0; j < 1; j++) {
+                    JOptionPane.showMessageDialog(null, obj.getNombre());
+                }
+            }
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -303,131 +307,114 @@ public class CrearAdministrador extends javax.swing.JFrame {
         String b = "";
         if (txtnombre.getText().equals("") || txttelefono.getText().equals("") || txtdirecion.getText().equals("") || txtciudad.getText().equals("") || txtusuario.getText().equals("") || txtcontraseña.getPassword().equals(" ") || txtcontraseña2.getPassword().equals("")) {
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!");
-        } else {
-            listaUsuario=controlUsuario.findUsuarioEntities();
-        for(Usuario obj:listaUsuario){  
-        if(obj.getId().toString().matches(txtcedula.getText())){ 
-        for (int j = 0; j < 1; j++) {    
-        a =  obj.getNombre();
-        }}}}
-            if (a!="") {
-                JOptionPane.showMessageDialog(null, "el documento ya fue registrado");
-            }else{ 
-                listaUsuario=controlUsuario.findUsuarioEntities();
-        for(Usuario obj:listaUsuario){  
-        if(obj.getUser().toString().matches(txtusuario.getText())){ 
-        for (int j = 0; j < 1; j++) {    
-        b =  obj.getNombre();
-        }}}
-        if (b !="") {
-            JOptionPane.showMessageDialog(null, "el usuario ya fue registrado");
-            }else {
-            if (btn_agregar.getText().equalsIgnoreCase("Crear")) {
-                try {
-                    user.setId(Long.parseLong(txtcedula.getText()));
-                    user.setNombre(txtnombre.getText());
-                    BigInteger bigIntegerStr = new BigInteger(txttelefono.getText());
-                    user.setTelefono(bigIntegerStr);
-                    user.setDireccion((txtdirecion.getText()));
-                    user.setCiudad((txtciudad.getText()));
-                    user.setUser(txtusuario.getText());
-                    String strPassword = new String(txtcontraseña.getPassword());
-                    user.setPassword(strPassword);
-                    user.setEstado(true);
-                    user.setRol("Administrador");
-                    String strPassword2 = new String(txtcontraseña2.getPassword());
+        }          
+                if (btn_agregar.getText().equalsIgnoreCase("Crear")) {
+                    try {
+                        user.setId(Long.parseLong(txtcedula.getText()));
+                        user.setNombre(txtnombre.getText());
+                        BigInteger bigIntegerStr = new BigInteger(txttelefono.getText());
+                        user.setTelefono(bigIntegerStr);
+                        user.setDireccion((txtdirecion.getText()));
+                        user.setCiudad((txtciudad.getText()));
+                        user.setUser(txtusuario.getText());
+                        String strPassword = new String(txtcontraseña.getPassword());
+                        user.setPassword(strPassword);
+                        user.setEstado(true);
+                        user.setRol("Administrador");
+                        String strPassword2 = new String(txtcontraseña2.getPassword());
 
-                    if (strPassword.equals(strPassword2)) {
-                        controlUsuario.create(user);
-                        JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente");
-                        txtcedula.setText("");
-                        txtnombre.setText("");
-                        txttelefono.setText("");
-                        txtdirecion.setText("");
-                        txtciudad.setText("");
-                        txtusuario.setText("");
-                        txtcontraseña.setText("");
-                        txtcontraseña2.setText("");
+                        if (strPassword.equals(strPassword2)) {
+                            controlUsuario.create(user);
+                            JOptionPane.showMessageDialog(null, "Usuario registrado exitosamente");
+                            txtcedula.setText("");
+                            txtnombre.setText("");
+                            txttelefono.setText("");
+                            txtdirecion.setText("");
+                            txtciudad.setText("");
+                            txtusuario.setText("");
+                            txtcontraseña.setText("");
+                            txtcontraseña2.setText("");
 
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden!");
-                        txtcontraseña.setText("");
-                        txtcontraseña2.setText("");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden!");
+                            txtcontraseña.setText("");
+                            txtcontraseña2.setText("");
+                        }
+
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Error " + e.getMessage());
                     }
 
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Error " + e.getMessage());
-                }
+                } else if (btn_agregar.getText().equalsIgnoreCase("Actualizar")) {
+                    try {
+                        user.setId(Long.parseLong(txtcedula.getText()));
+                        user.setNombre(txtnombre.getText());
+                        BigInteger bigIntegerStr = new BigInteger(txttelefono.getText());
+                        user.setTelefono(bigIntegerStr);
+                        user.setDireccion((txtdirecion.getText()));
+                        user.setCiudad((txtciudad.getText()));
+                        user.setUser(txtusuario.getText());
+                        String strPassword = new String(txtcontraseña.getPassword());
+                        user.setPassword(strPassword);
+                        user.setEstado(true);
+                        user.setRol("Administrador");
+                        String strPassword2 = new String(txtcontraseña2.getPassword());
 
-            } else if (btn_agregar.getText().equalsIgnoreCase("Actualizar")) {
-                try {
-                    user.setId(Long.parseLong(txtcedula.getText()));
-                    user.setNombre(txtnombre.getText());
-                    BigInteger bigIntegerStr = new BigInteger(txttelefono.getText());
-                    user.setTelefono(bigIntegerStr);
-                    user.setDireccion((txtdirecion.getText()));
-                    user.setCiudad((txtciudad.getText()));
-                    user.setUser(txtusuario.getText());
-                    String strPassword = new String(txtcontraseña.getPassword());
-                    user.setPassword(strPassword);
-                    user.setEstado(true);
-                    user.setRol("Administrador");
-                    String strPassword2 = new String(txtcontraseña2.getPassword());
+                        if (strPassword.equals(strPassword2)) {
+                            controlUsuario.edit(user);
+                            JOptionPane.showMessageDialog(null, "Usuario Actualizado exitosamente");
+                            btn_agregar.setText("Crear");
+                            txtcedula.setText("");
+                            txtnombre.setText("");
+                            txttelefono.setText("");
+                            txtdirecion.setText("");
+                            txtciudad.setText("");
+                            txtusuario.setText("");
+                            txtcontraseña.setText("");
+                            txtcontraseña2.setText("");
+                            txtcedula.setEditable(true);
+                            Vista_Usuarios i = new Vista_Usuarios();
+                            i.setVisible(true);
+                            this.dispose();
 
-                    if (strPassword.equals(strPassword2)) {
-                        controlUsuario.edit(user);
-                        JOptionPane.showMessageDialog(null, "Usuario Actualizado exitosamente");
-                        btn_agregar.setText("Crear");
-                        txtcedula.setText("");
-                        txtnombre.setText("");
-                        txttelefono.setText("");
-                        txtdirecion.setText("");
-                        txtciudad.setText("");
-                        txtusuario.setText("");
-                        txtcontraseña.setText("");
-                        txtcontraseña2.setText("");
-                        txtcedula.setEditable(true);
-                        Vista_Usuarios i = new Vista_Usuarios();
-                        i.setVisible(true);
-                        this.dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden!");
+                            txtcontraseña.setText("");
+                            txtcontraseña2.setText("");
+                        }
 
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden!");
-                        txtcontraseña.setText("");
-                        txtcontraseña2.setText("");
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Error " + e.getMessage());
                     }
-
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Error " + e.getMessage());
+                } else {
+                    JOptionPane.showMessageDialog(null, "Accion Invalida");
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "Accion Invalida");
-            }
 
-        }}
+            
+        
 
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         if (btn_agregar.getText().equalsIgnoreCase("Crear")) {
-                if (GlobalClass.usuario != null) {
+            if (GlobalClass.usuario != null) {
 
-            if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
-                InicioAdministrador i = new InicioAdministrador();
-                i.setVisible(true);
-                this.dispose();
+                if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
+                    InicioAdministrador i = new InicioAdministrador();
+                    i.setVisible(true);
+                    this.dispose();
+                } else {
+                    InicioVendedor i = new InicioVendedor();
+                    i.setVisible(true);
+                    this.dispose();
+                }
+
             } else {
-                InicioVendedor i = new InicioVendedor();
+                InicioAdmonSupremo i = new InicioAdmonSupremo();
                 i.setVisible(true);
                 this.dispose();
+
             }
-
-        } else {
-            InicioAdmonSupremo i = new InicioAdmonSupremo();
-            i.setVisible(true);
-            this.dispose();
-
-        }  
         } else {
             Vista_Usuarios i = new Vista_Usuarios();
             i.setVisible(true);
