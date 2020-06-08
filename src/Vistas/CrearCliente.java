@@ -347,10 +347,7 @@ public class CrearCliente extends javax.swing.JDialog {
 
             }
         } else {
-            Vista_Usuarios i = new Vista_Usuarios();
-            i.setVisible(true);
             this.dispose();
-
         }
     }//GEN-LAST:event_btnCancelarActionPerformed
 

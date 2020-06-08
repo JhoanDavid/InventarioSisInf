@@ -12,6 +12,7 @@ import Controladores.ProductoMovimientoJpaController;
 import Entidades.Producto;
 import Entidades.Movimiento;
 import Entidades.ProductoMovimiento;
+import Entidades.Usuario;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,18 +44,68 @@ public class listaventas extends javax.swing.JFrame {
         modelo = (DefaultTableModel) tablaProductoInventario.getModel();
         modeloCarrito = (DefaultTableModel) tablaCarritoVenta.getModel();
         txtFecha.setText(getFechaActual());
-       setTitle("EasyStock");
+        setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
         LlenarTabla();
     }
 
+    public listaventas(Usuario user) {
+        initComponents();
+        modelo = (DefaultTableModel) tablaProductoInventario.getModel();
+        modeloCarrito = (DefaultTableModel) tablaCarritoVenta.getModel();
+        txtFecha.setText(getFechaActual());
+        setTitle("EasyStock");
+        setResizable(false);
+        setLocationRelativeTo(null);
+        LlenarTablaVendedor();
+    }
+
     public void LlenarTabla() {
+        long UsuarioTrans;
+        String cliente;
         listaMovimiento = controlmovimiento.findMovimientoEntities();
         for (Movimiento obj : listaMovimiento) {
             if (obj.getTipoMov().contains("Venta") || obj.getTipoMov().contains("PrestamoSalida") || obj.getTipoMov().contains("DevolucionSalida")) {
-                modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getUsuarioTrans(),
-                    obj.getDescuentoAplicado(), obj.getIdCliente(), obj.getTipoMov()});
+                if (obj.getUsuarioTrans() == null) {
+                    UsuarioTrans = 0;
+                } else {
+                    UsuarioTrans = obj.getUsuarioTrans().getId();
+                }
+                if (obj.getIdCliente() == null) {
+                    cliente = "Cliente no registrado";
+                } else {
+                    cliente = obj.getIdCliente().getNombre();
+                }
+                modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), UsuarioTrans,
+                    obj.getDescuentoAplicado(), cliente, obj.getTipoMov()});
+            }
+        }
+        calcularTotalCompras();
+    }
+
+    public void LlenarTablaVendedor() {
+        long UsuarioTrans;
+        String cliente;
+        listaMovimiento = controlmovimiento.findMovimientoEntities();
+        for (Movimiento obj : listaMovimiento) {
+            if (obj.getTipoMov().contains("Venta") || obj.getTipoMov().contains("PrestamoSalida") || obj.getTipoMov().contains("DevolucionSalida")) {
+                if (obj.getUsuarioTrans() != null) {
+                    if (obj.getUsuarioTrans().getId() == GlobalClass.usuario.getId()) {
+                        if (obj.getUsuarioTrans() == null) {
+                            UsuarioTrans = 0;
+                        } else {
+                            UsuarioTrans = obj.getUsuarioTrans().getId();
+                        }
+                        if (obj.getIdCliente() == null) {
+                            cliente = "Cliente no registrado";
+                        } else {
+                            cliente = obj.getIdCliente().getNombre();
+                        }
+                        modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), UsuarioTrans,
+                            obj.getDescuentoAplicado(), cliente, obj.getTipoMov()});
+                    }
+                }
             }
         }
         calcularTotalCompras();
@@ -85,9 +136,11 @@ public class listaventas extends javax.swing.JFrame {
     }
 
     public void filtrarTabla() {
+        long UsuarioTrans;
+        String cliente;
         try {
             limpiarTabla();
-            if (calendario.getDate()==null) {
+            if (calendario.getDate() == null) {
                 limpiarTabla();
                 LlenarTabla();
                 JOptionPane.showMessageDialog(null, "Debe escoger una fecha en el calendario");
@@ -97,18 +150,86 @@ public class listaventas extends javax.swing.JFrame {
                 int a = 0;
                 DefaultTableModel modelo = (DefaultTableModel) tablaProductoInventario.getModel();
                 listaMovimiento = controlmovimiento.findMovimientoEntities();
-                for (Movimiento obj : listaMovimiento) {
-                    for (int i = 0; i < 1; i++) {
-                        Date B = calendario.getDate();
-                        Date A = obj.getFechaMovimiento();
-                        a = A.compareTo(B);
-                        if ((obj.getTipoMov().contains("Venta") || obj.getTipoMov().contains("PrestamoSalida") || obj.getTipoMov().contains("DevolucionSalida")) && a >= 0) {
-                            modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getUsuarioTrans(),
-                                obj.getDescuentoAplicado(), obj.getIdCliente(), obj.getTipoMov()});
-                            calcularTotalCompras();
+
+                if (GlobalClass.usuario != null) {
+                    if (GlobalClass.usuario.getRol().equalsIgnoreCase("Vendedor")) {
+
+                        for (Movimiento obj : listaMovimiento) {
+                            for (int i = 0; i < 1; i++) {
+                                Date B = calendario.getDate();
+                                Date A = obj.getFechaMovimiento();
+                                a = A.compareTo(B);
+                                if ((obj.getTipoMov().contains("Venta") || obj.getTipoMov().contains("PrestamoSalida") || obj.getTipoMov().contains("DevolucionSalida")) && a >= 0) {
+                                    if (obj.getUsuarioTrans() == null) {
+                                        UsuarioTrans = 0;
+                                    } else {
+                                        UsuarioTrans = obj.getUsuarioTrans().getId();
+                                    }
+                                    if (obj.getIdCliente() == null) {
+                                        cliente = "Cliente no registrado";
+                                    } else {
+                                        cliente = obj.getIdCliente().getNombre();
+                                    }
+                                    if (obj.getUsuarioTrans() != null) {
+                                        if (obj.getUsuarioTrans().getId() == GlobalClass.usuario.getId()) {
+                                            modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), UsuarioTrans,
+                                                obj.getDescuentoAplicado(), cliente, obj.getTipoMov()});
+                                            calcularTotalCompras();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    } else {
+                        for (Movimiento obj : listaMovimiento) {
+                            for (int i = 0; i < 1; i++) {
+                                Date B = calendario.getDate();
+                                Date A = obj.getFechaMovimiento();
+                                a = A.compareTo(B);
+                                if ((obj.getTipoMov().contains("Venta") || obj.getTipoMov().contains("PrestamoSalida") || obj.getTipoMov().contains("DevolucionSalida")) && a >= 0) {
+                                    if (obj.getUsuarioTrans() == null) {
+                                        UsuarioTrans = 0;
+                                    } else {
+                                        UsuarioTrans = obj.getUsuarioTrans().getId();
+                                    }
+                                    if (obj.getIdCliente() == null) {
+                                        cliente = "Cliente no registrado";
+                                    } else {
+                                        cliente = obj.getIdCliente().getNombre();
+                                    }
+                                    modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), UsuarioTrans,
+                                        obj.getDescuentoAplicado(), cliente, obj.getTipoMov()});
+                                    calcularTotalCompras();
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    for (Movimiento obj : listaMovimiento) {
+                        for (int i = 0; i < 1; i++) {
+                            Date B = calendario.getDate();
+                            Date A = obj.getFechaMovimiento();
+                            a = A.compareTo(B);
+                            if ((obj.getTipoMov().contains("Venta") || obj.getTipoMov().contains("PrestamoSalida") || obj.getTipoMov().contains("DevolucionSalida")) && a >= 0) {
+                                if (obj.getUsuarioTrans() == null) {
+                                    UsuarioTrans = 0;
+                                } else {
+                                    UsuarioTrans = obj.getUsuarioTrans().getId();
+                                }
+                                if (obj.getIdCliente() == null) {
+                                    cliente = "Cliente no registrado";
+                                } else {
+                                    cliente = obj.getIdCliente().getNombre();
+                                }
+                                modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), UsuarioTrans,
+                                    obj.getDescuentoAplicado(), cliente, obj.getTipoMov()});
+                                calcularTotalCompras();
+                            }
                         }
                     }
                 }
+
             }
         } catch (Exception e) {
         }
@@ -209,11 +330,11 @@ public class listaventas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "fecha", "descripcion", "id vendedor", "descuento", "id cliente", "tipo"
+                "id", "fecha", "descripcion", "id vendedor", "descuento", "cliente", "tipo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Long.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false

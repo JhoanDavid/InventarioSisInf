@@ -200,9 +200,9 @@
                         <Column editable="false" title="id" type="java.lang.Integer"/>
                         <Column editable="false" title="fecha" type="java.lang.String"/>
                         <Column editable="false" title="descripcion" type="java.lang.String"/>
-                        <Column editable="false" title="id vendedor" type="java.lang.Integer"/>
+                        <Column editable="false" title="id vendedor" type="java.lang.Long"/>
                         <Column editable="false" title="descuento" type="java.lang.Integer"/>
-                        <Column editable="false" title="id cliente" type="java.lang.Object"/>
+                        <Column editable="false" title="cliente" type="java.lang.String"/>
                         <Column editable="false" title="tipo" type="java.lang.Object"/>
                       </Table>
                     </Property>

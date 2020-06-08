@@ -221,7 +221,7 @@
                         <Column editable="false" title="fecha" type="java.lang.String"/>
                         <Column editable="false" title="descripcion" type="java.lang.String"/>
                         <Column editable="false" title="id_remitente" type="java.lang.Double"/>
-                        <Column editable="false" title="usuario_trans" type="java.lang.Integer"/>
+                        <Column editable="false" title="usuario_trans" type="java.lang.Long"/>
                         <Column editable="false" title="tipo" type="java.lang.Object"/>
                       </Table>
                     </Property>
@@ -326,16 +326,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="txtTotal" min="-2" pref="110" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
-                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jScrollPane3" alignment="0" min="-2" pref="405" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jScrollPane3" min="-2" pref="405" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="15" max="32767" attributes="0"/>
                   </Group>

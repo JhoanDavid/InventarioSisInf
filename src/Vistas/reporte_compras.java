@@ -37,7 +37,7 @@ public class reporte_compras extends javax.swing.JFrame {
     List<ProductoMovimiento> listaProductoMovimiento;
     List<Producto> listaProducto;
     DefaultTableModel modelo;
-    double compratotal=0;
+    double compratotal = 0;
     private final String ruta = System.getProperties().getProperty("user.dir");
 
     public reporte_compras() {
@@ -48,7 +48,20 @@ public class reporte_compras extends javax.swing.JFrame {
         setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
-        compratotal=calcularTotalCompras();
+        compratotal = calcularTotalCompras();
+        txtcompras.setText(String.valueOf(compratotal));
+        txtcompras.setEditable(false);
+    }
+
+    public reporte_compras(Usuario user) {
+        initComponents();
+        LlenarTablaVendedor();
+        txtgenerando.setVisible(false);
+        Progressbar_entradas.setVisible(false);
+        setTitle("EasyStock");
+        setResizable(false);
+        setLocationRelativeTo(null);
+        compratotal = calcularTotalCompras();
         txtcompras.setText(String.valueOf(compratotal));
         txtcompras.setEditable(false);
     }
@@ -241,7 +254,7 @@ public class reporte_compras extends javax.swing.JFrame {
                         Progressbar_entradas.setMaximum(tablaReportecompras.getRowCount());
                         XSSFRow filas;
                         Rectangle rect;
-                        int cont=0;
+                        int cont = 0;
                         for (int i = 0; i < tablaReportecompras.getRowCount(); i++) {
                             rect = tablaReportecompras.getCellRect(i, 0, true);
                             try {
@@ -266,7 +279,7 @@ public class reporte_compras extends javax.swing.JFrame {
                             filas.createCell(10).setCellValue(tablaReportecompras.getValueAt(i, 10).toString());
                             cont++;
                         }
-                         filas=hoja.createRow(cont+1);
+                        filas = hoja.createRow(cont + 1);
                         filas.createCell(11).setCellValue(compratotal);
 
                         Progressbar_entradas.setString("Abriendo Excel...");
@@ -318,6 +331,42 @@ public class reporte_compras extends javax.swing.JFrame {
 
                     }
 
+                }
+
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Tablas sin registros");
+        }
+
+    }
+
+    public void LlenarTablaVendedor() {
+        String UsuarioTrans;
+        String cliente;
+        listaMovimiento = controlmovimiento.findMovimientoEntities();
+        listaProductoMovimiento = controlproductoM.findProductoMovimientoEntities();
+        DefaultTableModel modelo = (DefaultTableModel) tablaReportecompras.getModel();
+        if (listaMovimiento != null && listaProductoMovimiento != null) {
+            for (Movimiento obj : listaMovimiento) {
+                for (ProductoMovimiento obj1 : listaProductoMovimiento) {
+                    if (obj.getId() == obj1.getIdMov().getId() && (obj.getTipoMov().equalsIgnoreCase("Compra") || obj.getTipoMov().equalsIgnoreCase("PrestamoEntrada")
+                            || obj.getTipoMov().equalsIgnoreCase("DevolucionEntrada"))) {
+                        if (obj.getUsuarioTrans() != null) {
+                            if (obj.getUsuarioTrans().getId() == GlobalClass.usuario.getId()) {
+
+                                if (obj.getUsuarioTrans() == null) {
+                                    UsuarioTrans = "Admin";
+                                } else {
+                                    UsuarioTrans = obj.getUsuarioTrans().getNombre();
+                                }
+
+                                modelo.addRow(new Object[]{obj1.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
+                                    UsuarioTrans, obj.getTipoMov(), obj1.getIdProducto().getId(),
+                                    obj1.getIdProducto().getDescripcion(), obj1.getCantTrans(), obj1.getIdProducto().getUnidadMedida(), obj1.getValorTrans()});
+                            }
+                        }
+                    }
                 }
 
             }
