@@ -81,7 +81,7 @@ public class GestionVendedores extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaAgregarUsuario = new javax.swing.JTable();
         buscar = new javax.swing.JTextField();
-        btn_Inhabilitar1 = new javax.swing.JButton();
+        btn_atras = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
         btn_Inhabilitar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
@@ -131,10 +131,10 @@ public class GestionVendedores extends javax.swing.JFrame {
             }
         });
 
-        btn_Inhabilitar1.setText("Regresar");
-        btn_Inhabilitar1.addActionListener(new java.awt.event.ActionListener() {
+        btn_atras.setText("Regresar");
+        btn_atras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_Inhabilitar1ActionPerformed(evt);
+                btn_atrasActionPerformed(evt);
             }
         });
 
@@ -173,7 +173,7 @@ public class GestionVendedores extends javax.swing.JFrame {
                                 .addComponent(buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGap(97, 97, 97)
-                                    .addComponent(btn_Inhabilitar1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btn_atras, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(132, 132, 132)
                                     .addComponent(btn_editar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(113, 113, 113)
@@ -197,7 +197,7 @@ public class GestionVendedores extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btn_Inhabilitar1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                        .addComponent(btn_atras, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGap(0, 0, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,7 +250,7 @@ public class GestionVendedores extends javax.swing.JFrame {
         filtrarTabla();
     }//GEN-LAST:event_buscarKeyReleased
 
-    private void btn_Inhabilitar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Inhabilitar1ActionPerformed
+    private void btn_atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_atrasActionPerformed
            if (GlobalClass.usuario != null) {
 
             if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
@@ -269,7 +269,7 @@ public class GestionVendedores extends javax.swing.JFrame {
             this.dispose();
 
         }       // TODO add your handling code here:
-    }//GEN-LAST:event_btn_Inhabilitar1ActionPerformed
+    }//GEN-LAST:event_btn_atrasActionPerformed
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
         if (tablaAgregarUsuario.getSelectedRow() == (-1)) {
@@ -288,7 +288,9 @@ public class GestionVendedores extends javax.swing.JFrame {
         if (tablaAgregarUsuario.getSelectedRow() == (-1)) {
             JOptionPane.showMessageDialog(null, "Debe de selecionar un valor de la tabla");
         } else {
-            user = controlUsuario.findUsuario((Long) tablaAgregarUsuario.getValueAt(tablaAgregarUsuario.getSelectedRow(), 0));
+             int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro de ejecutar la acción?", "Alerta!", JOptionPane.YES_NO_OPTION);
+            if (resp == 0) {
+                 user = controlUsuario.findUsuario((Long) tablaAgregarUsuario.getValueAt(tablaAgregarUsuario.getSelectedRow(), 0));
             try {
                 if (btn_Inhabilitar.getText().equals("Inhabilitar")) {
                     user.setEstado(false);
@@ -308,6 +310,11 @@ public class GestionVendedores extends javax.swing.JFrame {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, " " + e.getMessage());
             }
+            }else {
+                JOptionPane.showMessageDialog(null, "Operacion cancelada");
+            }
+            
+           
 
         }
 
@@ -350,7 +357,7 @@ public class GestionVendedores extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Inhabilitar;
-    private javax.swing.JButton btn_Inhabilitar1;
+    private javax.swing.JButton btn_atras;
     private javax.swing.JButton btn_editar;
     private javax.swing.JTextField buscar;
     private javax.swing.JLabel jLabel2;

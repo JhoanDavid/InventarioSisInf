@@ -19,11 +19,13 @@ import javax.swing.table.DefaultTableModel;
  * @author jramirez
  */
 public class CrearVendedores extends javax.swing.JFrame {
+
     UsuarioJpaController controlUsuario = new UsuarioJpaController();
     Usuario user = new Usuario();
     DefaultTableModel modelo2;
     List<Usuario> listaUsuario;
     Usuario documento;
+
     /**
      * Creates new form CrearVendedores
      */
@@ -33,43 +35,69 @@ public class CrearVendedores extends javax.swing.JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
     }
-    
-    
-      public CrearVendedores(Usuario usuario) {
+
+    public CrearVendedores(Usuario usuario) {
         initComponents();
         setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
-        user=usuario;
+        user = usuario;
         llenarDatos();
     }
 
-     public void llenarDatos(){
-            lblTitulo.setText("Editar Vendedor");
-            btn_agregar.setText("Actualizar");
-            txtcedula.setText(user.getId().toString());
-            txtcedula.setEditable(false);
-            txtnombre.setText(user.getNombre());
-            txttelefono.setText(user.getTelefono().toString());
-            txtdirecion.setText(user.getDireccion());
-            txtciudad.setText(user.getCiudad());
-            txtusuario.setText(user.getUser());
-            txtcontraseña.setText(user.getPassword());
-            txtcontraseña2.setText(user.getPassword());
+    public void llenarDatos() {
+        lblTitulo.setText("Editar Vendedor");
+        btn_agregar.setText("Actualizar");
+        txtcedula.setText(user.getId().toString());
+        txtcedula.setEditable(false);
+        txtnombre.setText(user.getNombre());
+        txttelefono.setText(user.getTelefono().toString());
+        txtdirecion.setText(user.getDireccion());
+        txtciudad.setText(user.getCiudad());
+        txtusuario.setText(user.getUser());
+        txtcontraseña.setText(user.getPassword());
+        txtcontraseña2.setText(user.getPassword());
     }
-    
-      public boolean validarNumero(KeyEvent evt){
+
+    public boolean validarNumero(KeyEvent evt) {
         char validar = evt.getKeyChar();
-        if(Character.isLetter(validar)){
+        if (Character.isLetter(validar)) {
             getToolkit().beep();
             evt.consume();
             JOptionPane.showMessageDialog(rootPane, "Por favor Ingresar solo números");
             return false;
-         }
+        }
         return true;
-  }
-      
-      
+    }
+
+    public void cerrar() {
+        if (btn_agregar.getText().equalsIgnoreCase("Crear")) {
+            if (GlobalClass.usuario != null) {
+
+                if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
+                    InicioAdministrador i = new InicioAdministrador();
+                    i.setVisible(true);
+                    this.dispose();
+                } else {
+                    InicioVendedor i = new InicioVendedor();
+                    i.setVisible(true);
+                    this.dispose();
+                }
+
+            } else {
+                InicioAdmonSupremo i = new InicioAdmonSupremo();
+                i.setVisible(true);
+                this.dispose();
+
+            }
+        } else {
+            GestionVendedores i = new GestionVendedores();
+            i.setVisible(true);
+            this.dispose();
+
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -125,6 +153,11 @@ public class CrearVendedores extends javax.swing.JFrame {
         jLabel11.setText("Cedula:");
 
         txtcedula.setMaximumSize(new java.awt.Dimension(6, 20));
+        txtcedula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtcedulaActionPerformed(evt);
+            }
+        });
         txtcedula.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtcedulaKeyTyped(evt);
@@ -292,29 +325,7 @@ public class CrearVendedores extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
-        String a = "";
-        String b = "";
-        if (txtnombre.getText().equals("") || txttelefono.getText().equals("") || txtdirecion.getText().equals("") || txtciudad.getText().equals("") || txtusuario.getText().equals("") || txtcontraseña.getPassword().equals(" ") || txtcontraseña2.getPassword().equals("")) {
-            JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!");
-        } else {
-            listaUsuario=controlUsuario.findUsuarioEntities();
-        for(Usuario obj:listaUsuario){  
-        if(obj.getId().toString().matches(txtcedula.getText())){ 
-        for (int j = 0; j < 1; j++) {    
-        a =  obj.getNombre();
-        }}}}
-            if (a!="") {
-                JOptionPane.showMessageDialog(null, "el documento ya fue registrado");
-            }else{ 
-                listaUsuario=controlUsuario.findUsuarioEntities();
-        for(Usuario obj:listaUsuario){  
-        if(obj.getUser().toString().matches(txtusuario.getText())){ 
-        for (int j = 0; j < 1; j++) {    
-        b =  obj.getNombre();
-        }}}
-        if (b !="") {
-            JOptionPane.showMessageDialog(null, "el usuario ya fue registrado");
-            }else {
+
         if (txtnombre.getText().equals("") || txttelefono.getText().equals("") || txtdirecion.getText().equals("") || txtciudad.getText().equals("") || txtusuario.getText().equals("") || txtcontraseña.getPassword().equals(" ") || txtcontraseña2.getPassword().equals("")) {
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!");
         } else {
@@ -374,7 +385,6 @@ public class CrearVendedores extends javax.swing.JFrame {
                     if (strPassword.equals(strPassword2)) {
                         controlUsuario.edit(user);
                         JOptionPane.showMessageDialog(null, "Usuario Actualizado exitosamente");
-                        btn_agregar.setText("Crear");
                         txtcedula.setText("");
                         txtnombre.setText("");
                         txttelefono.setText("");
@@ -384,6 +394,8 @@ public class CrearVendedores extends javax.swing.JFrame {
                         txtcontraseña.setText("");
                         txtcontraseña2.setText("");
                         txtcedula.setEditable(true);
+                        cerrar();
+                        btn_agregar.setText("Crear");
 
                     } else {
                         JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden!");
@@ -399,35 +411,12 @@ public class CrearVendedores extends javax.swing.JFrame {
             }
 
         }
-        }}
+
+
     }//GEN-LAST:event_btn_agregarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        if (btn_agregar.getText().equalsIgnoreCase("Crear")) {
-                 if (GlobalClass.usuario != null) {
-
-            if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
-                InicioAdministrador i = new InicioAdministrador();
-                i.setVisible(true);
-                this.dispose();
-            } else {
-                InicioVendedor i = new InicioVendedor();
-                i.setVisible(true);
-                this.dispose();
-            }
-
-        } else {
-            InicioAdmonSupremo i = new InicioAdmonSupremo();
-            i.setVisible(true);
-            this.dispose();
-
-        }  
-        }else{
-            Vista_Usuarios i=new Vista_Usuarios();
-            i.setVisible(true);
-            this.dispose();
-
-        }// TODO add your handling code here:
+        cerrar();// TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void txtcedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcedulaKeyTyped
@@ -437,6 +426,10 @@ public class CrearVendedores extends javax.swing.JFrame {
     private void txttelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelefonoKeyTyped
         validarNumero(evt);// TODO add your handling code here:
     }//GEN-LAST:event_txttelefonoKeyTyped
+
+    private void txtcedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcedulaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtcedulaActionPerformed
 
     /**
      * @param args the command line arguments

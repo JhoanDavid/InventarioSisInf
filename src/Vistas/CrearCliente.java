@@ -6,7 +6,10 @@
 package Vistas;
 
 import Controladores.ClienteJpaController;
+import Controladores.GlobalClass;
 import Entidades.Cliente;
+import Entidades.Usuario;
+import java.awt.event.KeyEvent;
 import java.math.BigInteger;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -15,6 +18,8 @@ import javax.swing.JOptionPane;
  *
  * @author jramirez
  */
+
+
 public class CrearCliente extends javax.swing.JDialog {
 
     /**
@@ -31,6 +36,37 @@ public class CrearCliente extends javax.swing.JDialog {
         setLocationRelativeTo(null);
         lista = controlCliente.findClienteEntities();
     }
+     public CrearCliente(Cliente c) {
+        initComponents();
+        setTitle("EasyStock");
+        setResizable(false);
+        setLocationRelativeTo(null);
+        user=c;
+        llenarDatos();
+    }
+     public boolean validarNumero(KeyEvent evt) {
+        char validar = evt.getKeyChar();
+        if (Character.isLetter(validar)) {
+            getToolkit().beep();
+            evt.consume();
+            JOptionPane.showMessageDialog(rootPane, "Por favor Ingresar solo números");
+            return false;
+        }
+        return true;
+    }
+     
+      public void llenarDatos(){
+            lblTitulo.setText("Editar Cliente");
+            btn_agregar.setText("Actualizar");
+            txtcedula.setText(user.getId().toString());
+            txtcedula.setEditable(false);
+            txtnombre.setText(user.getNombre());
+            txttelefono.setText(user.getTelefono().toString());
+            txtdirecion.setText(user.getDireccion());
+            txtciudad.setText(user.getCiudad());
+            txtbarrio.setText(user.getBarrio());
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -90,11 +126,21 @@ public class CrearCliente extends javax.swing.JDialog {
         txtciudad.setMaximumSize(new java.awt.Dimension(6, 20));
 
         txttelefono.setMaximumSize(new java.awt.Dimension(6, 20));
+        txttelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txttelefonoKeyTyped(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel11.setText("Cedula:");
 
         txtcedula.setMaximumSize(new java.awt.Dimension(6, 20));
+        txtcedula.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtcedulaKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -281,7 +327,31 @@ public class CrearCliente extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-      this.dispose();
+      if (btn_agregar.getText().equalsIgnoreCase("Crear")) {
+            if (GlobalClass.usuario != null) {
+
+                if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
+                    InicioAdministrador i = new InicioAdministrador();
+                    i.setVisible(true);
+                    this.dispose();
+                } else {
+                    InicioVendedor i = new InicioVendedor();
+                    i.setVisible(true);
+                    this.dispose();
+                }
+
+            } else {
+                InicioAdmonSupremo i = new InicioAdmonSupremo();
+                i.setVisible(true);
+                this.dispose();
+
+            }
+        } else {
+            Vista_Usuarios i = new Vista_Usuarios();
+            i.setVisible(true);
+            this.dispose();
+
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
@@ -289,6 +359,7 @@ public class CrearCliente extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(null, "Debe llenar todos los campos!");
         } else {
             try {
+                if( btn_agregar.getText().equalsIgnoreCase("Crear")){
                 user.setId(Long.parseLong(txtcedula.getText()));
                 user.setNombre(txtnombre.getText());
                 BigInteger bigIntegerStr = new BigInteger(txttelefono.getText());
@@ -305,6 +376,27 @@ public class CrearCliente extends javax.swing.JDialog {
                 txtciudad.setText("");
                 txtbarrio.setText(" ");
             this.dispose();
+                }else{
+                user.setId(Long.parseLong(txtcedula.getText()));
+                user.setNombre(txtnombre.getText());
+                BigInteger bigIntegerStr = new BigInteger(txttelefono.getText());
+                user.setTelefono(bigIntegerStr);
+                user.setDireccion((txtdirecion.getText()));
+                user.setCiudad((txtciudad.getText()));
+                user.setBarrio(txtbarrio.getText());
+                controlCliente.edit(user);
+                JOptionPane.showMessageDialog(null, "Cliente actualizado Sactifactoriamente!");
+                txtcedula.setText(" ");
+                txtnombre.setText(" ");
+                txttelefono.setText(" ");
+                txtdirecion.setText("");
+                txtciudad.setText("");
+                txtbarrio.setText(" ");
+                btn_agregar.setText("Crear");
+                this.dispose();
+                }
+                
+               
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Error: " + e);
             }
@@ -317,6 +409,14 @@ public class CrearCliente extends javax.swing.JDialog {
     private void txtdirecionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdirecionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtdirecionActionPerformed
+
+    private void txtcedulaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcedulaKeyTyped
+        validarNumero(evt);
+    }//GEN-LAST:event_txtcedulaKeyTyped
+
+    private void txttelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txttelefonoKeyTyped
+        validarNumero(evt);
+    }//GEN-LAST:event_txttelefonoKeyTyped
 
     /**
      * @param args the command line arguments

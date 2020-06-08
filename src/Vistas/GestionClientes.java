@@ -5,33 +5,67 @@
  */
 package Vistas;
 
+import Controladores.ClienteJpaController;
 import Controladores.GlobalClass;
 import Controladores.UsuarioJpaController;
+import Entidades.Cliente;
 import Entidades.Usuario;
-import java.math.BigInteger;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author warriors
+ * @author jramirez
  */
-public class Vista_Usuarios extends javax.swing.JFrame {
+public class GestionClientes extends javax.swing.JFrame {
 
-    UsuarioJpaController controlUsuario = new UsuarioJpaController();
-    Usuario user = new Usuario();
+    ClienteJpaController controlCliente = new ClienteJpaController();
+    Cliente user = new Cliente();
     DefaultTableModel modelo2;
-    List<Usuario> listaUsuario;
+    List<Cliente> listaCliente;
     Usuario documento;
 
-    public Vista_Usuarios() {
+    public GestionClientes() {
         initComponents();
         setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
         LlenarTabla();
-        TextPrompt texto = new TextPrompt("Buscar Usuario", buscar);
+        TextPrompt texto = new TextPrompt("Buscar Cliente", buscar);
+    }
+
+    public void LlenarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) tablaListarCliente.getModel();
+        listaCliente = controlCliente.findClienteEntities();
+        for (Cliente obj : listaCliente) {
+            modelo.addRow(new Object[]{obj.getId(), obj.getNombre(), obj.getTelefono(), obj.getDireccion(), obj.getCiudad(), obj.getBarrio()});
+
+        }
+    }
+
+    public void limpiarTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) tablaListarCliente.getModel();
+        int a = modelo.getRowCount() - 1;
+        for (int i = a; i >= 0; i--) {
+            modelo.removeRow(i);
+        }
+    }
+
+    public void filtrarTabla() {
+        if (buscar.getText().equals("")) {
+            limpiarTabla();
+            LlenarTabla();
+
+        } else {
+            limpiarTabla();
+            DefaultTableModel modelo = (DefaultTableModel) tablaListarCliente.getModel();
+            for (Cliente obj : listaCliente) {
+                if (obj.getNombre().contains(buscar.getText())) {
+                    modelo.addRow(new Object[]{obj.getId(), obj.getNombre(), obj.getTelefono(), obj.getDireccion(), obj.getCiudad(), obj.getBarrio()});
+                }
+            }
+        }
 
     }
 
@@ -44,34 +78,30 @@ public class Vista_Usuarios extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaAgregarUsuario = new javax.swing.JTable();
+        tablaListarCliente = new javax.swing.JTable();
         buscar = new javax.swing.JTextField();
         btn_Inhabilitar1 = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
-        btn_Inhabilitar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(760, 500));
-        setMinimumSize(new java.awt.Dimension(760, 500));
-        setPreferredSize(new java.awt.Dimension(760, 471));
 
-        tablaAgregarUsuario.setModel(new javax.swing.table.DefaultTableModel(
+        tablaListarCliente.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Nombre", "Telefono", "Dirección", "Ciudad", "User", "Rol", "Contraseña", "Estado"
+                "ID", "Nombre", "Telefono", "Dirección", "Ciudad", "Barrio"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Long.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -82,13 +112,13 @@ public class Vista_Usuarios extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tablaAgregarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablaListarCliente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaAgregarUsuarioMouseClicked(evt);
+                tablaListarClienteMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tablaAgregarUsuario);
-        tablaAgregarUsuario.getTableHeader().setReorderingAllowed(false) ;
+        jScrollPane1.setViewportView(tablaListarCliente);
+        tablaListarCliente.getTableHeader().setReorderingAllowed(false);
 
         buscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,16 +145,9 @@ public class Vista_Usuarios extends javax.swing.JFrame {
             }
         });
 
-        btn_Inhabilitar.setText("Inhabilitar");
-        btn_Inhabilitar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_InhabilitarActionPerformed(evt);
-            }
-        });
-
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("Administradores");
+        jLabel7.setText("Clientes");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -134,6 +157,10 @@ public class Vista_Usuarios extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_editar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(158, 158, 158))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -143,12 +170,8 @@ public class Vista_Usuarios extends javax.swing.JFrame {
                                 .addComponent(buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGap(97, 97, 97)
-                                    .addComponent(btn_Inhabilitar1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(132, 132, 132)
-                                    .addComponent(btn_editar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(113, 113, 113)
-                                    .addComponent(btn_Inhabilitar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGap(129, 129, 129))
+                                    .addComponent(btn_Inhabilitar1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGap(506, 506, 506))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jScrollPane1)
                             .addContainerGap()))))
@@ -158,7 +181,9 @@ public class Vista_Usuarios extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(399, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 356, Short.MAX_VALUE)
+                .addComponent(btn_editar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(64, 64, 64)
@@ -166,13 +191,7 @@ public class Vista_Usuarios extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btn_Inhabilitar1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(btn_Inhabilitar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btn_editar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(btn_Inhabilitar1, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
@@ -203,70 +222,9 @@ public class Vista_Usuarios extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public void LlenarTabla() {
-        DefaultTableModel modelo = (DefaultTableModel) tablaAgregarUsuario.getModel();
-        listaUsuario = controlUsuario.findUsuarioEntities();
-        for (Usuario obj : listaUsuario) {
-            if (obj.getRol().equalsIgnoreCase("Administrador")) {
-                modelo.addRow(new Object[]{obj.getId(), obj.getNombre(), obj.getTelefono(), obj.getDireccion(), obj.getCiudad(), obj.getUser(), obj.getRol(), obj.getPassword(), obj.getEstado()});
-            }
-        }
-    }
+    private void tablaListarClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaListarClienteMouseClicked
 
-
-    private void btn_InhabilitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InhabilitarActionPerformed
-        if (tablaAgregarUsuario.getSelectedRow() == (-1)) {
-            JOptionPane.showMessageDialog(null, "Debe de selecionar un valor de la tabla");
-        } else {
-            int resp = JOptionPane.showConfirmDialog(null, "¿Esta seguro de ejecutar la acción?", "Alerta!", JOptionPane.YES_NO_OPTION);
-            if (resp == 0) {
-                user = controlUsuario.findUsuario((Long) tablaAgregarUsuario.getValueAt(tablaAgregarUsuario.getSelectedRow(), 0));
-                try {
-                    if (btn_Inhabilitar.getText().equals("Inhabilitar")) {
-                        user.setEstado(false);
-                        controlUsuario.edit(user);
-                        JOptionPane.showMessageDialog(null, "Usuario Deshabilitado correctamente");
-                        limpiarTabla();
-                        LlenarTabla();
-
-                    } else {
-                        user.setEstado(true);
-                        controlUsuario.edit(user);
-                        JOptionPane.showMessageDialog(null, "Usuario Habilitado correctamente");
-                        limpiarTabla();
-                        LlenarTabla();
-                    }
-
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, " " + e.getMessage());
-                }
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Operacion cancelada");
-                limpiarTabla();
-                LlenarTabla();
-            }
-
-        }
-
-
-    }//GEN-LAST:event_btn_InhabilitarActionPerformed
-
-
-    private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
-        if (tablaAgregarUsuario.getSelectedRow() == (-1)) {
-            JOptionPane.showMessageDialog(null, "Debe de selecionar un valor de la tabla");
-        } else {
-            user = controlUsuario.findUsuario((Long) tablaAgregarUsuario.getValueAt(tablaAgregarUsuario.getSelectedRow(), 0));
-            CrearAdministrador ca = new CrearAdministrador(user);
-            ca.setVisible(true);
-            this.dispose();
-            limpiarTabla();
-            LlenarTabla();
-        }
-
-
-    }//GEN-LAST:event_btn_editarActionPerformed
+    }//GEN-LAST:event_tablaListarClienteMouseClicked
 
     private void buscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarActionPerformed
         // TODO add your handling code here:
@@ -275,20 +233,6 @@ public class Vista_Usuarios extends javax.swing.JFrame {
     private void buscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buscarKeyReleased
         filtrarTabla();
     }//GEN-LAST:event_buscarKeyReleased
-
-    private void tablaAgregarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaAgregarUsuarioMouseClicked
-        try {
-            user = controlUsuario.findUsuario((Long) tablaAgregarUsuario.getValueAt(tablaAgregarUsuario.getSelectedRow(), 0));
-            if (user.getEstado().equals(true)) {
-                btn_Inhabilitar.setText("Inhabilitar");
-            } else {
-                btn_Inhabilitar.setText("Habilitar");
-            }
-        } catch (Exception e) {
-        }
-
-
-    }//GEN-LAST:event_tablaAgregarUsuarioMouseClicked
 
     private void btn_Inhabilitar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Inhabilitar1ActionPerformed
         if (GlobalClass.usuario != null) {
@@ -308,33 +252,23 @@ public class Vista_Usuarios extends javax.swing.JFrame {
             i.setVisible(true);
             this.dispose();
 
-        }        // TODO add your handling code here:
+        }
     }//GEN-LAST:event_btn_Inhabilitar1ActionPerformed
 
-    public void limpiarTabla() {
-        DefaultTableModel modelo = (DefaultTableModel) tablaAgregarUsuario.getModel();
-        int a = modelo.getRowCount() - 1;
-        for (int i = a; i >= 0; i--) {
-            modelo.removeRow(i);
-        }
-    }
+    private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
+        if (tablaListarCliente.getSelectedRow() == (-1)) {
+            JOptionPane.showMessageDialog(null, "Debe de selecionar un valor de la tabla");
+        } else {
 
-    public void filtrarTabla() {
-        if (buscar.getText().equals("")) {
+            user = controlCliente.findCliente((Long) tablaListarCliente.getValueAt(tablaListarCliente.getSelectedRow(), 0));
+            CrearCliente ca = new CrearCliente(user);
+            ca.setModal(true);
+            ca.setVisible(true);
             limpiarTabla();
             LlenarTabla();
-
-        } else {
-            limpiarTabla();
-            DefaultTableModel modelo = (DefaultTableModel) tablaAgregarUsuario.getModel();
-            for (Usuario obj : listaUsuario) {
-                if (obj.getNombre().contains(buscar.getText()) && obj.getRol().equalsIgnoreCase("Administrador")) {
-                    modelo.addRow(new Object[]{obj.getId(), obj.getNombre(), obj.getTelefono(), obj.getDireccion(), obj.getCiudad(), obj.getUser(), obj.getRol(), obj.getPassword(), obj.getEstado()});
-                }
-            }
         }
 
-    }
+    }//GEN-LAST:event_btn_editarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -353,29 +287,26 @@ public class Vista_Usuarios extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Vista_Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Vista_Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Vista_Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Vista_Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GestionClientes.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Vista_Usuarios().setVisible(true);
+                new GestionClientes().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_Inhabilitar;
     private javax.swing.JButton btn_Inhabilitar1;
     private javax.swing.JButton btn_editar;
     private javax.swing.JTextField buscar;
@@ -383,7 +314,6 @@ public class Vista_Usuarios extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaAgregarUsuario;
+    private javax.swing.JTable tablaListarCliente;
     // End of variables declaration//GEN-END:variables
-
 }
