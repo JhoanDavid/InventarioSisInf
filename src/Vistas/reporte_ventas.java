@@ -12,6 +12,7 @@ import Controladores.ProductoMovimientoJpaController;
 import Entidades.Movimiento;
 import Entidades.Producto;
 import Entidades.ProductoMovimiento;
+import Entidades.Usuario;
 import java.awt.Desktop;
 import java.awt.Rectangle;
 import java.io.File;
@@ -37,11 +38,27 @@ public class reporte_ventas extends javax.swing.JFrame {
     List<Producto> listaProducto;
     DefaultTableModel modelo;
     double ventatotal = 0;
+    Usuario user = null;
     private final String ruta = System.getProperties().getProperty("user.dir");
 
     public reporte_ventas() {
         initComponents();
         LlenarTabla();
+        txtgenerando.setVisible(false);
+        Progressbar_entradas.setVisible(false);
+        setTitle("EasyStock");
+        setResizable(false);
+        setLocationRelativeTo(null);
+        ventatotal = calcularTotalVentas();
+        txtvalortotal.setText(String.valueOf(ventatotal));
+        txtvalortotal.setEditable(false);
+
+    }
+
+    public reporte_ventas(Usuario user) {
+        initComponents();
+        this.user = user;
+        LlenarTablaVendedor();
         txtgenerando.setVisible(false);
         Progressbar_entradas.setVisible(false);
         setTitle("EasyStock");
@@ -279,8 +296,6 @@ public class reporte_ventas extends javax.swing.JFrame {
 
     }
 
-   
-
     public double calcularTotalVentas() {
 
         for (int i = 0; i < tablaReporteventas.getRowCount(); i++) {
@@ -322,6 +337,50 @@ public class reporte_ventas extends javax.swing.JFrame {
                             UsuarioTrans, obj.getTipoMov(), cliente, obj1.getIdProducto().getId(),
                             obj1.getIdProducto().getDescripcion(), obj1.getCantTrans(), obj1.getIdProducto().getUnidadMedida(), obj1.getValorTrans()});
                     } else {
+
+                    }
+
+                }
+
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Tablas sin registros");
+        }
+
+    }
+
+    public void LlenarTablaVendedor() {
+        String UsuarioTrans;
+        String cliente;
+        listaMovimiento = controlmovimiento.findMovimientoEntities();
+        listaProductoMovimiento = controlproductoM.findProductoMovimientoEntities();
+        DefaultTableModel modelo = (DefaultTableModel) tablaReporteventas.getModel();
+        if (listaMovimiento != null && listaProductoMovimiento != null) {
+            for (Movimiento obj : listaMovimiento) {
+                for (ProductoMovimiento obj1 : listaProductoMovimiento) {
+                    if (obj.getId() == obj1.getIdMov().getId() && (obj.getTipoMov().equalsIgnoreCase("Venta") || obj.getTipoMov().equalsIgnoreCase("PrestamoSalida")
+                            || obj.getTipoMov().equalsIgnoreCase("DevolucionSalida"))) {
+                        if(obj.getUsuarioTrans()!=null){
+                        if (obj.getUsuarioTrans().getId() == GlobalClass.usuario.getId()) {
+
+                            if (obj.getUsuarioTrans() == null) {
+                                UsuarioTrans = "Admin";
+                            } else {
+                                UsuarioTrans = obj.getUsuarioTrans().getNombre();
+                            }
+                            if (obj.getIdCliente() == null) {
+                                cliente = "Cliente no registrado";
+                            } else {
+                                cliente = obj.getIdCliente().getNombre();
+                            }
+
+                            modelo.addRow(new Object[]{obj1.getId(), obj.getFechaMovimiento(), obj.getDescripcion(),
+                                UsuarioTrans, obj.getTipoMov(), cliente, obj1.getIdProducto().getId(),
+                                obj1.getIdProducto().getDescripcion(), obj1.getCantTrans(), obj1.getIdProducto().getUnidadMedida(), obj1.getValorTrans()});
+                        }
+
+                        }
 
                     }
 

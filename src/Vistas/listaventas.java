@@ -12,6 +12,7 @@ import Controladores.ProductoMovimientoJpaController;
 import Entidades.Producto;
 import Entidades.Movimiento;
 import Entidades.ProductoMovimiento;
+import Entidades.Usuario;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,10 +44,21 @@ public class listaventas extends javax.swing.JFrame {
         modelo = (DefaultTableModel) tablaProductoInventario.getModel();
         modeloCarrito = (DefaultTableModel) tablaCarritoVenta.getModel();
         txtFecha.setText(getFechaActual());
-       setTitle("EasyStock");
+        setTitle("EasyStock");
         setResizable(false);
         setLocationRelativeTo(null);
         LlenarTabla();
+    }
+
+    public listaventas(Usuario user) {
+        initComponents();
+        modelo = (DefaultTableModel) tablaProductoInventario.getModel();
+        modeloCarrito = (DefaultTableModel) tablaCarritoVenta.getModel();
+        txtFecha.setText(getFechaActual());
+        setTitle("EasyStock");
+        setResizable(false);
+        setLocationRelativeTo(null);
+        LlenarTablaVendedor();
     }
 
     public void LlenarTabla() {
@@ -55,6 +67,22 @@ public class listaventas extends javax.swing.JFrame {
             if (obj.getTipoMov().contains("Venta") || obj.getTipoMov().contains("PrestamoSalida") || obj.getTipoMov().contains("DevolucionSalida")) {
                 modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getUsuarioTrans(),
                     obj.getDescuentoAplicado(), obj.getIdCliente(), obj.getTipoMov()});
+            }
+        }
+        calcularTotalCompras();
+    }
+
+    public void LlenarTablaVendedor() {
+        listaMovimiento = controlmovimiento.findMovimientoEntities();
+        for (Movimiento obj : listaMovimiento) {
+            if (obj.getTipoMov().contains("Venta") || obj.getTipoMov().contains("PrestamoSalida") || obj.getTipoMov().contains("DevolucionSalida")) {
+                if (obj.getUsuarioTrans() != null) {
+                    if (obj.getUsuarioTrans().getId() == GlobalClass.usuario.getId()) {
+
+                        modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getUsuarioTrans(),
+                            obj.getDescuentoAplicado(), obj.getIdCliente(), obj.getTipoMov()});
+                    }
+                }
             }
         }
         calcularTotalCompras();
@@ -87,7 +115,7 @@ public class listaventas extends javax.swing.JFrame {
     public void filtrarTabla() {
         try {
             limpiarTabla();
-            if (calendario.getDate()==null) {
+            if (calendario.getDate() == null) {
                 limpiarTabla();
                 LlenarTabla();
                 JOptionPane.showMessageDialog(null, "Debe escoger una fecha en el calendario");

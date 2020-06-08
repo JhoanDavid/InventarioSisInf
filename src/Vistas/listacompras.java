@@ -13,6 +13,7 @@ import Controladores.ProductoMovimientoJpaController;
 import Entidades.Producto;
 import Entidades.Movimiento;
 import Entidades.ProductoMovimiento;
+import Entidades.Usuario;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,12 +51,38 @@ public class listacompras extends javax.swing.JFrame {
         LlenarTabla();
     }
 
+    public listacompras(Usuario user) {
+        initComponents();
+        modelo = (DefaultTableModel) tablaProductoInventario.getModel();
+        modeloCarrito = (DefaultTableModel) tablaCarritoVenta.getModel();
+        txtFecha.setText(getFechaActual());
+        setTitle("EasyStock");
+        setResizable(false);
+        setLocationRelativeTo(null);
+        LlenarTablaVendedor();
+    }
+
     public void LlenarTabla() {
         listaMovimiento = controlmovimiento.findMovimientoEntities();
         for (Movimiento obj : listaMovimiento) {
-            if (obj.getTipoMov().contains("Compra")||obj.getTipoMov().contains("PrestamoEntrada")||obj.getTipoMov().contains("DevolucionEntrada")) {
+            if (obj.getTipoMov().contains("Compra") || obj.getTipoMov().contains("PrestamoEntrada") || obj.getTipoMov().contains("DevolucionEntrada")) {
                 modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
                     obj.getUsuarioTrans(), obj.getTipoMov()});
+            }
+        }
+        calcularTotalCompras();
+    }
+
+    public void LlenarTablaVendedor() {
+        listaMovimiento = controlmovimiento.findMovimientoEntities();
+        for (Movimiento obj : listaMovimiento) {
+            if (obj.getTipoMov().contains("Compra") || obj.getTipoMov().contains("PrestamoEntrada") || obj.getTipoMov().contains("DevolucionEntrada")) {
+                if (obj.getUsuarioTrans() != null) {
+                    if (obj.getUsuarioTrans().getId() == GlobalClass.usuario.getId()) {
+                        modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
+                            obj.getUsuarioTrans(), obj.getTipoMov()});
+                    }
+                }
             }
         }
         calcularTotalCompras();
@@ -90,7 +117,7 @@ public class listacompras extends javax.swing.JFrame {
 
     public void filtrarTabla() {
         try {
-            if (calendario.getDate()==null) {
+            if (calendario.getDate() == null) {
                 limpiarTabla();
                 LlenarTabla();
                 limpiarTablaProductos();
@@ -107,7 +134,7 @@ public class listacompras extends javax.swing.JFrame {
                         Date B = calendario.getDate();
                         Date A = obj.getFechaMovimiento();
                         a = A.compareTo(B);
-                        if ((obj.getTipoMov().contains("Compra")||obj.getTipoMov().contains("PrestamoEntrada")||obj.getTipoMov().contains("DevolucionEntrada")) && a >= 0) {
+                        if ((obj.getTipoMov().contains("Compra") || obj.getTipoMov().contains("PrestamoEntrada") || obj.getTipoMov().contains("DevolucionEntrada")) && a >= 0) {
                             modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
                                 obj.getUsuarioTrans(), obj.getTipoMov()});
                             calcularTotalCompras();
@@ -143,19 +170,19 @@ public class listacompras extends javax.swing.JFrame {
         double ValorTotalCompras = 0;
         double valorTotal = 0;
         double total = 0;
-       
+
         listaProductoMovimiento = controlproductomovimiento.findProductoMovimientoEntities();
         for (ProductoMovimiento obj : listaProductoMovimiento) {
-            
+
             for (int i = 0; i < tablaProductoInventario.getRowCount(); i++) {
-                
-                if (tablaProductoInventario.getValueAt(i, 0)==obj.getIdMov().getId()) {
+
+                if (tablaProductoInventario.getValueAt(i, 0) == obj.getIdMov().getId()) {
                     valorTotal = obj.getValorTrans() + ValorTotalCompras;
                     ValorTotalCompras = valorTotal;
-                    total = ValorTotalCompras ;
+                    total = ValorTotalCompras;
                     txtTotalCompras.setText(String.valueOf(total));
                     //JOptionPane.showMessageDialog(null, tablaProductoInventario.getValueAt(i, 0));
-                
+
                 }
             }
 
@@ -456,7 +483,7 @@ public class listacompras extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
-             if (GlobalClass.usuario != null) {
+        if (GlobalClass.usuario != null) {
 
             if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
                 InicioAdministrador i = new InicioAdministrador();
@@ -482,7 +509,6 @@ public class listacompras extends javax.swing.JFrame {
         limpiarTablaProductos();
         txtTotal.setText(String.valueOf(0));
         agregarProductoCarrito();
-        
 
 
     }//GEN-LAST:event_tablaProductoInventarioMouseClicked
@@ -492,11 +518,11 @@ public class listacompras extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTotalComprasActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+
         txtTotalCompras.setText("0");
         txtTotal.setText("0");
         filtrarTabla();     // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
