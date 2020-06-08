@@ -313,7 +313,7 @@ public class listacompras extends javax.swing.JFrame {
 
             },
             new String [] {
-                "id", "fecha", "descripcion", "id_remitente", "usuario_trans", "tipo"
+                "Id", "Fecha", "Descripcion", "Id Remitente", "Usuario", "Tipo"
             }
         ) {
             Class[] types = new Class [] {

@@ -55,7 +55,6 @@ public class Vista_Producto extends javax.swing.JFrame {
         btn_editar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(null);
         setMinimumSize(null);
 
         tablaAgregarproducto.setModel(new javax.swing.table.DefaultTableModel(
@@ -63,7 +62,7 @@ public class Vista_Producto extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Descripción", "Unidad_medida", "Valor_Compra", "Valor_Venta", "Ganancia", "Cantidad", "Estado"
+                "ID", "Descripción", "Unidad medida", "Valor Compra", "Valor Venta", "Ganancia", "Cantidad", "Estado"
             }
         ) {
             Class[] types = new Class [] {

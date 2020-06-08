@@ -417,7 +417,7 @@ public class InicioAdministrador extends javax.swing.JFrame {
         jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Reportes de:", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP));
 
         jButton22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/img/reportes.png"))); // NOI18N
-        jButton22.setText("Salidas");
+        jButton22.setText("Salidas Individuales");
         jButton22.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButton22.setMargin(new java.awt.Insets(2, 40, 2, 14));
         jButton22.setMaximumSize(new java.awt.Dimension(159, 23));
@@ -430,7 +430,7 @@ public class InicioAdministrador extends javax.swing.JFrame {
         });
 
         jButton23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/img/reportes.png"))); // NOI18N
-        jButton23.setText("Entradas");
+        jButton23.setText("Entradas Individuales");
         jButton23.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButton23.setMargin(new java.awt.Insets(2, 40, 2, 14));
         jButton23.addActionListener(new java.awt.event.ActionListener() {
@@ -453,7 +453,7 @@ public class InicioAdministrador extends javax.swing.JFrame {
         });
 
         btn_imprimir_reporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/img/reportes.png"))); // NOI18N
-        btn_imprimir_reporte.setText("Todas las Salidas");
+        btn_imprimir_reporte.setText("Listado de Salidas");
         btn_imprimir_reporte.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btn_imprimir_reporte.setMargin(new java.awt.Insets(2, 40, 2, 14));
         btn_imprimir_reporte.addActionListener(new java.awt.event.ActionListener() {
@@ -463,7 +463,7 @@ public class InicioAdministrador extends javax.swing.JFrame {
         });
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/img/reportes.png"))); // NOI18N
-        jButton6.setText("Todas las Entradas");
+        jButton6.setText("Listado de Entradas");
         jButton6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jButton6.setMargin(new java.awt.Insets(2, 40, 2, 14));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
@@ -489,18 +489,18 @@ public class InicioAdministrador extends javax.swing.JFrame {
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addGap(138, 138, 138)
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel13Layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
                                 .addComponent(jButton23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btn_imprimir_reporte, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_imprimir_reporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -670,7 +670,10 @@ public class InicioAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
+Login l=new Login();
+ l.setVisible(true);
+        GlobalClass.usuario=null;
+        this.dispose();         // TODO add your handling code here:
     }//GEN-LAST:event_jButton14ActionPerformed
 
     /**
