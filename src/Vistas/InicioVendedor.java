@@ -526,9 +526,9 @@ public class InicioVendedor extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        CrearCliente cc=new CrearCliente();
-        cc.setVisible(true);
-        this.dispose();// TODO add your handling code here:
+        CrearCliente cc=new CrearCliente();        // TODO add your handling code here:
+      cc.setModal(true);
+      cc.setVisible(true);
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed

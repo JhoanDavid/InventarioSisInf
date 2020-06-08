@@ -327,28 +327,9 @@ public class CrearCliente extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-      if (btn_agregar.getText().equalsIgnoreCase("Crear")) {
-            if (GlobalClass.usuario != null) {
-
-                if (GlobalClass.usuario.getRol().equalsIgnoreCase("Administrador")) {
-                    InicioAdministrador i = new InicioAdministrador();
-                    i.setVisible(true);
-                    this.dispose();
-                } else {
-                    InicioVendedor i = new InicioVendedor();
-                    i.setVisible(true);
-                    this.dispose();
-                }
-
-            } else {
-                InicioAdmonSupremo i = new InicioAdmonSupremo();
-                i.setVisible(true);
-                this.dispose();
-
-            }
-        } else {
+     
             this.dispose();
-        }
+        
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btn_agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregarActionPerformed
