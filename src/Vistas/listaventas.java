@@ -81,6 +81,7 @@ public class listaventas extends javax.swing.JFrame {
                     obj.getDescuentoAplicado(), cliente, obj.getTipoMov()});
             }
         }
+        calcularTotalDescuentos();
         calcularTotalCompras();
     }
 
@@ -108,6 +109,7 @@ public class listaventas extends javax.swing.JFrame {
                 }
             }
         }
+        calcularTotalDescuentos();
         calcularTotalCompras();
     }
 
@@ -174,6 +176,7 @@ public class listaventas extends javax.swing.JFrame {
                                         if (obj.getUsuarioTrans().getId() == GlobalClass.usuario.getId()) {
                                             modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), UsuarioTrans,
                                                 obj.getDescuentoAplicado(), cliente, obj.getTipoMov()});
+                                            calcularTotalDescuentos();
                                             calcularTotalCompras();
                                         }
                                     }
@@ -200,6 +203,7 @@ public class listaventas extends javax.swing.JFrame {
                                     }
                                     modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), UsuarioTrans,
                                         obj.getDescuentoAplicado(), cliente, obj.getTipoMov()});
+                                    calcularTotalDescuentos();
                                     calcularTotalCompras();
                                 }
                             }
@@ -224,6 +228,7 @@ public class listaventas extends javax.swing.JFrame {
                                 }
                                 modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), UsuarioTrans,
                                     obj.getDescuentoAplicado(), cliente, obj.getTipoMov()});
+                                calcularTotalDescuentos();
                                 calcularTotalCompras();
                             }
                         }
@@ -256,6 +261,7 @@ public class listaventas extends javax.swing.JFrame {
     }
 
     public void calcularTotalCompras() {
+        double desc =new Double(descuento.getText());
         double ValorTotalCompras = 0;
         double valorTotal = 0;
         double total = 0;
@@ -265,7 +271,8 @@ public class listaventas extends javax.swing.JFrame {
                 if (tablaProductoInventario.getValueAt(i, 0) == obj.getIdMov().getId()) {
                     valorTotal = obj.getValorTrans() + ValorTotalCompras;
                     ValorTotalCompras = valorTotal;
-                    total = ValorTotalCompras;
+                    total = ValorTotalCompras-desc;
+                    sindes.setText(String.valueOf(valorTotal));
                     txtTotalCompras.setText(String.valueOf(total));
                     //JOptionPane.showMessageDialog(null, tablaProductoInventario.getValueAt(i, 0));
                 }
@@ -274,6 +281,26 @@ public class listaventas extends javax.swing.JFrame {
 
         }
     }
+    
+     public void calcularTotalDescuentos() {
+        double ValorTotalDescuentos = 0;
+        double DescuentosTotal = 0;
+        double totalDescuento = 0;
+        for (Movimiento obj : listaMovimiento) {
+            for (int i = 0; i < tablaProductoInventario.getRowCount(); i++) {
+                if (tablaProductoInventario.getValueAt(i, 0) == obj.getId()) {
+                    DescuentosTotal = obj.getDescuentoAplicado() + ValorTotalDescuentos;
+                    ValorTotalDescuentos = DescuentosTotal;
+                    totalDescuento = ValorTotalDescuentos;
+                    descuento.setText(String.valueOf(totalDescuento));
+                    //JOptionPane.showMessageDialog(null, tablaProductoInventario.getValueAt(i, 0));
+                }
+                
+            }
+
+        }
+    }
+
 
     public void prueba() {
         listaMovimiento = controlmovimiento.findMovimientoEntities();
@@ -309,6 +336,10 @@ public class listaventas extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        descuento = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        sindes = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1000, 400));
@@ -401,8 +432,8 @@ public class listaventas extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel3)
-                                .addGap(37, 37, 37)
-                                .addComponent(txtTotalCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtTotalCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE))
                         .addGap(21, 21, 21))))
         );
@@ -487,9 +518,9 @@ public class listaventas extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -503,20 +534,40 @@ public class listaventas extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel1.setText("descuento total");
+
+        descuento.setText("0");
+
+        jLabel5.setText("Total de ventas sin descuento");
+
+        sindes.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addComponent(txtFecha)
-                .addGap(396, 396, 396)
-                .addComponent(jLabel4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(449, Short.MAX_VALUE)
-                .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(444, 444, 444))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sindes, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                        .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(444, 444, 444))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(txtFecha))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(396, 396, 396)
+                                .addComponent(jLabel4))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(descuento, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -533,8 +584,19 @@ public class listaventas extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(txtFecha)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 308, Short.MAX_VALUE)
-                .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 264, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(descuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(sindes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(22, 22, 22))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -567,6 +629,20 @@ public class listaventas extends javax.swing.JFrame {
         }         // TODO add your handling code here:
     }//GEN-LAST:event_cancelarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        txtTotalCompras.setText("0");
+        txtTotal.setText("0");
+        txtTotal.setText("0");
+        sindes.setText("0");
+        descuento.setText("0");
+        limpiarTablaProductos();
+        filtrarTabla(); // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txtTotalComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalComprasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTotalComprasActionPerformed
+
     private void tablaProductoInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaProductoInventarioMouseClicked
         //txtCantidad.setText("1");
         try {
@@ -576,17 +652,6 @@ public class listaventas extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_tablaProductoInventarioMouseClicked
-
-    private void txtTotalComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotalComprasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTotalComprasActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        txtTotalCompras.setText("0");
-        txtTotal.setText("0");
-        limpiarTablaProductos();
-        filtrarTabla(); // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -620,11 +685,14 @@ public class listaventas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser calendario;
     private javax.swing.JButton cancelar;
+    private javax.swing.JTextField descuento;
     private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -632,6 +700,7 @@ public class listaventas extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextField sindes;
     private javax.swing.JTable tablaCarritoVenta;
     private javax.swing.JTable tablaProductoInventario;
     private javax.swing.JLabel txtFecha;
