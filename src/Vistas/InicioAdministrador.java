@@ -586,7 +586,10 @@ public class InicioAdministrador extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        // TODO add your handling code here:
+      Login l=new Login();
+        l.setVisible(true);
+        GlobalClass.usuario=null;
+        this.dispose();         // TODO add your handling code here:
     }//GEN-LAST:event_jButton15ActionPerformed
 
     /**
