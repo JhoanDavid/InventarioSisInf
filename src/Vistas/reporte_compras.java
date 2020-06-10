@@ -103,7 +103,7 @@ public class reporte_compras extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Compra", "Fecha", "Descripción Compra", "ID Remitente", "Usuario", "Tipo Movimiento", "ID Producto", "Descripción Producto", "Cantidad", "Unidad Medida", "Valor Venta"
+                "ID Movimiento", "Fecha", "Descripción Compra", "ID Remitente", "Usuario", "Tipo Movimiento", "ID Producto", "Descripción Producto", "Cantidad", "Unidad Medida", "Valor Venta"
             }
         ) {
             Class[] types = new Class [] {
@@ -238,7 +238,7 @@ public class reporte_compras extends javax.swing.JFrame {
                         Progressbar_entradas.setVisible(true);
 
                         XSSFRow fila = hoja.createRow(0);
-                        fila.createCell(0).setCellValue("ID");
+                        fila.createCell(0).setCellValue("ID Movimiento");
                         fila.createCell(1).setCellValue("Fecha_Compra");
                         fila.createCell(2).setCellValue("Descripcion");
                         fila.createCell(3).setCellValue("ID_Remitente");
@@ -324,7 +324,7 @@ public class reporte_compras extends javax.swing.JFrame {
                             UsuarioTrans = obj.getUsuarioTrans().getNombre();
                         }
 
-                        modelo.addRow(new Object[]{obj1.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
+                        modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
                             UsuarioTrans, obj.getTipoMov(), obj1.getIdProducto().getId(),
                             obj1.getIdProducto().getDescripcion(), obj1.getCantTrans(), obj1.getIdProducto().getUnidadMedida(), obj1.getValorTrans()});
                     } else {
@@ -361,7 +361,7 @@ public class reporte_compras extends javax.swing.JFrame {
                                     UsuarioTrans = obj.getUsuarioTrans().getNombre();
                                 }
 
-                                modelo.addRow(new Object[]{obj1.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
+                                modelo.addRow(new Object[]{obj.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
                                     UsuarioTrans, obj.getTipoMov(), obj1.getIdProducto().getId(),
                                     obj1.getIdProducto().getDescripcion(), obj1.getCantTrans(), obj1.getIdProducto().getUnidadMedida(), obj1.getValorTrans()});
                             }

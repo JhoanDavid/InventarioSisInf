@@ -118,7 +118,7 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="11" rowCount="0">
-                <Column editable="false" title="ID Compra" type="java.lang.Integer"/>
+                <Column editable="false" title="ID Movimiento" type="java.lang.Integer"/>
                 <Column editable="false" title="Fecha" type="java.lang.String"/>
                 <Column editable="false" title="Descripci&#xf3;n Compra" type="java.lang.String"/>
                 <Column editable="false" title="ID Remitente" type="java.lang.Integer"/>
