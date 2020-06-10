@@ -71,7 +71,7 @@ public class reporte_producto extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Descripción", "Unidad_medida", "Valor_Compra", "Valor_Venta", "Ganancia", "Cantidad", "Ganancia venta", "Estado"
+                "ID", "Descripción", "Unidad Medida", "Valor Compra", "Valor Venta", "Ganancia Producto", "Cantidad", "Ganancia Total Venta", "Estado"
             }
         ) {
             Class[] types = new Class [] {

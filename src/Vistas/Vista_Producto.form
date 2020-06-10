@@ -147,9 +147,9 @@
                       <Table columnCount="8" rowCount="0">
                         <Column editable="false" title="ID" type="java.lang.Integer"/>
                         <Column editable="false" title="Descripci&#xf3;n" type="java.lang.String"/>
-                        <Column editable="false" title="Unidad_medida" type="java.lang.String"/>
-                        <Column editable="false" title="Valor_Compra" type="java.lang.Double"/>
-                        <Column editable="false" title="Valor_Venta" type="java.lang.Double"/>
+                        <Column editable="false" title="Unidad medida" type="java.lang.String"/>
+                        <Column editable="false" title="Valor Compra" type="java.lang.Double"/>
+                        <Column editable="false" title="Valor Venta" type="java.lang.Double"/>
                         <Column editable="false" title="Ganancia" type="java.lang.Double"/>
                         <Column editable="false" title="Cantidad" type="java.lang.Double"/>
                         <Column editable="false" title="Estado" type="java.lang.Boolean"/>

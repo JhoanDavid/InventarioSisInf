@@ -103,7 +103,7 @@ public class reporte_compras extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID_Compra", "Fecha", "Descripcion_compra", "ID_remitente", "Vendedor", "Tipo_Movimiento", "ID_Producto", "Descripcion_producto", "Cantidad", "Unidad_medida", "Valor_venta"
+                "ID Compra", "Fecha", "Descripción Compra", "ID Remitente", "Usuario", "Tipo Movimiento", "ID Producto", "Descripción Producto", "Cantidad", "Unidad Medida", "Valor Venta"
             }
         ) {
             Class[] types = new Class [] {
