@@ -333,7 +333,7 @@ public class reporte_ventas extends javax.swing.JFrame {
                             cliente = obj.getIdCliente().getNombre();
                         }
 
-                        modelo.addRow(new Object[]{obj1.getId(), obj.getFechaMovimiento(), obj.getDescripcion(),
+                        modelo.addRow(new Object[]{obj1.getIdMov().getId(), obj.getFechaMovimiento(), obj.getDescripcion(),
                             UsuarioTrans, obj.getTipoMov(), cliente, obj1.getIdProducto().getId(),
                             obj1.getIdProducto().getDescripcion(), obj1.getCantTrans(), obj1.getIdProducto().getUnidadMedida(), obj1.getValorTrans()});
                     } else {

@@ -324,7 +324,7 @@ public class reporte_compras extends javax.swing.JFrame {
                             UsuarioTrans = obj.getUsuarioTrans().getNombre();
                         }
 
-                        modelo.addRow(new Object[]{obj1.getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
+                        modelo.addRow(new Object[]{obj1.getIdMov().getId(), obj.getFechaMovimiento(), obj.getDescripcion(), obj.getIdRemitente(),
                             UsuarioTrans, obj.getTipoMov(), obj1.getIdProducto().getId(),
                             obj1.getIdProducto().getDescripcion(), obj1.getCantTrans(), obj1.getIdProducto().getUnidadMedida(), obj1.getValorTrans()});
                     } else {
