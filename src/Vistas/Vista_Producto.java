@@ -328,7 +328,7 @@ public class Vista_Producto extends javax.swing.JFrame {
     }
 
     public void filtrarTabla() {
-        if (buscar.getText().equals("")) {
+        if (buscar.getText().equalsIgnoreCase("")) {
             limpiarTabla();
             LlenarTabla();
 
